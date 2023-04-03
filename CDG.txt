@@ -1,0 +1,36 @@
+Rogue like
+
+DA : Hollow Knight, sol en damier(metal,roche...)
+
+Objectif: ascension d'une tour
+
+Environnement : salles/étages, caverne
+
+Action : tirer, ramasser objet,objet activable(potion...),passer de salle en salle
+
+Difficulté croissante par etage (boss,nombre ennemies,degats)
+
+sauvegarde : JSON?
+
+son : musique de fond, tir, ennemie, ramasser item
+
+interactions : collision, prendre des degats(pique,poison...) 
+
+Limitation techniques : acces base de données, language pas adapté,
+
+Étapes:
+	-Déplacement du personnage
+	-tir du personnage
+	-barre de vie
+	-gérer les collisions
+	-géneration des salles (salle de boss, salle d'item)
+	-déplacement de salle en salle
+	-géneration d'ennemies sans deplacements
+	-Création des items (minimum 2)
+	-Modification du tir(double,avec effets)
+	-IA ennemies
+	
+Optionnel:
+	-menu
+	-Plus d'item d'armes
+	-Boss
