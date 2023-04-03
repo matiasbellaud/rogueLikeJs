@@ -34,3 +34,4 @@ Optionnel:
 	-menu
 	-Plus d'item d'armes
 	-Boss
+	-manette (gamepad API)
