@@ -1,10 +1,11 @@
-import React from 'react';
+import Portfolio from './pages/Portfolio';
 
-const App = () => {
+function App() {
   return (
-    <div>
+    <div className="App">
+      <Portfolio/>
     </div>
   );
-};
+}
 
 export default App;
