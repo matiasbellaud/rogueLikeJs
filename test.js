@@ -14,9 +14,6 @@ class Character {
     }
 
     move(allWall){
-
-      
-      
       for (let i = 0; i < this.movement_speed; i++) {
           
          if (keyPresses.z ) {
@@ -37,7 +34,6 @@ class Character {
             if (!element.isColliding) {
               if (char.collisionDetection(element)[0]) {
                 console.log(char.collisionDetection(element)[1]);
-                element.isColliding = false
                 this.collisionReaction(element,char.collisionDetection(element)[1])
               }
           
@@ -324,15 +320,8 @@ let ctx = canvas.getContext('2d');
   function gameLoop() {
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    allWall.forEach(element => {
 
-      if (element.isColliding=false) {
-       char.zMove = true
-       char.qMove = true
-       char.sMove = true
-       char.dMove = true
-      }
-     })
+
     console.log(char.dMove);
     // ball.move()
     // ball.collision()
@@ -341,6 +330,7 @@ let ctx = canvas.getContext('2d');
     allWall.forEach(element => {
       element.draw()
     });
+
     char.move(allWall)
     
     
