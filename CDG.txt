@@ -1,37 +1,68 @@
-Rogue like
+Rogue like 
 
-DA : Hollow Knight, sol en damier(metal,roche...)
+dévellopeur : Mathis Silotia, Matias Bellaud
 
-Objectif: ascension d'une tour
+DA : 
+	Style Hollow Knight + sol en damier(metal,roche...)
 
-Environnement : salles/étages, caverne
+Objectif: 
+	Nous sommes un petit insecte rêvant d'atteindre 
+	des sommets, pour cela l'objectif de notre simple vie 
+	est l'ascension de cette immense tour se dressant devant nous ...
 
-Action : tirer, ramasser objet,objet activable(potion...),passer de salle en salle
+Environnement : 
+	- Salles/Etages
+	- Caverne/Industrielle
 
-Difficulté croissante par etage (boss,nombre ennemies,degats)
+Action : 
+	- Tirer 
+	- Ramasser objet
+	- Objet activable(potion, clé ...)
+	- Passer de salle en salle et détage en étage
 
-sauvegarde : JSON?
+Difficulté croissante par étage (boss, + d'ennemies, + de dégats)
 
-son : musique de fond, tir, ennemie, ramasser item
+sauvegarde : JSON?  --> optionnel
 
-interactions : collision, prendre des degats(pique,poison...) 
+son : 
+	- Musique de fond
+	- Bruit de tir
+	- Ennemie
+	- Au ramassage d'un item
 
-Limitation techniques : acces base de données, language pas adapté,
+interactions du joueur : 
+	- Collision (mur, eau, ennemi ...)
+	- Prendre des dégats(pique, poison, ennemi ...) 
+
+Limitation techniques : 
+	- Acces base de données
+	- Language pas adapté,
 
 Étapes:
-	-Déplacement du personnage
-	-tir du personnage
-	-barre de vie
-	-gérer les collisions
-	-géneration des salles (salle de boss, salle d'item)
-	-déplacement de salle en salle
-	-géneration d'ennemies sans deplacements
-	-Création des items (minimum 2)
-	-Modification du tir(double,avec effets)
-	-IA ennemies
+	Jour 1 :
+	- Déplacement du personnage  
+	- Tir du personnage
+
+	Jour 2/3:
+	- Barre de vie
+	- Gérer les collisions
+
+	Jour 4/5:
+	- Géneration des salles (salle de boss, salle d'item)
+	- Déplacement de salle en salle
+
+	Jour 6:
+	- Géneration d'ennemies sans deplacements
+
+	jour 7/8:
+	- Création des items (minimum 2)
+	- Modification du tir(double,avec effets)
+
+	jour 9/10:
+	- IA ennemies
 	
 Optionnel:
-	-menu
-	-Plus d'item d'armes
-	-Boss
-	-manette (gamepad API)
+	- Menu
+	- Plus d'item d'armes
+	- Boss
+	- Manette (gamepad API)
