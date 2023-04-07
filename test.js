@@ -8,29 +8,42 @@ class Character {
         this.hp = 3
     }
     draw(){
+        ctx.fillStyle = "red";
       ctx.fillRect(this.x,this.y,this.width,this.height)
     }
 
     
 
-    move(){
-        if (keyPresses.z) {
-            this.y -=  this.movement_speed;
+    move(allWall){
+      for (let i = 0; i < this.movement_speed; i++) {
+          
+         if (keyPresses.z ) {
+            this.y -=  1
           } else if (keyPresses.s) {
-            this.y +=  this.movement_speed;
+            this.y +=  1
           }
       
-          if (keyPresses.q) {
-            this.x -=  this.movement_speed;
-          } else if (keyPresses.d) {
-            this.x +=  this.movement_speed;
+          if (keyPresses.q ) {
+            this.x -=  1
+          } else if (keyPresses.d ) {
+            this.x +=  1
           }
-          this.collision()
+          this.collisionBox()
+          allWall.forEach(element => {
+
+
+            if (!element.isColliding) {
+              if (char.collisionDetection(element)[0]) {
+                console.log(char.collisionDetection(element)[1]);
+                this.collisionReaction(element,char.collisionDetection(element)[1])
+              }
+          
+            }
+          })
+        };
     }
 
-    collision(){
-        console.log(this.x);
-        console.log(this.y);
+    collisionBox(){
         if (this.x > canvas.width-this.width) {
             this.x=canvas.width-this.width
         }
@@ -45,9 +58,82 @@ class Character {
         }
     }
 
+    collisionDetection(wall){
+      const xAxis = (this.x+this.width > wall.x+1 && this.x < wall.x+wall.width-1)
+      const yAxis = this.y+this.height > wall.y+1 && this.y < wall.y+wall.height-1
+
+      const upBox = (this.y+this.height >= wall.y && this.y <= wall.y+1)
+      const downBox = (this.y <= wall.y+wall.height && this.y >= wall.y+wall.height-1)
+
+      const leftBox = (this.x+this.width >= wall.x && this.x <= wall.x+1)
+      const rightBox = (this.x <= wall.x+wall.width && this.x >= wall.x+wall.width-1)
+
+
+        if (xAxis){
+
+          if (upBox) {
+            wall.isColliding = true
+            return [true,'up']
+
+          }else {this.sMove = true}
+
+          if (downBox) {
+
+            wall.isColliding = true
+            return [true,"down"]
+
+          }else{this.zMove = true}
+
+        }else{this.sMove = true;this.zMove = true}
+        if (yAxis) {
+          
+          if (leftBox) {
+
+            wall.isColliding = true
+            return [true, "left"]
+          }else { this.dMove = true}
+
+          if (rightBox) {
+
+            wall.isColliding = true
+            return [true,"right"]
+          }else{ this.qMove = true}
+
+        }
+      
+
+
+      wall.isColliding = false
+      return [false,"none"]
+      
+
+          
+    }
+
+    collisionReaction(wall,side){
+        if (side == "left") {
+          this.x=wall.x-this.width
+
+        }
+        if (side =="up") {
+          this.y=wall.y-this.height
+
+        }
+        if (side == "right") {
+          this.x=wall.x+wall.width
+
+        }
+        if (side == "down") {
+          this.y=wall.y+wall.height
+
+        }
+        wall.isColliding = false
+    }
+
     shoot(){
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
         let xLook = 0
+        let yLook = 0
         let yLook = 0
         if (keyPresses.ArrowUp) {
             xLook = 0
@@ -197,6 +283,62 @@ class Wall{
   }
 }
 
+class Wall{
+  constructor(x,y,width,height){
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
+    this.isColliding = false
+  }
+
+  draw(){
+    this.hitbox()
+
+    ctx.fillStyle = "black";
+    ctx.fillRect(this.x,this.y,this.width,this.height)
+
+  }
+
+}
+
+class Ennemy{
+  constructor(){
+  this.x = 10
+  this.y = 175
+  this.width = 5
+  this.height = 5
+  this.movement_speed = 5;
+  }
+
+  draw(){
+    ctx.beginPath();
+    ctx.ellipse(this.x+5, this.y+5, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#0a7b20";
+    ctx.fillStyle = "#0a7b20";
+    ctx.fill()
+    ctx.stroke();
+    
+  }
+
+  move(){
+    this.x+= this.movement_speed
+  }
+
+  collision(){
+    if (this.x+this.width >= canvas.width) {
+      
+    }
+  }
+  look(xLook,yLook){
+    ctx.beginPath();
+    ctx.lineTo(char.x+5,char.y+5)
+    ctx.lineTo(char.x+xLook+5,char.y+yLook+5)
+    ctx.stroke()
+    ctx.closePath();
+}
+
+}
 
 const char = new Character()
 const hp = new Hp()
@@ -207,12 +349,11 @@ const map = new Map()
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d');
 
-  
-  let keyPresses = {};
+
   
   window.addEventListener('keydown', keyDownListener);
   function keyDownListener(event) {
-    console.log(event.key);
+    
       keyPresses[event.key] = true;
   }
   
@@ -279,6 +420,7 @@ angleWall.src = 'assets/angleWall.jpg';
   
   
   function gameLoop() {
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     listMapWalls.forEach(element => {
@@ -287,9 +429,22 @@ angleWall.src = 'assets/angleWall.jpg';
     
     hp.draw()
     if (hp.currentHp > 0){
-      char.move()
-      char.draw()
-      char.shoot()
+  
+    console.log(char.dMove);
+    // ball.move()
+    // ball.collision()
+    // ball.draw()
+
+    allWall.forEach(element => {
+      element.draw()
+    });
+
+    char.move(allWall)
+    
+          char.draw()
+  
+
+    char.shoot()
     }
     
     if (canShoot === false){
@@ -302,6 +457,7 @@ angleWall.src = 'assets/angleWall.jpg';
 
     startProj(listProj)
 
+    
     window.requestAnimationFrame(gameLoop);
   }
 
