@@ -214,14 +214,6 @@ class Wall{
 
   }
 
-  hitbox(){
-    ctx.fillStyle = "purple";
-    ctx.fillRect(this.x-25,this.y,this.width*2,1)
-    ctx.fillRect(this.x-25,this.y+this.height,this.width*2,1)
-    ctx.fillStyle = "yellow";
-    ctx.fillRect(this.x,this.y-25,1,this.height*2)
-    ctx.fillRect(this.x+this.width,this.y-25,1,this.height*2)
-  }
 }
 
 class Ennemy{
@@ -262,43 +254,12 @@ class Ennemy{
 
 }
 
-
 const char = new Character()
-
-const ball = new Ennemy()
-
-function getRandomInt(min, max) {
-  return  Math.random() * (max - min) + min;
-}
-
-let allWall = []
-// for (let i = 0; i < 8; i++) {
-
-//   allWall.push(new Wall(getRandomInt(0,900),getRandomInt(0,600),getRandomInt(50,100),getRandomInt(50,100)))
-  
-  
-// }
-
-allWall.push(new Wall(150,100,50,50))
-allWall.push(new Wall(200,50,50,50))
-
-allWall.push(new Wall(350,350,50,50))
-
-allWall.push(new Wall(300,100,50,50))
-allWall.push(new Wall(300,150,50,50))
-allWall.push(new Wall(250,150,50,50))
-allWall.push(new Wall(250,200,50,50))
-allWall.push(new Wall(250,250,50,50))
-allWall.push(new Wall(300,250,50,50))
-
-
-
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d');
 
-  
-  let keyPresses = {};
+
   
   window.addEventListener('keydown', keyDownListener);
   function keyDownListener(event) {
@@ -311,10 +272,6 @@ let ctx = canvas.getContext('2d');
       keyPresses[event.key] = false;
   }
   
-
-  let positionX = 0;
-  let positionY = 0;
-
 
   
   function gameLoop() {
