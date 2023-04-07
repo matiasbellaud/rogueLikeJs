@@ -134,7 +134,6 @@ class Character {
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
         let xLook = 0
         let yLook = 0
-        let yLook = 0
         if (keyPresses.ArrowUp) {
             xLook = 0
             yLook = -50
@@ -251,6 +250,7 @@ class Wall{
     this.wall = wall
     this.sens = sens
     this.rotate = 0
+    this.isColliding = false
   }
 
   draw(){
@@ -272,35 +272,8 @@ class Wall{
     ctx.rotate(-this.rotate);
     ctx.translate(-this.x, -this.y);
   }
-
-  hitbox(){
-    ctx.fillStyle = "purple";
-    ctx.fillRect(this.x-25,this.y,this.width*2,1)
-    ctx.fillRect(this.x-25,this.y+this.height,this.width*2,1)
-    ctx.fillStyle = "yellow";
-    ctx.fillRect(this.x,this.y-25,1,this.height*2)
-    ctx.fillRect(this.x+this.width,this.y-25,1,this.height*2)
-  }
 }
 
-class Wall{
-  constructor(x,y,width,height){
-    this.x = x
-    this.y = y
-    this.width = width
-    this.height = height
-    this.isColliding = false
-  }
-
-  draw(){
-    this.hitbox()
-
-    ctx.fillStyle = "black";
-    ctx.fillRect(this.x,this.y,this.width,this.height)
-
-  }
-
-}
 
 class Ennemy{
   constructor(){
@@ -349,7 +322,7 @@ const map = new Map()
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d');
 
-
+let keyPresses = []
   
   window.addEventListener('keydown', keyDownListener);
   function keyDownListener(event) {
@@ -400,25 +373,25 @@ angleWall.src = 'assets/angleWall.jpg';
   for (let i=1;i<horizontalWallLenght;i++){
     listMapWalls.push( new Wall(0,wall,(32*i)+mapLeftX,mapTopY,32,32))
   }
-  // //wall left
+  //wall left
   for (let i=2;i<verticalWallLenght;i++){
     listMapWalls.push( new Wall(90,wall,mapLeftX,(32*i)+mapTopY,32,32))
   }
-  // //wall right
+  //wall right
   for (let i=1;i<verticalWallLenght-1;i++){
     listMapWalls.push( new Wall(270,wall,mapRightX,(32*i)+mapTopY,32,32))
   }
-  // //wall bottom
+  //wall bottom
   for (let i=2  ;i<horizontalWallLenght+1;i++){
     listMapWalls.push( new Wall(180,wall,(32*i)+mapLeftX,mapBottomY,32,32))
   }
-  // //angles
+  //angles
   listMapWalls.push( new Wall(0,angleWall,(0)+mapLeftX,mapTopY,32,32));
   listMapWalls.push( new Wall(270,angleWall,(0)+mapRightX,mapTopY,32,32));
   listMapWalls.push( new Wall(90,angleWall,(0)+mapLeftX,mapBottomY,32,32));
   listMapWalls.push( new Wall(180,angleWall,(0)+mapRightX,mapBottomY,32,32));
   
-  
+
   function gameLoop() {
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -430,16 +403,8 @@ angleWall.src = 'assets/angleWall.jpg';
     hp.draw()
     if (hp.currentHp > 0){
   
-    console.log(char.dMove);
-    // ball.move()
-    // ball.collision()
-    // ball.draw()
 
-    allWall.forEach(element => {
-      element.draw()
-    });
-
-    char.move(allWall)
+    char.move( listMapWalls)
     
           char.draw()
   
