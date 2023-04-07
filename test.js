@@ -251,6 +251,7 @@ class Wall{
     this.sens = sens
     this.rotate = 0
     this.isColliding = false
+    this.change = false
   }
 
   draw(){
@@ -260,17 +261,27 @@ class Wall{
         break;
       case 180 :
         this.rotate = -Math.PI
+        this.change = true
         break;
       case 270 : 
       this.rotate = Math.PI/2
+        this.change = true
         break;
     }
-
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.rotate);
-    ctx.drawImage(this.wall, 0,0,this.width,this.height);
-    ctx.rotate(-this.rotate);
-    ctx.translate(-this.x, -this.y);
+    if (this.change === true){
+      ctx.translate(this.x +32, this.y+32);
+      ctx.rotate(this.rotate);
+      ctx.drawImage(this.wall, 0,0,this.width,this.height);
+      ctx.rotate(-this.rotate);
+      ctx.translate(-this.x-32, -this.y-32);
+    }else{
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rotate);
+      ctx.drawImage(this.wall, 0,0,this.width,this.height);
+      ctx.rotate(-this.rotate);
+      ctx.translate(-this.x, -this.y);
+    }
+    
   }
 }
 
@@ -374,22 +385,22 @@ angleWall.src = 'assets/angleWall.jpg';
     listMapWalls.push( new Wall(0,wall,(32*i)+mapLeftX,mapTopY,32,32))
   }
   //wall left
-  for (let i=2;i<verticalWallLenght;i++){
+  for (let i=1;i<verticalWallLenght;i++){
     listMapWalls.push( new Wall(90,wall,mapLeftX,(32*i)+mapTopY,32,32))
   }
   //wall right
-  for (let i=1;i<verticalWallLenght-1;i++){
-    listMapWalls.push( new Wall(270,wall,mapRightX,(32*i)+mapTopY,32,32))
+  for (let i=1;i<verticalWallLenght;i++){
+    listMapWalls.push( new Wall(270,wall,mapRightX-32,(32*i)+mapTopY-32,32,32))
   }
   //wall bottom
-  for (let i=2  ;i<horizontalWallLenght+1;i++){
-    listMapWalls.push( new Wall(180,wall,(32*i)+mapLeftX,mapBottomY,32,32))
+  for (let i=1  ;i<horizontalWallLenght;i++){
+    listMapWalls.push( new Wall(180,wall,(32*i)+mapLeftX,mapBottomY-32,32,32))
   }
   //angles
   listMapWalls.push( new Wall(0,angleWall,(0)+mapLeftX,mapTopY,32,32));
-  listMapWalls.push( new Wall(270,angleWall,(0)+mapRightX,mapTopY,32,32));
+  listMapWalls.push( new Wall(270,angleWall,(0)+mapRightX-32,mapTopY-32,32,32));
   listMapWalls.push( new Wall(90,angleWall,(0)+mapLeftX,mapBottomY,32,32));
-  listMapWalls.push( new Wall(180,angleWall,(0)+mapRightX,mapBottomY,32,32));
+  listMapWalls.push( new Wall(180,angleWall,(0)+mapRightX-32,mapBottomY-32,32,32));
   
 
   function gameLoop() {
