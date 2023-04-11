@@ -1,4 +1,7 @@
 import Projectil from "./projectil.js";
+import Wall from "./wall.js";
+import Floor from "./floor.js";
+import Door from './door.js';
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
@@ -14,15 +17,21 @@ export default class Character {
         this.listProj  = {}
         this.projectilNbr = 0;
         this.canShoot = true;
+        this.changeMap = false;
     }
+
     draw(){
       ctx.fillStyle = "red";
       ctx.fillRect(this.x,this.y,this.width,this.height)
     }
+
+    teleportation(x,y){
+      this.x = x;
+      this.y = y;
+    }
   
-    move(allWall){
+    move(listMapElement){
       for (let i = 0; i < this.movement_speed; i++) {
-        
         if (keyPresses.z ) {
           this.y -=  1
         } else if (keyPresses.s) {
@@ -36,16 +45,14 @@ export default class Character {
         }
         
         this.collisionBox()
-        allWall.forEach(element => {
-  
-  
-          if (!element.isColliding) {
-            if (this.collisionDetection(element)[0]) {
-              console.log(this.collisionDetection(element)[1]);
-              this.collisionReaction(element,this.collisionDetection(element)[1])
+
+        for (let i=0;i<listMapElement.length;i++){
+          if (!listMapElement[i].isColliding) {
+            if (this.collisionDetection(listMapElement[i])[0]) {
+              this.collisionReaction(listMapElement[i],this.collisionDetection(listMapElement[i])[1])
             }
           }
-        })
+        };
       };
     }
   
@@ -73,7 +80,6 @@ export default class Character {
   
       const leftBox = (this.x+this.width >= wall.x && this.x <= wall.x+1)
       const rightBox = (this.x <= wall.x+wall.width && this.x >= wall.x+wall.width-1)
-  
   
       if (xAxis){
   
@@ -110,24 +116,29 @@ export default class Character {
       return [false,"none"]  
     }
   
-    collisionReaction(wall,side){
-      if (side == "left") {
-        this.x=wall.x-this.width
-  
+    collisionReaction(cell,side){
+      if (cell instanceof Wall){
+        if (side == "left") {
+          this.x=cell.x-this.width
+    
+        }
+        if (side =="up") {
+          this.y=cell.y-this.height
+    
+        }
+        if (side == "right") {
+          this.x=cell.x+cell.width
+    
+        }
+        if (side == "down") {
+          this.y=cell.y+cell.height
+    
+        }
+      } else if (cell instanceof Door){
+        this.teleportation(700,400)
+        this.changeMap = true   
       }
-      if (side =="up") {
-        this.y=wall.y-this.height
-  
-      }
-      if (side == "right") {
-        this.x=wall.x+wall.width
-  
-      }
-      if (side == "down") {
-        this.y=wall.y+wall.height
-  
-      }
-      wall.isColliding = false
+      cell.isColliding = false
     }
   
     shoot(){

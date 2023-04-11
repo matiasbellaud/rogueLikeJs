@@ -13,7 +13,6 @@ export default class Floor{
     draw(){
       ctx.translate(this.x +32, this.y+32);
       ctx.drawImage(this.floor,0,0,this.width,this.height);
-      ctx.translate(-this.x-32, -this.y-32);
-      
+      ctx.translate(-this.x-32, -this.y-32);   
     }
   }

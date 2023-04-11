@@ -1,6 +1,7 @@
 import Hp from './hp.js';
 import Character from './character.js';
-import Map from './map.js'
+import {Map, LMap} from './map.js'
+import Door from './door.js'
 
 
 let canvas = document.querySelector('#char');
@@ -9,19 +10,22 @@ let ctx = canvas.getContext('2d');
 const char = new Character();
 const hp = new Hp();
 const map = new Map();
+const lMap = new LMap();
 
+let listMap = [map,lMap]
+let indexMap = 0
 let frame = 0;
 
-map.createMapWalls();
-map.createMapFloor();
+listMap[indexMap].createMap();
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  map.mapDraw();
+  listMap[indexMap].mapDraw();
+
   hp.draw();
   if (hp.currentHp > 0){
-    char.move( map.listMapWalls);
+    char.move( listMap[indexMap].listMapElement);
     char.draw();
     char.shoot();
   };
@@ -34,6 +38,18 @@ function gameLoop() {
     char.canShoot = true;
     frame = 0;
   };
+
+  if (char.changeMap === true){
+    if (indexMap === 0){
+      indexMap = 1
+      listMap[indexMap].createMap();
+    } else {
+      indexMap = 0
+      listMap[indexMap].createMap();
+    }
+    char.changeMap = false
+  }
+
   window.requestAnimationFrame(gameLoop);
 };
 
