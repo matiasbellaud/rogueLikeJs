@@ -32,8 +32,8 @@ function gameLoop() {
     char.draw();
     char.shoot(listMap[indexMap].listMapElement);
   };
-  //ennemy.draw()
-  //ennemy.move(listMap[indexMap].listMapElement)
+  ennemy.draw()
+  ennemy.move(listMap[indexMap].listMapElement)
 
 
 
