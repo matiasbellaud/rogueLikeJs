@@ -21,9 +21,9 @@ function gameLoop() {
   map.mapDraw();
   hp.draw();
   if (hp.currentHp > 0){
-    char.move( map.listMapWalls);
+    char.move(map.listMapWalls);
     char.draw();
-    char.shoot();
+    char.shoot(map.listMapWalls);
   };
   
   if (char.canShoot === false){

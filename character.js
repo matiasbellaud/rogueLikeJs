@@ -130,7 +130,7 @@ export default class Character {
       wall.isColliding = false
     }
   
-    shoot(){
+    shoot(allWall){
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
         let xLook = 0
         let yLook = 0
@@ -164,14 +164,14 @@ export default class Character {
             this.canShoot = false
           }
       }
-      this.startProj(this.listProj);
+      this.startProj(allWall);
     }
   
-    startProj (){
+    startProj(allWall){
       if (Object.keys(this.listProj).length > 0){
         for (let key in this.listProj){
           if (this.listProj[key].life < 300){
-            this.listProj[key].move()
+            this.listProj[key].move(allWall)
           } else {
             delete this.listProj[key]
           }
