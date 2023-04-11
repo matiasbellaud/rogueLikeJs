@@ -13,6 +13,7 @@ export default class Door{
   
     draw(){
       ctx.translate(this.x, this.y);
+      ctx.fillStyle = "black"
       ctx.fillRect(0,0,this.width,this.height);
       ctx.translate(-this.x, -this.y);
     }
