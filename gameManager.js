@@ -30,10 +30,10 @@ function gameLoop() {
   if (hp.currentHp > 0){
     char.move( listMap[indexMap].listMapElement);
     char.draw();
-    char.shoot(map.listMapWalls);
+    char.shoot(listMap[indexMap].listMapElement);
   };
-  ennemy.draw()
-  ennemy.move(map.listMapWalls)
+  //ennemy.draw()
+  //ennemy.move(listMap[indexMap].listMapElement)
 
 
 
