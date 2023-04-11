@@ -57,7 +57,7 @@ class Map{
     };
 
     createMapDoor(){ 
-        this.listMapElement.push( new Door(400,400,32,32));
+      this.listMapElement.push( new Door(this.mapLeftX,(this.verticalWallLenght-2)*32,32,32));
     };
 
     createMap(){
@@ -153,8 +153,8 @@ class LMap{
     };
   
     createMapDoor(){ 
-        this.listMapElement.push( new Door(400,400,32,32));
-    };
+      this.listMapElement.push( new Door(this.mapLeftX,(this.verticalWallLenght-2)*32,32,32));
+    }
 
     createMap(){
         this.createMapFloor();
