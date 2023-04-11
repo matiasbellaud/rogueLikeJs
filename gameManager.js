@@ -1,6 +1,7 @@
 import Hp from './hp.js';
 import Character from './character.js';
 import Map from './map.js'
+import Ennemy from './ennemy.js';
 
 
 let canvas = document.querySelector('#char');
@@ -9,6 +10,8 @@ let ctx = canvas.getContext('2d');
 const char = new Character();
 const hp = new Hp();
 const map = new Map();
+
+const ennemy = new Ennemy();
 
 let frame = 0;
 
@@ -25,6 +28,12 @@ function gameLoop() {
     char.draw();
     char.shoot(map.listMapWalls);
   };
+  ennemy.draw()
+  ennemy.move(map.listMapWalls)
+
+
+
+
   
   if (char.canShoot === false){
     frame++;

@@ -1,3 +1,5 @@
+import Wall from "./wall.js";
+
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
@@ -92,7 +94,10 @@ export default class Projectil{
     collision(allWall){
       for (let i = 0; i < allWall.length; i++) {
         if (this.collisionDetection(allWall[i])[0]) {
-          this.alive = false
+          if (allWall[i] instanceof Wall) {
+            this.alive = false
+          }
+          
         }
         
       }

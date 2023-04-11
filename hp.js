@@ -3,7 +3,7 @@ let ctx = canvas.getContext('2d');
 
 export default class Hp {
     constructor(){
-      this.currentHp = 3
+      this.currentHp = 5
       this.maxHp = 5
     }
   

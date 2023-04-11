@@ -10,7 +10,7 @@ export default class Character {
         this.width = 16
         this.height = 16
         this.movement_speed = 4;
-        this.hp = 3
+        //this.hp = 3
         this.listProj  = {}
         this.projectilNbr = 0;
         this.canShoot = true;
@@ -37,8 +37,6 @@ export default class Character {
         
         this.collisionBox()
         allWall.forEach(element => {
-  
-  
           if (!element.isColliding) {
             if (this.collisionDetection(element)[0]) {
               console.log(this.collisionDetection(element)[1]);
