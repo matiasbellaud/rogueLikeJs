@@ -10,6 +10,7 @@ let ctx = canvas.getContext('2d');
 
 const char = new Character();
 
+let frame = 0;
 
 function randomIntFromInterval(min, max) { // min and max included 
   return Math.floor(Math.random() * (max - min + 1) + min)
@@ -24,7 +25,7 @@ let ennemyList = []
 for (let i = 0; i < 1; i++) {
   const ennemy = new Ennemy(randomIntFromInterval(-6,6),randomIntFromInterval(-6,6))
   ennemyList.push(ennemy)
-  listMap[indexMap].listMapElement.push(ennemy)
+  level.now.listMapElement.push(ennemy)
 }
 
 
@@ -37,12 +38,10 @@ function gameLoop() {
   
   if (char.currentHp > 0){
     char.move( level.now.listMapElement);
-    char.collisionUpdate(listMap[indexMap].listMapElement)
+    char.collisionUpdate(level.now.listMapElement)
     char.draw();
     char.shoot(level.now.listMapElement);
   };
-  ennemy.draw()
-  ennemy.move(level.now.listMapElement)
 
 
   if (char.canShoot === false){
@@ -65,7 +64,7 @@ function gameLoop() {
       char.teleportation(level.now.positionDoorRight[0]-32,level.now.positionDoorRight[1]);
     }
     if (char.doorPosition === "bottom"){
-      char.teleportation(level.now.positionDoorTop[0],level.now.positionDoorTop[1]+32);
+      char.teleportation(level.now.positionDoorTop[0],level.now.positionDoorTop[1]+64);
     }
     if (char.doorPosition === "right"){
       char.teleportation(level.now.positionDoorLeft[0]+64,level.now.positionDoorLeft[1]);
