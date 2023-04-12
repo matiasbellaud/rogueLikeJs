@@ -1,6 +1,5 @@
 import Projectil from "./projectil.js";
 import Wall from "./wall.js";
-import Floor from "./floor.js";
 import Door from './door.js';
 import Ennemy from "./ennemy.js";
 import Hp from "/hp.js";
@@ -24,6 +23,7 @@ export default class Character {
         this.projectilNbr = 0;
         this.canShoot = true;
         this.changeMap = false;
+        this.doorPosition = top
         this.cooldown = 21;
         this.projectilSpeed = 7;
         this.range = 20;
@@ -165,8 +165,8 @@ export default class Character {
     
         }
       } else if (cell instanceof Door){
-        this.teleportation(700,400)
-        this.changeMap = true   
+        this.changeMap = true;
+        this.doorPosition = cell.doorPosition; 
       }else if (cell instanceof Ennemy){
         console.log(this.canTakeDmg);
         if (this.canTakeDmg) {

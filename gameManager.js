@@ -2,7 +2,7 @@
 import Character from './character.js';
 import Ennemy from './ennemy.js';
 import {Map, LMap} from './map.js'
-import Door from './door.js'
+import Level from './level.js'
 
 
 let canvas = document.querySelector('#char');
@@ -10,56 +10,67 @@ let ctx = canvas.getContext('2d');
 
 const char = new Character();
 
-const map = new Map();
-const lMap = new LMap();
+let frame = 0;
 
 function randomIntFromInterval(min, max) { // min and max included 
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 
-let listMap = [map,lMap]
-let indexMap = 0
+const level = new Level();
+level.addMap()
+level.now.createMap()
+
 let ennemyList = []
 for (let i = 0; i < 1; i++) {
   const ennemy = new Ennemy(randomIntFromInterval(-6,6),randomIntFromInterval(-6,6))
   ennemyList.push(ennemy)
-  listMap[indexMap].listMapElement.push(ennemy)
+  level.now.listMapElement.push(ennemy)
 }
 
-listMap[indexMap].createMap();
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  listMap[indexMap].mapDraw();
+  level.now.mapDraw();
+  
 
   
   if (char.currentHp > 0){
-    char.move( listMap[indexMap].listMapElement);
-    char.collisionUpdate(listMap[indexMap].listMapElement)
+    char.move( level.now.listMapElement);
+    char.collisionUpdate(level.now.listMapElement)
     char.draw();
-    char.shoot(listMap[indexMap].listMapElement);
+    char.shoot(level.now.listMapElement);
   };
-  
-
-  ennemyList.forEach(element => {
-    element.move(listMap[indexMap].listMapElement)
-  });
 
 
-  char.reload()
-  
-  
+  if (char.canShoot === false){
+    frame++;
+  };
+
+  if (frame === 21){
+    char.canShoot = true;
+    frame = 0;
+  };
 
   if (char.changeMap === true){
-    if (indexMap === 0){
-      indexMap = 1
-      listMap[indexMap].createMap();
-    } else {
-      indexMap = 0
-      listMap[indexMap].createMap();
+    level.changeRoom(char.doorPosition)
+    level.deleteMap()
+    level.createMap()
+    if (char.doorPosition === "top"){
+      char.teleportation(level.now.positionDoorBottom[0],level.now.positionDoorBottom[1]-32);
     }
+    if (char.doorPosition === "left"){
+      char.teleportation(level.now.positionDoorRight[0]-32,level.now.positionDoorRight[1]);
+    }
+    if (char.doorPosition === "bottom"){
+      char.teleportation(level.now.positionDoorTop[0],level.now.positionDoorTop[1]+64);
+    }
+    if (char.doorPosition === "right"){
+      char.teleportation(level.now.positionDoorLeft[0]+64,level.now.positionDoorLeft[1]);
+    }
+      
+    
     char.changeMap = false
   }
 
