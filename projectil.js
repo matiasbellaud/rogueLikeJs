@@ -79,13 +79,16 @@ export default class Projectil{
         return [false,"none"]  
     }
 
-    collision(allWall){
-      for (let i = 0; i < allWall.length; i++) {
-        if (this.collisionDetection(allWall[i])[0]) {
-          if (allWall[i] instanceof Wall) {
+    collision(allElement){
+      for (let i = 0; i < allElement.length; i++) {
+        if (this.collisionDetection(allElement[i])[0]) {
+          console.log(typeof allElement[i]);
+          if (allElement[i] instanceof Wall) {
             this.alive = false
-          } else if (allWall[i] instanceof Ennemy){
-            allWall[i].alive = false
+          }
+          if (allElement[i] instanceof Ennemy){
+            console.log("hi");
+            allElement[i].alive = false
             this.alive = false
           }
         }

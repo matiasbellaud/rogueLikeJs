@@ -13,8 +13,17 @@ export default class Wall{
       this.isColliding = false;
       this.change = false;
     };
+    hitbox(){
+      ctx.fillStyle = "purple";
+      ctx.fillRect(this.x-5,this.y,this.width*1.5,1)
+      ctx.fillRect(this.x-5,this.y+this.height,this.width*1.5,1)
+      ctx.fillStyle = "red";
+      ctx.fillRect(this.x,this.y-5,1,this.height*1.5)
+      ctx.fillRect(this.x+this.width,this.y-5,1,this.height*1.5)
+    }
   
     draw(){
+      
       switch (this.sens) {
         case 90 : 
           this.rotate = -Math.PI/2;
@@ -41,6 +50,8 @@ export default class Wall{
         ctx.rotate(-this.rotate);
         ctx.translate(-this.x, -this.y);
       }
+      //this.hitbox()
     }
   }
   
+

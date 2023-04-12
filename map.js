@@ -1,6 +1,8 @@
 import Floor from './floor.js';
 import Wall from './wall.js';
+import WallSection from './wall_section.js';
 import Door from './door.js';
+
 
 class Map{
     constructor(){
@@ -12,6 +14,8 @@ class Map{
       this.mapRightX = 832;
       this.horizontalWallLenght = 22;
       this.verticalWallLenght = 14;
+
+      this.topSection = []
     };
   
     createMapFloor(){ 
@@ -36,7 +40,13 @@ class Map{
       //wall top
       for (let i=1;i<this.horizontalWallLenght;i++){
         this.listMapElement.push( new Wall(0,wall,(32*i)+this.mapLeftX,this.mapTopY,32,32));
+        this.topSection.push( new Wall(0,wall,(32*i)+this.mapLeftX,this.mapTopY,32,32));
       };
+
+      // const topS = new WallSection(this.topSection)
+      // topS.draw()
+      // console.log(topS);
+      
       //wall left
       for (let i=1;i<this.verticalWallLenght;i++){
         this.listMapElement.push( new Wall(90,wall,this.mapLeftX,(32*i)+this.mapTopY,32,32));
@@ -71,7 +81,10 @@ class Map{
             this.listMapFloor[i].draw();
         };
         for (let i=0;i<this.listMapElement.length;i++){
+          if (this.listMapElement[i] instanceof Door || this.listMapElement[i] instanceof Wall) {
             this.listMapElement[i].draw();
+          }
+            
         };
       
     };

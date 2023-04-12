@@ -2,34 +2,38 @@ import Projectil from "./projectil.js";
 import Wall from "./wall.js";
 import Floor from "./floor.js";
 import Door from './door.js';
+import Ennemy from "./ennemy.js";
+import Hp from "/hp.js";
+
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 let frame = 0;
 
+
 export default class Character {
     constructor(){
         this.x = 700
         this.y = 200
-        this.width = 16
-        this.height = 16
+        this.width = 10
+        this.height = 10
         this.movement_speed = 4;
-        //this.hp = 3
+        this.maxHp = 5
+        this.currentHp = 5
         this.listProj  = {}
         this.projectilNbr = 0;
         this.canShoot = true;
         this.changeMap = false;
         this.cooldown = 21;
-        this.shotSpeed = 10;
+        this.projectilSpeed = 7;
         this.range = 20;
-
-        this.zMove = true
-        this.qMove = true
-        this.sMove = true
-        this.dMove = true
+        this.hp = new Hp(this.maxHp);
+        this.invulnerability = 100;
+        this.canTakeDmg = true;
     }
 
     draw(){
+      this.hp.draw();
       ctx.fillStyle = "red";
       ctx.fillRect(this.x,this.y,this.width,this.height)
     }
@@ -40,15 +44,9 @@ export default class Character {
     }
   
     move(listMapElement){
-    if (!this.isColliding) {
-      this.zMove=true
-      this.qMove = true
-      this.sMove = true
-      this.dMove = true
-    }
       
       for (let i = 0; i < this.movement_speed; i++) {
-        if (keyPresses.z && this.zMove) {
+        if (keyPresses.z) {
           this.y -=  1
         } else if (keyPresses.s) {
           this.y +=  1
@@ -62,18 +60,13 @@ export default class Character {
         
         this.collisionBox()
 
-        for (let i=0;i<listMapElement.length;i++){
-          if (!listMapElement[i].isColliding) {
-            if (listMapElement[i] instanceof Wall) {
-              if (this.collisionDetection(listMapElement[i])[0]) {
-                this.collisionReaction(listMapElement[i],this.collisionDetection(listMapElement[i])[1])
-              }
-            }
+        this.collisionUpdate(listMapElement)
             
-          }
+            
+          
         };
       };
-    }
+    
   
     collisionBox(){
       if (this.x > canvas.width-this.width) {
@@ -88,7 +81,19 @@ export default class Character {
       if (this.y < 0) {
           this.y=0
       }
+
     }
+
+    collisionUpdate(listMapElement){
+      for (let i=0;i<listMapElement.length;i++){
+        if (!listMapElement[i].isColliding) {
+          if (this.collisionDetection(listMapElement[i])[0]) {
+            this.collisionReaction(listMapElement[i],this.collisionDetection(listMapElement[i])[1])
+          }
+        }
+      }
+    }
+    
   
     collisionDetection(wall){
 
@@ -112,7 +117,6 @@ export default class Character {
   
         if (downBox) {
 
-          this.zMove = false
           wall.isColliding = true
           
           return [true,"down"]
@@ -136,12 +140,13 @@ export default class Character {
   
       }
       wall.isColliding = false
-      this.isColliding = false
+
       return [false,"none"]  
       
     }
   
     collisionReaction(cell,side){
+      console.log(cell);
       if (cell instanceof Wall){
         if (side == "left") {
           this.x=cell.x-this.width
@@ -162,11 +167,23 @@ export default class Character {
       } else if (cell instanceof Door){
         this.teleportation(700,400)
         this.changeMap = true   
+      }else if (cell instanceof Ennemy){
+        console.log(this.canTakeDmg);
+        if (this.canTakeDmg) {
+          console.log("touché");
+          
+          this.invulnerabilityTime().then(result => this.canTakeDmg = true)
+          
+          this.hp.currentHp--
+          this.currentHp--
+        }
+        
+        
       }
       cell.isColliding = false
     }
   
-    shoot(allWall){
+    shoot(allElement){
       
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
         
@@ -198,21 +215,20 @@ export default class Character {
           }
           if (this.canShoot){
             
-            this.listProj[this.projectilNbr] = new Projectil(this.x,this.y, xLook, yLook,this.shotSpeed,this.range)
+            this.listProj[this.projectilNbr] = new Projectil(this.x,this.y, xLook, yLook,this.projectilSpeed,this.range)
             this.projectilNbr++
             this.canShoot = false
           }
       }
-      this.startProj(allWall);
+      this.startProj(allElement);
     }
   
-    startProj(allWall){
+    startProj(allElement){
       
       if (Object.keys(this.listProj).length > 0){
-        
         for (let key in this.listProj){
           if (this.listProj[key].life >= 0){
-            this.listProj[key].move(allWall)
+            this.listProj[key].move(allElement)
           } else {
             delete this.listProj[key]
           }
@@ -220,11 +236,18 @@ export default class Character {
       }
     };
 
+    invulnerabilityTime(){
+      this.canTakeDmg = false
+      return new Promise(function(resolve, reject) {
+        setTimeout(() => resolve("done"), 1500);
+      });
+    }
+
     reload(){
       if (this.canShoot === false){
         frame++;
       };
-    
+      
       if (frame === this.cooldown){
         this.canShoot = true;
         frame = 0;

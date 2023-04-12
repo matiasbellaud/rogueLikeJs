@@ -2,9 +2,9 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d');
 
 export default class Hp {
-    constructor(){
+    constructor(maxHp){
       this.currentHp = 5
-      this.maxHp = 5
+      this.maxHp = maxHp
     }
   
     takeDamage(){
@@ -23,7 +23,7 @@ export default class Hp {
           ctx.drawImage(fullHeartImage, (16+8)*i-8,16,16,16);
         } else {
           ctx.drawImage(emptyHeartImage, (16+8)*i-8,16,16,16);
-        } 
+        }
       }
     }
   }

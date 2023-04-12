@@ -4,29 +4,49 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
 export default class Ennemy{
-    constructor(){
+    constructor(dx,dy){
     this.x = 200;
-    this.y = 175;
-    this.width = 15;
-    this.height = 15;
-    this.movement_speedX = 3;
-    this.movement_speedY = -1;
+    this.y = 300;
+    this.width = 10;
+    this.height = 10;
+    this.movement_speedX = dx;
+    this.movement_speedY = dy;
     this.alive = true
     };
   
     draw(){
       if (this.alive) {
+        
         ctx.beginPath();
-        ctx.ellipse(this.x+5, this.y+5, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
+        ctx.ellipse(this.x+this.width/2, this.y+this.height/2, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
         ctx.strokeStyle = "#0a7b20";
         ctx.fillStyle = "#0a7b20";
         ctx.fill();
         ctx.stroke();
+        
       }
-
+      //this.hitbox()
     };
+
+    hitbox(){
+      ctx.fillStyle = "white";
+      ctx.fillRect(this.x-this.width,this.y+this.width,this.width*2,1)
+      ctx.fillRect(this.x-this.width,this.y-this.width,this.width*2,1)
+      ctx.fillStyle = "yellow";
+      ctx.fillRect(this.x-this.height,this.y-this.height,1,this.height*2)
+      ctx.fillRect(this.x+this.height,this.y-this.height,1,this.height*2)
+
+    }
+
+    randomIntFromInterval(min, max) { // min and max included 
+      return Math.floor(Math.random() * (max - min + 1) + min)
+    }
   
     move(allElement){
+      if (this.randomIntFromInterval(0,100)==1) {
+        this.movement_speedX = -this.movement_speedX 
+      }
+      
       for (let j = 0; j < Math.abs(this.movement_speedX); j++) {
         if (this.movement_speedX > 0) {
           this.x++;
@@ -38,18 +58,18 @@ export default class Ennemy{
             if (allElement[i] instanceof Wall) {
               switch (this.collisionDetection(allElement[i])[1]) {
                 case "left":
+                  this.x--
                   this.movement_speedX = -this.movement_speedX 
                   break;
                 case "right":
+                  this.x++
                   this.movement_speedX = Math.abs(this.movement_speedX)
                   break;
               
                 default:
                   break;
               }
-
             }
-            
           }
         }
       }
@@ -64,20 +84,22 @@ export default class Ennemy{
             if (allElement[i] instanceof Wall) {
               switch (this.collisionDetection(allElement[i])[1]) {
                 case "up":
+                  this.y--
                   this.movement_speedY = -this.movement_speedY
                   break;
                 case "down":
+                  this.y++
                   this.movement_speedY = Math.abs(this.movement_speedY)
                   break;
               
                 default:
+                  
                   break;
-              }
-            }
-            
-          }
-        }
-      }
+               }
+             }
+           }
+         }
+       }
       if (this.alive) {
         this.draw();
       } else {
@@ -97,18 +119,24 @@ export default class Ennemy{
   
       const leftBox = (this.x+this.width >= element.x && this.x <= element.x+1)
       const rightBox = (this.x <= element.x+element.width && this.x >= element.x+element.width-1)
+      if (xAxis && yAxis) {
+        if (rightBox) {
+          console.log("hi");
+        }
+        
+      }
   
       if (xAxis){
   
         if (upBox) {
-          element.isColliding = true
+          //element.isColliding = true
           return [true,'up']
   
         }else {this.sMove = true}
   
         if (downBox) {
   
-          element.isColliding = true
+          //element.isColliding = true
           return [true,"down"]
   
         }else{this.zMove = true}
@@ -118,26 +146,18 @@ export default class Ennemy{
         
         if (leftBox) {
   
-          element.isColliding = true
+          //element.isColliding = true
           return [true, "left"]
         }else { this.dMove = true}
   
         if (rightBox) {
   
-          element.isColliding = true
+          //element.isColliding = true
           return [true,"right"]
         }else{ this.qMove = true}
   
       }
-      element.isColliding = false
+      //element.isColliding = false
       return [false,"none"]  
     }
-  
-    look(xLook,yLook){
-      ctx.beginPath();
-      ctx.lineTo(char.x+5,char.y+5);
-      ctx.lineTo(char.x+xLook+5,char.y+yLook+5);
-      ctx.stroke();
-      ctx.closePath();
-    };
   };
