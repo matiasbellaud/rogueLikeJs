@@ -2,7 +2,7 @@ import Hp from './hp.js';
 import Character from './character.js';
 import Ennemy from './ennemy.js';
 import {Map, LMap} from './map.js'
-import Door from './door.js'
+import Level from './level.js'
 
 
 let canvas = document.querySelector('#char');
@@ -10,35 +10,32 @@ let ctx = canvas.getContext('2d');
 
 const char = new Character();
 const hp = new Hp();
-const map = new Map();
-const lMap = new LMap();
 
 const ennemy = new Ennemy();
 
-let listMap = [map,lMap]
-let indexMap = 0
+const level = new Level();
+level.addMap()
+level.now.createMap()
+
 let frame = 0;
 
-listMap[indexMap].createMap();
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  listMap[indexMap].mapDraw();
+  level.now.mapDraw();
+  
 
   hp.draw();
   if (hp.currentHp > 0){
-    char.move( listMap[indexMap].listMapElement);
+    char.move( level.now.listMapElement);
     char.draw();
-    char.shoot(listMap[indexMap].listMapElement);
+    char.shoot(level.now.listMapElement);
   };
   ennemy.draw()
-  ennemy.move(listMap[indexMap].listMapElement)
+  ennemy.move(level.now.listMapElement)
 
 
-
-
-  
   if (char.canShoot === false){
     frame++;
   };
@@ -49,13 +46,23 @@ function gameLoop() {
   };
 
   if (char.changeMap === true){
-    if (indexMap === 0){
-      indexMap = 1
-      listMap[indexMap].createMap();
-    } else {
-      indexMap = 0
-      listMap[indexMap].createMap();
+    level.changeRoom(char.doorPosition)
+    level.deleteMap()
+    level.createMap()
+    if (char.doorPosition === "top"){
+      char.teleportation(level.now.positionDoorBottom[0],level.now.positionDoorBottom[1]-32);
     }
+    if (char.doorPosition === "left"){
+      char.teleportation(level.now.positionDoorRight[0]-32,level.now.positionDoorRight[1]);
+    }
+    if (char.doorPosition === "bottom"){
+      char.teleportation(level.now.positionDoorTop[0],level.now.positionDoorTop[1]+32);
+    }
+    if (char.doorPosition === "right"){
+      char.teleportation(level.now.positionDoorLeft[0]+64,level.now.positionDoorLeft[1]);
+    }
+      
+    
     char.changeMap = false
   }
 

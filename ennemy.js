@@ -46,7 +46,6 @@ export default class Ennemy{
           }
         }
       }
-      console.log(this.movement_speedY);
       for (let j = 0; j < Math.abs(this.movement_speedY); j++) {
         if (this.movement_speedY > 0) {
           this.y++;
