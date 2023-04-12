@@ -5,6 +5,7 @@ import Door from './door.js';
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
+let frame = 0;
 
 export default class Character {
     constructor(){
@@ -18,6 +19,14 @@ export default class Character {
         this.projectilNbr = 0;
         this.canShoot = true;
         this.changeMap = false;
+        this.cooldown = 21;
+        this.shotSpeed = 10;
+        this.range = 20;
+
+        this.zMove = true
+        this.qMove = true
+        this.sMove = true
+        this.dMove = true
     }
 
     draw(){
@@ -31,8 +40,15 @@ export default class Character {
     }
   
     move(listMapElement){
+    if (!this.isColliding) {
+      this.zMove=true
+      this.qMove = true
+      this.sMove = true
+      this.dMove = true
+    }
+      
       for (let i = 0; i < this.movement_speed; i++) {
-        if (keyPresses.z ) {
+        if (keyPresses.z && this.zMove) {
           this.y -=  1
         } else if (keyPresses.s) {
           this.y +=  1
@@ -48,9 +64,12 @@ export default class Character {
 
         for (let i=0;i<listMapElement.length;i++){
           if (!listMapElement[i].isColliding) {
-            if (this.collisionDetection(listMapElement[i])[0]) {
-              this.collisionReaction(listMapElement[i],this.collisionDetection(listMapElement[i])[1])
+            if (listMapElement[i] instanceof Wall) {
+              if (this.collisionDetection(listMapElement[i])[0]) {
+                this.collisionReaction(listMapElement[i],this.collisionDetection(listMapElement[i])[1])
+              }
             }
+            
           }
         };
       };
@@ -72,6 +91,7 @@ export default class Character {
     }
   
     collisionDetection(wall){
+
       const xAxis = (this.x+this.width > wall.x+1 && this.x < wall.x+wall.width-1)
       const yAxis = this.y+this.height > wall.y+1 && this.y < wall.y+wall.height-1
   
@@ -82,25 +102,28 @@ export default class Character {
       const rightBox = (this.x <= wall.x+wall.width && this.x >= wall.x+wall.width-1)
   
       if (xAxis){
-  
+        
         if (upBox) {
           wall.isColliding = true
+
           return [true,'up']
   
         }else {this.sMove = true}
   
         if (downBox) {
-  
+
+          this.zMove = false
           wall.isColliding = true
+          
           return [true,"down"]
   
-        }else{this.zMove = true}
+        }
   
-      }else{this.sMove = true;this.zMove = true}
+      }
       if (yAxis) {
         
         if (leftBox) {
-  
+          
           wall.isColliding = true
           return [true, "left"]
         }else { this.dMove = true}
@@ -113,7 +136,9 @@ export default class Character {
   
       }
       wall.isColliding = false
+      this.isColliding = false
       return [false,"none"]  
+      
     }
   
     collisionReaction(cell,side){
@@ -142,7 +167,9 @@ export default class Character {
     }
   
     shoot(allWall){
+      
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
+        
         let xLook = 0
         let yLook = 0
         if (keyPresses.ArrowUp) {
@@ -170,7 +197,8 @@ export default class Character {
             
           }
           if (this.canShoot){
-            this.listProj[this.projectilNbr] = new Projectil(this.x,this.y, xLook, yLook)
+            
+            this.listProj[this.projectilNbr] = new Projectil(this.x,this.y, xLook, yLook,this.shotSpeed,this.range)
             this.projectilNbr++
             this.canShoot = false
           }
@@ -179,9 +207,11 @@ export default class Character {
     }
   
     startProj(allWall){
+      
       if (Object.keys(this.listProj).length > 0){
+        
         for (let key in this.listProj){
-          if (this.listProj[key].life < 300){
+          if (this.listProj[key].life >= 0){
             this.listProj[key].move(allWall)
           } else {
             delete this.listProj[key]
@@ -189,6 +219,17 @@ export default class Character {
         }
       }
     };
+
+    reload(){
+      if (this.canShoot === false){
+        frame++;
+      };
+    
+      if (frame === this.cooldown){
+        this.canShoot = true;
+        frame = 0;
+      };
+    }
   
     look(xLook,yLook){
       ctx.beginPath();

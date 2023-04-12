@@ -1,18 +1,19 @@
 import Wall from "./wall.js";
+import Ennemy from "./ennemy.js";
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
 export default class Projectil{
-    constructor(x,y,xDirection,yDirection){
+    constructor(x,y,xDirection,yDirection,speed,range){
       this.x = x
       this.y = y
       this.xDirection = xDirection
       this.yDirection = yDirection
-      this.life = 0
+      this.life = range
       this.width = 10
       this.height = 10
-      this.movement_speed = 7;
+      this.movement_speed = speed;
       this.alive = true
       this.color = "rgb(153, 255, 153)"
     }
@@ -29,19 +30,20 @@ export default class Projectil{
       for (let i = 0; i < this.movement_speed; i++) {
         if (this.xDirection > 0){
           this.x ++
-          this.life ++
+          
         } else if (this.xDirection < 0){
           this.x --
-          this.life ++
         } else if (this.yDirection > 0) {
           this.y ++
-          this.life ++
+
         } else if (this.yDirection < 0) {
           this.y --
-          this.life ++
+
         }
         this.collision(allWall)
       }
+
+      this.life --
       if (this.alive) {
         this.draw()
       }
@@ -49,46 +51,32 @@ export default class Projectil{
       
     }  
     collisionDetection(wall){
-      const xAxis = (this.x+this.width > wall.x+1 && this.x < wall.x+wall.width-1)
-      const yAxis = this.y+this.height > wall.y+1 && this.y < wall.y+wall.height-1
-  
-      const upBox = (this.y+this.height >= wall.y && this.y <= wall.y+1)
-      const downBox = (this.y <= wall.y+wall.height && this.y >= wall.y+wall.height-1)
-  
-      const leftBox = (this.x+this.width >= wall.x && this.x <= wall.x+1)
-      const rightBox = (this.x <= wall.x+wall.width && this.x >= wall.x+wall.width-1)
-      if (xAxis){
-        if (upBox) {
-          wall.isColliding = true
-          return [true,'up']
-  
-        }else {this.sMove = true}
-  
-        if (downBox) {
-  
-          wall.isColliding = true
-          return [true,"down"]
-  
-        }else{this.zMove = true}
-  
-      }else{this.sMove = true;this.zMove = true}
-      if (yAxis) {
-        
-        if (leftBox) {
-  
-          wall.isColliding = true
-          return [true, "left"]
-        }else { this.dMove = true}
-  
-        if (rightBox) {
-  
-          wall.isColliding = true
-          return [true,"right"]
-        }else{ this.qMove = true}
-  
-      }
-      wall.isColliding = false
-      return [false,"none"]  
+      
+        const xAxis = (this.x+this.width > wall.x+1 && this.x < wall.x+wall.width-1)
+        const yAxis = this.y+this.height > wall.y+1 && this.y < wall.y+wall.height-1
+    
+        const upBox = (this.y+this.height >= wall.y && this.y <= wall.y+1)
+        const downBox = (this.y <= wall.y+wall.height && this.y >= wall.y+wall.height-1)
+    
+        const leftBox = (this.x+this.width >= wall.x && this.x <= wall.x+1)
+        const rightBox = (this.x <= wall.x+wall.width && this.x >= wall.x+wall.width-1)
+        if (xAxis){
+          if (upBox) {
+            return [true,'up']
+          }
+          if (downBox) {
+             return [true,"down"]
+          }
+        }
+        if (yAxis) {
+          if (leftBox) {
+            return [true, "left"]
+          }
+          if (rightBox) {
+            return [true,"right"]
+          }
+        }
+        return [false,"none"]  
     }
 
     collision(allWall){
@@ -96,12 +84,12 @@ export default class Projectil{
         if (this.collisionDetection(allWall[i])[0]) {
           if (allWall[i] instanceof Wall) {
             this.alive = false
+          } else if (allWall[i] instanceof Ennemy){
+            allWall[i].alive = false
+            this.alive = false
           }
-          
         }
-        
       }
-     
     }
   }
   

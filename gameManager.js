@@ -13,14 +13,14 @@ const hp = new Hp();
 const map = new Map();
 const lMap = new LMap();
 
-const ennemy = new Ennemy();
+//const ennemy = new Ennemy();
 
 let listMap = [map,lMap]
 let indexMap = 0
-let frame = 0;
+
 
 listMap[indexMap].createMap();
-
+//listMap[indexMap].listMapElement.push(ennemy)
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -32,21 +32,13 @@ function gameLoop() {
     char.draw();
     char.shoot(listMap[indexMap].listMapElement);
   };
-  ennemy.draw()
-  ennemy.move(listMap[indexMap].listMapElement)
-
-
-
-
   
-  if (char.canShoot === false){
-    frame++;
-  };
+  //ennemy.move(listMap[indexMap].listMapElement)
 
-  if (frame === 21){
-    char.canShoot = true;
-    frame = 0;
-  };
+
+
+  char.reload()
+  
 
   if (char.changeMap === true){
     if (indexMap === 0){

@@ -9,18 +9,21 @@ export default class Ennemy{
     this.y = 175;
     this.width = 15;
     this.height = 15;
-    this.movement_speedX = 5;
+    this.movement_speedX = 3;
     this.movement_speedY = -1;
     this.alive = true
     };
   
     draw(){
-      ctx.beginPath();
-      ctx.ellipse(this.x+5, this.y+5, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
-      ctx.strokeStyle = "#0a7b20";
-      ctx.fillStyle = "#0a7b20";
-      ctx.fill();
-      ctx.stroke();
+      if (this.alive) {
+        ctx.beginPath();
+        ctx.ellipse(this.x+5, this.y+5, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
+        ctx.strokeStyle = "#0a7b20";
+        ctx.fillStyle = "#0a7b20";
+        ctx.fill();
+        ctx.stroke();
+      }
+
     };
   
     move(allElement){
@@ -32,21 +35,24 @@ export default class Ennemy{
         }
         for (let i = 0; i < allElement.length; i++) {
           if (this.collisionDetection(allElement[i])[0]) {
-            switch (this.collisionDetection(allElement[i])[1]) {
-              case "left":
-                this.movement_speedX = -5
-                break;
-              case "right":
-                this.movement_speedX = 5
-                break;
-            
-              default:
-                break;
+            if (allElement[i] instanceof Wall) {
+              switch (this.collisionDetection(allElement[i])[1]) {
+                case "left":
+                  this.movement_speedX = -this.movement_speedX 
+                  break;
+                case "right":
+                  this.movement_speedX = Math.abs(this.movement_speedX)
+                  break;
+              
+                default:
+                  break;
+              }
+
             }
+            
           }
         }
       }
-      console.log(this.movement_speedY);
       for (let j = 0; j < Math.abs(this.movement_speedY); j++) {
         if (this.movement_speedY > 0) {
           this.y++;
@@ -55,17 +61,20 @@ export default class Ennemy{
         }
         for (let i = 0; i < allElement.length; i++) {
           if (this.collisionDetection(allElement[i])[0]) {
-            switch (this.collisionDetection(allElement[i])[1]) {
-              case "up":
-                this.movement_speedY = -5
-                break;
-              case "down":
-                this.movement_speedY = 5
-                break;
-            
-              default:
-                break;
+            if (allElement[i] instanceof Wall) {
+              switch (this.collisionDetection(allElement[i])[1]) {
+                case "up":
+                  this.movement_speedY = -this.movement_speedY
+                  break;
+                case "down":
+                  this.movement_speedY = Math.abs(this.movement_speedY)
+                  break;
+              
+                default:
+                  break;
+              }
             }
+            
           }
         }
       }
