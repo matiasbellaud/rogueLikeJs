@@ -21,6 +21,7 @@ level.addMap()
 level.now.createMap()
 
 let ennemyList = []
+
 for (let i = 0; i < 1; i++) {
   const ennemy = new Ennemy(randomIntFromInterval(-6,6),randomIntFromInterval(-6,6))
   ennemyList.push(ennemy)
@@ -41,7 +42,9 @@ function gameLoop() {
     char.draw();
     char.shoot(level.now.listMapElement);
   };
-
+  ennemyList.forEach(element => {
+    element.move(level.now.listMapElement)
+  });
 
   if (char.canShoot === false){
     frame++;
