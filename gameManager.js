@@ -3,6 +3,7 @@ import Character from './character.js';
 import Ennemy from './ennemy.js';
 import {Map, LMap} from './map.js'
 import Level from './level.js'
+import { DoubleShot, Gatling } from './item.js';
 
 
 let canvas = document.querySelector('#char');
@@ -17,6 +18,7 @@ function randomIntFromInterval(min, max) { // min and max included
 }
 
 
+
 const level = new Level();
 level.addMap()
 level.now.createMap()
@@ -24,11 +26,12 @@ level.now.createMap()
 let ennemyList = []
 
 for (let i = 0; i < 1; i++) {
-  const ennemy = new Ennemy(randomIntFromInterval(-6,6),randomIntFromInterval(-6,6))
+  const ennemy = new Ennemy(randomIntFromInterval(-4,4),randomIntFromInterval(-4,4))
   ennemyList.push(ennemy)
   level.now.listMapElement.push(ennemy)
 }
-
+const item = new DoubleShot()
+level.now.listMapElement.push(item)
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -38,23 +41,19 @@ function gameLoop() {
 
   
   if (char.currentHp > 0){
+    char.reload()
     char.move( level.now.listMapElement);
     char.collisionUpdate(level.now.listMapElement)
     char.draw();
     char.shoot(level.now.listMapElement);
+    
   };
+  
   ennemyList.forEach(element => {
     element.move(level.now.listMapElement)
   });
 
-  if (char.canShoot === false){
-    frame++;
-  };
-
-  if (frame === 21){
-    char.canShoot = true;
-    frame = 0;
-  };
+  item.draw()
 
   if (char.changeMap === true){
     level.changeRoom(char.doorPosition)

@@ -5,25 +5,31 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
 export default class Projectil{
-    constructor(x,y,xDirection,yDirection,speed,range){
+    constructor(x,y,xDirection,yDirection,height,range,speed,dmg){
       this.x = x
       this.y = y
       this.xDirection = xDirection
       this.yDirection = yDirection
+      this.width = height
+      this.height = height
       this.life = range
-      this.width = 10
-      this.height = 10
       this.movement_speed = speed;
+      this.dmg = dmg
       this.alive = true
-      this.color = "rgb(153, 255, 153)"
+      this.color = "rgb(0, 255, 0)"
     }
   
     draw(){
-      ctx.beginPath();
-      ctx.ellipse(this.x+8, this.y+8, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
-      ctx.fillStyle = this.color;
-      ctx.fill()
-      ctx.stroke(); 
+      
+      if (this.alive) {
+        ctx.beginPath();
+        ctx.ellipse(this.x+this.height*0.8, this.y+this.height*0.8, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = "black";
+        ctx.fill()
+        ctx.stroke();
+      }
+       
     }
   
     move(allWall){
@@ -44,6 +50,9 @@ export default class Projectil{
       }
 
       this.life --
+      if (this.life<=0) {
+        this.alive = false
+      }
       if (this.alive) {
         this.draw()
       }
@@ -80,16 +89,30 @@ export default class Projectil{
     }
 
     collision(allElement){
-      for (let i = 0; i < allElement.length; i++) {
-        if (this.collisionDetection(allElement[i])[0]) {
-          console.log(typeof allElement[i]);
-          if (allElement[i] instanceof Wall) {
-            this.alive = false
-          }
-          if (allElement[i] instanceof Ennemy){
-            console.log("hi");
-            allElement[i].alive = false
-            this.alive = false
+      if (this.alive){
+        for (let i = 0; i < allElement.length; i++) {
+          if (this.collisionDetection(allElement[i])[0]) {
+            
+            if (allElement[i] instanceof Wall) {
+              console.log("hi");
+              this.alive = false
+              console.log(this.alive);
+            }
+            
+              if (allElement[i] instanceof Ennemy){
+
+                allElement[i].hp -= this.dmg
+                
+                
+                console.log(allElement[i].hp);
+                if (allElement[i].hp<=0) {
+                  allElement[i].alive=false
+                  allElement.splice(i, 1)
+                }
+
+                this.alive = false
+                
+              }
           }
         }
       }

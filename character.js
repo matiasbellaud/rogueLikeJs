@@ -3,6 +3,7 @@ import Wall from "./wall.js";
 import Door from './door.js';
 import Ennemy from "./ennemy.js";
 import Hp from "/hp.js";
+import Item from "./item.js";
 
 
 let canvas = document.querySelector('#char');
@@ -19,22 +20,44 @@ export default class Character {
         this.movement_speed = 4;
         this.maxHp = 5
         this.currentHp = 5
-        this.listProj  = {}
+        this.listProj  = []
         this.projectilNbr = 0;
         this.canShoot = true;
         this.changeMap = false;
         this.doorPosition = top
-        this.cooldown = 21;
-        this.projectilSpeed = 7;
-        this.range = 20;
+
+        //Projectil parameter
+
+        this.projHeight = 10;
+        this.shootNbr=2;
+        this.cooldown = 20;
+        this.projectilSpeed = 11;
+        this.range = 40;
+        this.projDmg = 2;
+
+        //--------------------------
+
         this.hp = new Hp(this.maxHp);
         this.invulnerability = 100;
         this.canTakeDmg = true;
     }
 
     draw(){
+      var seconds = Math.floor(new Date().getTime())
+
       this.hp.draw();
-      ctx.fillStyle = "red";
+      if (this.canTakeDmg) {
+        ctx.fillStyle = "red";
+      }else{
+        if (seconds%2 === 0) {
+          ctx.fillStyle = "red";
+          
+        } else{
+          ctx.fillStyle = "white";
+        }
+        
+      }
+      
       ctx.fillRect(this.x,this.y,this.width,this.height)
     }
 
@@ -88,7 +111,7 @@ export default class Character {
       for (let i=0;i<listMapElement.length;i++){
         if (!listMapElement[i].isColliding) {
           if (this.collisionDetection(listMapElement[i])[0]) {
-            this.collisionReaction(listMapElement[i],this.collisionDetection(listMapElement[i])[1])
+            this.collisionReaction(listMapElement[i],this.collisionDetection(listMapElement[i])[1],listMapElement)
           }
         }
       }
@@ -145,8 +168,8 @@ export default class Character {
       
     }
   
-    collisionReaction(cell,side){
-      console.log(cell);
+    collisionReaction(cell,side,listMapElement){
+
       if (cell instanceof Wall){
         if (side == "left") {
           this.x=cell.x-this.width
@@ -168,9 +191,9 @@ export default class Character {
         this.changeMap = true;
         this.doorPosition = cell.doorPosition; 
       }else if (cell instanceof Ennemy){
-        console.log(this.canTakeDmg);
+ 
         if (this.canTakeDmg) {
-          console.log("touché");
+
           
           this.invulnerabilityTime().then(result => this.canTakeDmg = true)
           
@@ -179,6 +202,13 @@ export default class Character {
         }
         
         
+      }else if (cell instanceof Item){
+        
+        console.log(this.cooldown);
+        cell.use(this)
+        console.log(this.cooldown);
+        const index =  listMapElement.indexOf(cell);
+        listMapElement.splice(index, 1);
       }
       cell.isColliding = false
     }
@@ -214,27 +244,46 @@ export default class Character {
             
           }
           if (this.canShoot){
-            
-            this.listProj[this.projectilNbr] = new Projectil(this.x,this.y, xLook, yLook,this.projectilSpeed,this.range)
+           if(this.projectilNbr===1){
+            if (xLook=== 0){
+              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg))
+            }else{
+              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg))
+            }
             this.projectilNbr++
+           }else{
+              for (let i = 0; i < this.shootNbr; i++) {
+
+                if (xLook=== 0){
+                  
+                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg))
+                }else{
+                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg))
+                }
+                this.projectilNbr++
+              }
+           }
             this.canShoot = false
           }
       }
-      this.startProj(allElement);
+      this.updateProj(allElement);
     }
   
-    startProj(allElement){
+    updateProj(allElement){
       
-      if (Object.keys(this.listProj).length > 0){
-        for (let key in this.listProj){
-          if (this.listProj[key].life >= 0){
-            this.listProj[key].move(allElement)
+      if (this.listProj.length > 0){
+        this.listProj.forEach(element => {
+          if (element.alive === true){
+            element.move(allElement)
           } else {
-            delete this.listProj[key]
+            const index =  this.listProj.indexOf(element); 
+            this.listProj.splice(index,1)
+            this.projectilNbr--
           }
-        }
+        });
+
       }
-    };
+    }
 
     invulnerabilityTime(){
       this.canTakeDmg = false
