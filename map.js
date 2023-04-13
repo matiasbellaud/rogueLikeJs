@@ -1,132 +1,6 @@
 import Floor from './floor.js';
 import Wall from './wall.js';
-import WallSection from './wall_section.js';
 import Door from './door.js';
-
-
-class Map{
-    constructor(doorTop,doorLeft,doorBottom,doorRight){
-      this.listMapElement = [];
-      this.listMapFloor = [];
-
-      this.mapTopY=64;
-      this.mapBottomY=512;
-      this.mapLeftX = 96;
-      this.mapRightX = 832;
-
-      this.horizontalWallLenght = 22;
-      this.verticalWallLenght = 14;
-
-      this.doorTop =doorTop;
-      this.doorLeft =doorLeft;
-      this.doorBottom =doorBottom;
-      this.doorRight =doorRight;
-
-      this.positionDoorTop = [];
-      this.positionDoorLeft = [];
-      this.positionDoorBottom = [];
-      this.positionDoorRight = [];
-
-      this.topSection = []
-    };
-  
-    createMapFloor(){ 
-      let  floor = new Image(100, 200);
-      floor.src = 'assets/room/floor.jpg';
-  
-      //floor
-      for (let i=0;i<this.verticalWallLenght-2;i++){
-          for (let j=0;j<this.horizontalWallLenght-1;j++){
-            this.listMapFloor.push( new Floor(floor,(32*j)+this.mapLeftX,(32*i)+this.mapTopY,32,32));
-          }
-      };
-    };
-  
-    createMapWalls(){ 
-      let  wall = new Image(100, 200);
-      wall.src = 'assets/room/pieceWall.jpg';
-  
-      let angleWall = new Image(100, 200);
-      angleWall.src = 'assets/room/angleWall.jpg';
-  
-      //wall top
-      for (let i=1;i<this.horizontalWallLenght;i++){
-        this.listMapElement.push( new Wall(0,wall,(32*i)+this.mapLeftX,this.mapTopY,32,32));
-        this.topSection.push( new Wall(0,wall,(32*i)+this.mapLeftX,this.mapTopY,32,32));
-      };
-
-      // const topS = new WallSection(this.topSection)
-      // topS.draw()
-      // console.log(topS);
-      
-      //wall left
-      for (let i=1;i<this.verticalWallLenght;i++){
-        this.listMapElement.push( new Wall(90,wall,this.mapLeftX,(32*i)+this.mapTopY,32,32));
-      };
-      //wall right
-      for (let i=1;i<this.verticalWallLenght;i++){
-        this.listMapElement.push( new Wall(270,wall,this.mapRightX-32,(32*i)+this.mapTopY-32,32,32));
-      };
-      //wall bottom
-      for (let i=1 ;i<this.horizontalWallLenght;i++){
-        this.listMapElement.push( new Wall(180,wall,(32*i)+this.mapLeftX,this.mapBottomY-32,32,32));
-      };
-      //angles
-      this.listMapElement.push( new Wall(0,angleWall,(0)+ this.mapLeftX, this.mapTopY,32,32));
-      this.listMapElement.push( new Wall(270,angleWall,(0)+ this.mapRightX-32, this.mapTopY-32,32,32));
-      this.listMapElement.push( new Wall(90,angleWall,(0)+ this.mapLeftX, this.mapBottomY,32,32));
-      this.listMapElement.push( new Wall(180,angleWall,(0)+ this.mapRightX-32, this.mapBottomY-32,32,32));
-    };
-
-    createMapDoor(){ 
-      let door = new Image(100, 200);
-      door.src = 'assets/room/door.jpg';
-      if (this.doorTop === 1){
-        this.listMapElement.push( new Door(0,door,(this.mapRightX+this.mapLeftX)/2,this.mapTopY,32,32,"top"));
-        this.positionDoorTop.push((this.mapRightX+this.mapLeftX)/2)
-        this.positionDoorTop.push(this.mapTopY)
-      }
-      if (this.doorLeft === 1){
-        this.listMapElement.push( new Door(90,door,this.mapLeftX,(this.mapBottomY-32+this.mapTopY)/2,32,32,"left")); 
-        this.positionDoorLeft.push(this.mapLeftX)
-        this.positionDoorLeft.push((this.mapBottomY-32+this.mapTopY)/2)     
-      }
-      if (this.doorBottom === 1){
-        this.listMapElement.push( new Door(180,door,(this.mapRightX+this.mapLeftX)/2,this.mapBottomY-32,32,32,"bottom"));
-        this.positionDoorBottom.push((this.mapRightX+this.mapLeftX)/2)
-        this.positionDoorBottom.push(this.mapBottomY-32)  
-      }
-      if (this.doorRight === 1){
-        this.listMapElement.push( new Door(270,door,this.mapRightX-32,(this.mapBottomY-32+this.mapTopY)/2,32,32,"right"));
-        this.positionDoorRight.push(this.mapRightX-32)
-        this.positionDoorRight.push((this.mapBottomY-32+this.mapTopY)/2) 
-      };
-      }
-
-    createMap(){
-        this.createMapFloor();
-        this.createMapWalls();
-        this.createMapDoor();
-    }
-
-    deleteMap(){
-      this.listMapFloor = []
-      this.listMapElement = []
-    }
-  
-    mapDraw(){
-        for (let i=0;i<this.listMapFloor.length;i++){
-            this.listMapFloor[i].draw();
-        };
-        for (let i=0;i<this.listMapElement.length;i++){
-          if (this.listMapElement[i] instanceof Door || this.listMapElement[i] instanceof Wall) {
-            this.listMapElement[i].draw();
-          }
-            
-        };
-      
-    };
-  };
   
 class LMap{
     constructor(doorTop,doorLeft,doorBottom,doorRight){
@@ -138,10 +12,10 @@ class LMap{
 
       this.mapTopY= 64;
       this.mapBottomY= 512;
-      this.mapLeftX = 96;
+      this.mapLeftX = 64;
       this.mapRightX = 832;
 
-      this.horizontalWallLenght = 22;
+      this.horizontalWallLenght = 23;
       this.verticalWallLenght = 14;
 
       this.doorTop =doorTop;
@@ -174,7 +48,7 @@ class LMap{
   
     createMapWalls(){ 
       let  wall = new Image(100, 200);
-      wall.src = 'assets/room/pieceWall.jpg';
+      wall.src = 'assets/room/wall.jpg';
   
       let angleWall = new Image(100, 200);
       angleWall.src = 'assets/room/angleWall.jpg';
@@ -217,26 +91,32 @@ class LMap{
     };
   
     createMapDoor(){ 
-      let door = new Image(100, 200);
-      door.src = 'assets/room/door.jpg';
+      let doorLeft = new Image(100, 200);
+      let doorRight = new Image(100, 200);
+      doorLeft.src = 'assets/room/doorLeft.jpg';
+      doorRight.src = 'assets/room/doorRight.jpg';
       
       if (this.doorTop === 1){
-        this.listMapElement.push( new Door(0,door,(this.mapRightX-160),this.mapTopY,32,32,"top"));
+        this.listMapElement.push( new Door(0,doorLeft,(this.mapRightX-160)-32,this.mapTopY,32,32,"top"));
+        this.listMapElement.push( new Door(0,doorRight,(this.mapRightX-160),this.mapTopY,32,32,"top"));
         this.positionDoorTop.push((this.mapRightX-160))
         this.positionDoorTop.push(this.mapTopY)
       }
       if (this.doorLeft === 1){
-        this.listMapElement.push( new Door(90,door,this.mapLeftX,(this.mapBottomY-128),32,32,"left"));      
+        this.listMapElement.push( new Door(90,doorLeft,this.mapLeftX,(this.mapBottomY-128)+16,32,32,"left")); 
+        this.listMapElement.push( new Door(90,doorRight,this.mapLeftX,(this.mapBottomY-128)-16,32,32,"left"));      
         this.positionDoorLeft.push(this.mapLeftX)
         this.positionDoorLeft.push((this.mapBottomY-128))
       }
       if (this.doorBottom === 1){
-        this.listMapElement.push( new Door(180,door,(this.mapRightX+this.mapLeftX)/2,this.mapBottomY-32,32,32,"bottom"));
+        this.listMapElement.push( new Door(180,doorLeft,(this.mapRightX+this.mapLeftX)/2,this.mapBottomY-32,32,32,"bottom"));
+        this.listMapElement.push( new Door(180,doorRight,(this.mapRightX+this.mapLeftX)/2-32,this.mapBottomY-32,32,32,"bottom"));
         this.positionDoorBottom.push((this.mapRightX+this.mapLeftX)/2)
         this.positionDoorBottom.push(this.mapBottomY-32) 
       }
       if (this.doorRight === 1){
-        this.listMapElement.push( new Door(270,door,this.mapRightX-32,(this.mapBottomY-32+this.mapTopY)/2,32,32,"right"));
+        this.listMapElement.push( new Door(270,doorLeft,this.mapRightX-32,(this.mapBottomY-32+this.mapTopY)/2-16,32,32,"right"));
+        this.listMapElement.push( new Door(270,doorRight,this.mapRightX-32,(this.mapBottomY-32+this.mapTopY)/2+16,32,32,"right"));
         this.positionDoorRight.push(this.mapRightX-32)
         this.positionDoorRight.push((this.mapBottomY-32+this.mapTopY)/2) 
       }
@@ -263,4 +143,202 @@ class LMap{
     }
   }
 
-export {Map, LMap}
+  
+class SquareMap {
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle){
+    this.listMapElement = [];
+    this.listMapFloor = [];
+
+    this.mapTopY=64;
+    this.mapBottomY=512;
+    this.mapLeftX = 64;
+    this.mapRightX = 832;
+
+    this.horizontalWallLenght = 23;
+    this.verticalWallLenght = 14;
+
+    this.IsDoorTop =doorTop;
+    this.IsDoorLeft =doorLeft;
+    this.IsDoorBottom =doorBottom;
+    this.IsDoorRight =doorRight;
+
+    this.positionDoorTop = [];
+    this.positionDoorLeft = [];
+    this.positionDoorBottom = [];
+    this.positionDoorRight = [];
+
+    this.topSection = []
+
+    this.paterneObstacle = paterneObstacle
+  }
+
+  createMapFloor(){ 
+    //floor
+    for (let i=0;i<this.verticalWallLenght-2;i++){
+        for (let j=0;j<this.horizontalWallLenght-1;j++){
+          this.listMapFloor.push( new Floor(this.floor,(32*j)+this.mapLeftX,(32*i)+this.mapTopY,32,32));
+        }
+    };
+  };
+
+  createMapWalls(){ 
+    //wall top
+    for (let i=1;i<this.horizontalWallLenght;i++){
+      this.listMapElement.push( new Wall(0, this.wall,(32*i)+this.mapLeftX,this.mapTopY,32,32));
+      this.topSection.push( new Wall(0, this.wall,(32*i)+this.mapLeftX,this.mapTopY,32,32));
+    };
+    //wall left
+    for (let i=1;i<this.verticalWallLenght;i++){
+      this.listMapElement.push( new Wall(90, this.wall,this.mapLeftX,(32*i)+this.mapTopY,32,32));
+    };
+    //wall right
+    for (let i=1;i<this.verticalWallLenght;i++){
+      this.listMapElement.push( new Wall(270, this.wall,this.mapRightX-32,(32*i)+this.mapTopY-32,32,32));
+    };
+    //wall bottom
+    for (let i=1 ;i<this.horizontalWallLenght;i++){
+      this.listMapElement.push( new Wall(180, this.wall,(32*i)+this.mapLeftX,this.mapBottomY-32,32,32));
+    };
+    //angles
+    this.listMapElement.push( new Wall(0, this.angleWall,(0)+ this.mapLeftX, this.mapTopY,32,32));
+    this.listMapElement.push( new Wall(270, this.angleWall,(0)+ this.mapRightX-32, this.mapTopY-32,32,32));
+    this.listMapElement.push( new Wall(90, this.angleWall,(0)+ this.mapLeftX, this.mapBottomY,32,32));
+    this.listMapElement.push( new Wall(180, this.angleWall,(0)+ this.mapRightX-32, this.mapBottomY-32,32,32));
+  };
+
+  createMapDoor(){   
+    if (this.IsDoorTop === 1){
+      this.listMapElement.push( new Door(0,this.doorLeft,(this.mapRightX+this.mapLeftX)/2-32,this.mapTopY,32,32,"top"));
+      this.listMapElement.push( new Door(0, this.doorRight,(this.mapRightX+this.mapLeftX)/2,this.mapTopY,32,32,"top"));
+      this.positionDoorTop.push((this.mapRightX+this.mapLeftX)/2)
+      this.positionDoorTop.push(this.mapTopY)
+    }
+    if (this.IsDoorLeft === 1){
+      this.listMapElement.push( new Door(90,this.doorLeft,this.mapLeftX,(this.mapBottomY-32+this.mapTopY)/2+16,32,32,"left")); 
+      this.listMapElement.push( new Door(90, this.doorRight,this.mapLeftX,(this.mapBottomY-32+this.mapTopY)/2-16,32,32,"left")); 
+      this.positionDoorLeft.push(this.mapLeftX)
+      this.positionDoorLeft.push((this.mapBottomY-32+this.mapTopY)/2)     
+    }
+    if (this.IsDoorBottom === 1){
+      this.listMapElement.push( new Door(180,this.doorLeft,(this.mapRightX+this.mapLeftX)/2,this.mapBottomY-32,32,32,"bottom"));
+      this.listMapElement.push( new Door(180, this.doorRight,(this.mapRightX+this.mapLeftX)/2-32,this.mapBottomY-32,32,32,"bottom"));
+      this.positionDoorBottom.push((this.mapRightX+this.mapLeftX)/2)
+      this.positionDoorBottom.push(this.mapBottomY-32)  
+    }
+    if (this.IsDoorRight === 1){
+      this.listMapElement.push( new Door(270,this.doorLeft,this.mapRightX-32,(this.mapBottomY-32+this.mapTopY)/2-16,32,32,"right"));
+      this.listMapElement.push( new Door(270, this.doorRight,this.mapRightX-32,(this.mapBottomY-32+this.mapTopY)/2+16,32,32,"right"));
+      this.positionDoorRight.push(this.mapRightX-32)
+      this.positionDoorRight.push((this.mapBottomY-32+this.mapTopY)/2) 
+    };
+  }
+
+  createMap(){
+    this.createMapFloor();
+    this.createMapWalls();
+    this.createMapDoor();
+    this.createMapObstacle();
+  }
+
+  deleteMap(){
+    this.listMapFloor = []
+    this.listMapElement = []
+  }
+
+  mapDraw(){
+    for (let i=0;i<this.listMapFloor.length;i++){
+        this.listMapFloor[i].draw();
+    };
+    for (let i=0;i<this.listMapElement.length;i++){
+      if (this.listMapElement[i] instanceof Door || this.listMapElement[i] instanceof Wall) {
+        this.listMapElement[i].draw();
+      }   
+    };
+  };
+
+  createMapObstacle(){
+    console.log(this.paterneObstacle)
+    let paterne1 = [this.mapLeftX+32*3,this.mapTopY+32*3,this.mapRightX-32*4,this.mapTopY+32*3,this.mapLeftX+32*3,this.mapBottomY-32*4,this.mapRightX-32*4,this.mapBottomY-32*4]
+    let paterne2 = [this.mapLeftX+32*7,this.mapTopY+32*4,this.mapLeftX+32*8,this.mapTopY+32*5,this.mapLeftX+32*8,this.mapTopY+32*6,this.mapLeftX+32*8,this.mapTopY+32*7,this.mapLeftX+32*8,this.mapTopY+32*8,this.mapLeftX+32*7,this.mapBottomY-32*5,this.mapRightX-32*8,this.mapTopY+32*4,this.mapRightX-32*9,this.mapTopY+32*5,this.mapRightX-32*9,this.mapTopY+32*6,this.mapRightX-32*9,this.mapTopY+32*7,this.mapRightX-32*9,this.mapTopY+32*8,this.mapRightX-32*8,this.mapBottomY-32*5]
+    // 
+    switch (this.paterneObstacle) {
+      case 1:
+        let nbrBoucle1 = paterne1.length
+
+        for (let i=0;i<nbrBoucle1;i+=2){
+          this.listMapElement.push( new Wall(0, this.obstaclePillar,paterne1[i],paterne1[i+1],32,32));
+        }
+        break;
+      case 2:
+        let nbrBoucle2 = paterne2.length
+
+        for (let i=0;i<nbrBoucle2;i+=2){
+          this.listMapElement.push( new Wall(0, this.obstaclePillar,paterne2[i],paterne2[i+1],32,32));
+        }
+        break;
+    }
+  }
+}
+
+class BossMap extends SquareMap{
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle)
+
+    this.floor = new Image(100, 200);
+    this.wall = new Image(100, 200);
+    this.angleWall = new Image(100, 200);
+    this.doorLeft = new Image(100, 200);
+    this.doorRight = new Image(100, 200);
+    this.obstaclePillar = new Image(100, 200);
+
+    this.floor.src = 'assets/room/floorBoss.jpg';
+    this.wall.src = 'assets/room/wallBoss.jpg';
+    this.angleWall.src = 'assets/room/angleWallBoss.jpg';
+    this.doorLeft.src = 'assets/room/doorLeftBoss.jpg';
+    this.doorRight.src = 'assets/room/doorRightBoss.jpg';
+    this.obstaclePillar.src = 'assets/room/pillar.png';
+  };
+};
+
+class ItemMap extends SquareMap{
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle)
+
+    this.floor = new Image(100, 200);
+    this.wall = new Image(100, 200);
+    this.angleWall = new Image(100, 200);
+    this.doorLeft = new Image(100, 200);
+    this.doorRight = new Image(100, 200);
+    this.obstaclePillar = new Image(100, 200);
+
+    this.floor.src = 'assets/room/floorItem.jpg';
+    this.wall.src = 'assets/room/wallItem.jpg';
+    this.angleWall.src = 'assets/room/angleWallItem.jpg';
+    this.doorLeft.src = 'assets/room/doorLeftItem.jpg';
+    this.doorRight.src = 'assets/room/doorRightItem.jpg';
+    this.obstaclePillar.src = 'assets/room/pillar.png';
+  };
+};
+
+class NormalMap extends SquareMap{
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle)
+
+    this.floor = new Image(100, 200);
+    this.wall = new Image(100, 200);
+    this.angleWall = new Image(100, 200);
+    this.doorLeft = new Image(100, 200);
+    this.doorRight = new Image(100, 200);
+    this.obstaclePillar = new Image(100, 200);
+
+
+    this.floor.src = 'assets/room/floor.jpg';
+    this.wall.src = 'assets/room/wall.jpg';
+    this.angleWall.src = 'assets/room/angleWall.jpg';
+    this.doorLeft.src = 'assets/room/doorLeft.jpg';
+    this.doorRight.src = 'assets/room/doorRight.jpg';
+    this.obstaclePillar.src = 'assets/room/pillar.png';
+  };
+};
+
+export {NormalMap, LMap, ItemMap, BossMap}

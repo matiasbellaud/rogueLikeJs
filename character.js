@@ -146,7 +146,6 @@ export default class Character {
     }
   
     collisionReaction(cell,side){
-      console.log(cell);
       if (cell instanceof Wall){
         if (side == "left") {
           this.x=cell.x-this.width

@@ -1,7 +1,6 @@
 
 import Character from './character.js';
 import Ennemy from './ennemy.js';
-import {Map, LMap} from './map.js'
 import Level from './level.js'
 
 
