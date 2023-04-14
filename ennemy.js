@@ -5,22 +5,24 @@ let ctx = canvas.getContext('2d');
 
 export default class Ennemy{
     constructor(dx,dy){
-    this.x = 200;
-    this.y = 300;
-    this.width = 10;
-    this.height = 10;
-    this.movement_speedX = dx;
-    this.movement_speedY = dy;
-    this.alive = true
+      this.x = 200;
+      this.y = 300;
+      this.width = 20;
+      this.height = 20;
+      this.movement_speedX = dx;
+      this.movement_speedY = dy;
+      this.alive = true
+      this.hp = 10
+    
     };
-  
+
     draw(){
       if (this.alive) {
         
         ctx.beginPath();
         ctx.ellipse(this.x+this.width/2, this.y+this.height/2, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
-        ctx.strokeStyle = "#0a7b20";
-        ctx.fillStyle = "#0a7b20";
+        ctx.strokeStyle = "rgb(102, 0, 102)";
+        ctx.fillStyle = "rgb(153, 51, 153)";
         ctx.fill();
         ctx.stroke();
         
