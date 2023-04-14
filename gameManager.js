@@ -1,8 +1,7 @@
 
 import Character from './character.js';
-import Ennemy from './ennemy.js';
 import Level from './level.js'
-import { DoubleShot, Gatling } from './item.js';
+
 
 
 let canvas = document.querySelector('#char');
@@ -10,34 +9,13 @@ let ctx = canvas.getContext('2d');
 
 const char = new Character();
 
-let frame = 0;
-
-function randomIntFromInterval(min, max) { // min and max included 
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-
-
 const level = new Level();
 level.addMap()
-level.now.createMap()
-
-let ennemyList = []
-
-for (let i = 0; i < 1; i++) {
-  const ennemy = new Ennemy(randomIntFromInterval(-4,4),randomIntFromInterval(-4,4))
-  ennemyList.push(ennemy)
-  level.now.listMapElement.push(ennemy)
-}
-const item = new DoubleShot()
-level.now.listMapElement.push(item)
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   level.now.mapDraw();
-  
-
   
   if (char.currentHp > 0){
     char.reload()
@@ -48,15 +26,14 @@ function gameLoop() {
     
   };
   
-  ennemyList.forEach(element => {
+  level.now.ennemyList.forEach(element => {
     element.move(level.now.listMapElement)
   });
 
-  item.draw()
+  
 
   if (char.changeMap === true){
     level.changeRoom(char.doorPosition)
-    level.deleteMap()
     level.createMap()
     if (char.doorPosition === "top"){
       char.teleportation(level.now.positionDoorBottom[0],level.now.positionDoorBottom[1]-32);
@@ -70,8 +47,6 @@ function gameLoop() {
     if (char.doorPosition === "right"){
       char.teleportation(level.now.positionDoorLeft[0]+64,level.now.positionDoorLeft[1]);
     }
-      
-    
     char.changeMap = false
   }
 

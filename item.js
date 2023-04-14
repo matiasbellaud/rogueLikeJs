@@ -2,9 +2,9 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d');
 
 export default class Item{
-    constructor(){
-        this.x = 400
-        this.y = 200
+    constructor(x,y){
+        this.x = x
+        this.y = y
         this.width = 15
         this.height = 15
         this.active = true
@@ -23,8 +23,8 @@ export default class Item{
 
 
 export class DoubleShot extends Item{
-    constructor(){
-        super()
+    constructor(x,y){
+        super(x,y)
         this.reload = 5
         this.shotNbr = 1
         
@@ -39,12 +39,11 @@ export class DoubleShot extends Item{
 }
 
 export class Gatling extends Item{
-    constructor(){
-        super()
+    constructor(x,y){
+        super(x,y)
         this.reload = -15
         this.projHeight = 2
         this.shotNbr = 1
-        
     }
 
     use(char){
@@ -58,12 +57,9 @@ export class Gatling extends Item{
 }
 
 export class Squary extends Item{
-    constructor(){
-        super()
-        this.reload = -5
-
-
-        
+    constructor(x,y){
+        super(x,y)
+        this.reload = -5    
     }
 
     use(char){

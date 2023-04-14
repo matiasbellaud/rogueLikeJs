@@ -1,9 +1,16 @@
 import Floor from './floor.js';
 import Wall from './wall.js';
 import Door from './door.js';
-  
+import Ennemy from './ennemy.js';
+import { DoubleShot, Gatling } from './item.js';
+import Stair from './stair.js'
+
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 class LMap{
-    constructor(doorTop,doorLeft,doorBottom,doorRight){
+    constructor(doorTop,doorLeft,doorBottom,doorRight,nbrEnnemy,isItem){
       this.listMapElement = [];
       this.listMapFloor = [];
 
@@ -27,6 +34,11 @@ class LMap{
       this.positionDoorLeft = [];
       this.positionDoorBottom = [];
       this.positionDoorRight = [];
+
+      this.ennemyList = []
+      this.nbrEnnemy = nbrEnnemy;
+
+      this.isItem = isItem
     };
   
     createMapFloor(){ 
@@ -126,13 +138,28 @@ class LMap{
         this.createMapFloor();
         this.createMapWalls();
         this.createMapDoor();
+        this.createMapEnnemy();
+        this.createMapItem();
     }
 
-    deleteMap(){
-      this.listMapFloor = []
-      this.listMapElement = []
+    createMapEnnemy(){
+      function randomIntFromInterval(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+      }
+      console.log(this.nbrEnnemy)
+      for (let i = 0; i < this.nbrEnnemy; i++) {
+        
+        const ennemy = new Ennemy(randomIntFromInterval(-4,4),randomIntFromInterval(-4,4))
+        this.ennemyList.push(ennemy)
+        this.listMapElement.push(ennemy)
+      }
     }
   
+    createMapItem(){
+      const item = new DoubleShot()
+      this.listMapElement.push(item)
+    }
+
     mapDraw(){
         for (let i=0;i<this.listMapFloor.length;i++){
             this.listMapFloor[i].draw();
@@ -145,7 +172,7 @@ class LMap{
 
   
 class SquareMap {
-  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle){
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem){
     this.listMapElement = [];
     this.listMapFloor = [];
 
@@ -157,10 +184,10 @@ class SquareMap {
     this.horizontalWallLenght = 23;
     this.verticalWallLenght = 14;
 
-    this.IsDoorTop =doorTop;
-    this.IsDoorLeft =doorLeft;
-    this.IsDoorBottom =doorBottom;
-    this.IsDoorRight =doorRight;
+    this.IsDoorTop = doorTop;
+    this.IsDoorLeft = doorLeft;
+    this.IsDoorBottom = doorBottom;
+    this.IsDoorRight = doorRight;
 
     this.positionDoorTop = [];
     this.positionDoorLeft = [];
@@ -170,6 +197,11 @@ class SquareMap {
     this.topSection = []
 
     this.paterneObstacle = paterneObstacle
+
+    this.ennemyList = []
+    this.nbrEnnemy = nbrEnnemy
+
+    this.isItem = isItem
   }
 
   createMapFloor(){ 
@@ -237,27 +269,41 @@ class SquareMap {
     this.createMapFloor();
     this.createMapWalls();
     this.createMapDoor();
-    this.createMapObstacle();
-  }
-
-  deleteMap(){
-    this.listMapFloor = []
-    this.listMapElement = []
+    this.createMapObstacle()
+    this.createMapEnnemy();
+    this.createMapItem();
+    if (this.typeRoom === "boss"){
+      this.createMapStair()
+    }
   }
 
   mapDraw(){
     for (let i=0;i<this.listMapFloor.length;i++){
-        this.listMapFloor[i].draw();
+      this.listMapFloor[i].draw();
     };
     for (let i=0;i<this.listMapElement.length;i++){
-      if (this.listMapElement[i] instanceof Door || this.listMapElement[i] instanceof Wall) {
         this.listMapElement[i].draw();
-      }   
     };
   };
 
+  createMapEnnemy(){
+    for (let i = 0; i < this.nbrEnnemy; i++) {  
+      const ennemy = new Ennemy(randomIntFromInterval(-4,4),randomIntFromInterval(-4,4))
+      this.ennemyList.push(ennemy)
+      this.listMapElement.push(ennemy)
+    }
+  }
+
+  createMapItem(){
+    if (this.isItem != 0){
+      let x = randomIntFromInterval(this.mapLeftX+64,this.mapRightX-64)
+      let y = randomIntFromInterval(this.mapTopY+64,this.mapBottomY-64)
+      const item = new DoubleShot(x,y)
+      this.listMapElement.push(item)
+    }
+  }
+
   createMapObstacle(){
-    console.log(this.paterneObstacle)
     let paterne1 = [this.mapLeftX+32*3,this.mapTopY+32*3,this.mapRightX-32*4,this.mapTopY+32*3,this.mapLeftX+32*3,this.mapBottomY-32*4,this.mapRightX-32*4,this.mapBottomY-32*4]
     let paterne2 = [this.mapLeftX+32*7,this.mapTopY+32*4,this.mapLeftX+32*8,this.mapTopY+32*5,this.mapLeftX+32*8,this.mapTopY+32*6,this.mapLeftX+32*8,this.mapTopY+32*7,this.mapLeftX+32*8,this.mapTopY+32*8,this.mapLeftX+32*7,this.mapBottomY-32*5,this.mapRightX-32*8,this.mapTopY+32*4,this.mapRightX-32*9,this.mapTopY+32*5,this.mapRightX-32*9,this.mapTopY+32*6,this.mapRightX-32*9,this.mapTopY+32*7,this.mapRightX-32*9,this.mapTopY+32*8,this.mapRightX-32*8,this.mapBottomY-32*5]
     // 
@@ -280,9 +326,10 @@ class SquareMap {
   }
 }
 
-class BossMap extends SquareMap{
-  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle){
-    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle)
+class ItemMap extends SquareMap{
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy)
+    this.typeRoom = "item"
 
     this.floor = new Image(100, 200);
     this.wall = new Image(100, 200);
@@ -300,9 +347,10 @@ class BossMap extends SquareMap{
   };
 };
 
-class ItemMap extends SquareMap{
-  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle){
-    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle)
+class BossMap extends SquareMap{
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem)
+    this.typeRoom = "boss"
 
     this.floor = new Image(100, 200);
     this.wall = new Image(100, 200);
@@ -310,6 +358,7 @@ class ItemMap extends SquareMap{
     this.doorLeft = new Image(100, 200);
     this.doorRight = new Image(100, 200);
     this.obstaclePillar = new Image(100, 200);
+    this.stair = new Image(100, 200);
 
     this.floor.src = 'assets/room/floorItem.jpg';
     this.wall.src = 'assets/room/wallItem.jpg';
@@ -317,12 +366,18 @@ class ItemMap extends SquareMap{
     this.doorLeft.src = 'assets/room/doorLeftItem.jpg';
     this.doorRight.src = 'assets/room/doorRightItem.jpg';
     this.obstaclePillar.src = 'assets/room/pillar.png';
+    this.stair.src = 'assets/room/stair.png';
   };
+
+  createMapStair(){
+    this.listMapElement.push( new Stair(this.stair,704,384,32,32));
+  }
 };
 
 class NormalMap extends SquareMap{
-  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle){
-    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle)
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem)
+    this.typeRoom = "normal"
 
     this.floor = new Image(100, 200);
     this.wall = new Image(100, 200);

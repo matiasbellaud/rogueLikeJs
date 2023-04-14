@@ -29,11 +29,11 @@ export default class Character {
         //Projectil parameter
 
         this.projHeight = 10;
-        this.shootNbr=1;
+        this.shootNbr=5;
         this.cooldown = 20;
         this.projectilSpeed = 11;
         this.range = 40;
-        this.projDmg = 2;
+        this.projDmg = 100;
 
         //--------------------------
 
@@ -104,7 +104,6 @@ export default class Character {
         }
 
         if (moveNow != ""){
-          console.log(moveNow)
           this.direction = moveNow
         }
         this.sprite(isMove)
