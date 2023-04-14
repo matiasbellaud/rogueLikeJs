@@ -14,8 +14,8 @@ export default class Character {
     constructor(){
         this.x = 700
         this.y = 200
-        this.width = 10
-        this.height = 10
+        this.width = 12
+        this.height = 25
         this.movement_speed = 4;
         this.maxHp = 5
         this.currentHp = 5
@@ -30,12 +30,12 @@ export default class Character {
         this.hp = new Hp(this.maxHp);
         this.invulnerability = 100;
         this.canTakeDmg = true;
+        this.stateSprite = 0;
+        this.direction = "S"
     }
 
     draw(){
       this.hp.draw();
-      ctx.fillStyle = "red";
-      ctx.fillRect(this.x,this.y,this.width,this.height)
     }
 
     teleportation(x,y){
@@ -44,29 +44,108 @@ export default class Character {
     }
   
     move(listMapElement){
-      
+      let isMoveTop = false;
+      let isMoveRight = false;
+      let isMoveBottom = false;
+      let isMoveLeft = false;
+      let isMove = false
+      let moveNow = ""
+
       for (let i = 0; i < this.movement_speed; i++) {
         if (keyPresses.z) {
           this.y -=  1
+          isMoveTop = true
         } else if (keyPresses.s) {
           this.y +=  1
+          isMoveBottom = true
         }
     
         if (keyPresses.q ) {
           this.x -=  1
+          isMoveLeft = true
         } else if (keyPresses.d ) {
           this.x +=  1
+          isMoveRight = true
         }
         
         this.collisionBox()
 
-        this.collisionUpdate(listMapElement)
-            
-            
-          
+        this.collisionUpdate(listMapElement) 
+
+        
         };
+        if (isMoveTop){
+          moveNow += "N"
+          isMove = true
+        }
+        if (isMoveBottom){
+          moveNow += "S"
+          isMove = true
+        }
+        if (isMoveLeft){
+          moveNow += "E"
+          isMove = true
+        }
+        if (isMoveRight){
+          moveNow += "O"
+          isMove = true
+        }
+
+        if (moveNow != ""){
+          console.log(moveNow)
+          this.direction = moveNow
+        }
+        this.sprite(isMove)
       };
     
+    sprite(isMove){
+      let column
+      let heightChar = 32
+      let widthChar = 32
+      let positionX = (this.x+this.width/2)-widthChar/2
+      let positionY = (this.y+this.height/2)-heightChar/2
+
+      let  char = new Image(100, 200);
+      char.src = 'assets/character/character.png';
+
+      if (isMove === true){
+        char.src = 'assets/character/character.png';
+      } else {
+        char.src = 'assets/character/stopCharacter.png';
+      }
+        
+      switch (this.direction){
+        case "N":
+          column = 0
+          break;
+        case "NO": 
+          column = 1
+          break;
+        case "O":
+          column = 2
+          break;
+        case "SO":
+          column = 3
+          break ;
+        case "S":
+          column = 4
+          break
+        case "SE":
+          column = 5
+          break
+        case "E":
+          column = 6
+          break
+        case "NE":
+          column = 7
+          break
+      }
+      ctx.drawImage(char,this.stateSprite*32,column*32,widthChar,heightChar,positionX,positionY,32,32,)
+      this.stateSprite++
+      if (this.stateSprite===7){
+        this.stateSprite=0;
+      }
+    }
   
     collisionBox(){
       if (this.x > canvas.width-this.width) {
