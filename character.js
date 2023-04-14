@@ -45,11 +45,10 @@ export default class Character {
     }
 
     draw(){
-      var seconds = Math.floor(new Date().getTime())
+
 
       this.hp.draw();
-      ctx.fillStyle = "red";
-      ctx.fillRect(this.x,this.y,this.width,this.height)
+      
     }
 
     teleportation(x,y){
