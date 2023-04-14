@@ -71,9 +71,8 @@ export default class Character {
         this.collisionBox()
 
         this.collisionUpdate(listMapElement) 
-
-        
         };
+        
         if (isMoveTop){
           moveNow += "N"
           isMove = true
