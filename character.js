@@ -29,7 +29,7 @@ export default class Character {
         //Projectil parameter
 
         this.projHeight = 10;
-        this.shootNbr=2;
+        this.shootNbr=1;
         this.cooldown = 20;
         this.projectilSpeed = 11;
         this.range = 40;
@@ -270,18 +270,25 @@ export default class Character {
     }
   
     updateProj(allElement){
-      
+      let index = []
       if (this.listProj.length > 0){
         this.listProj.forEach(element => {
           if (element.alive === true){
             element.move(allElement)
           } else {
-            const index =  this.listProj.indexOf(element); 
-            this.listProj.splice(index,1)
+            index.push(this.listProj.indexOf(element))
             this.projectilNbr--
           }
         });
+        // index.forEach(element => {
+        //   this.listProj.splice(element,1)
+          
+        // });
+        // if (index.length>0) {
+        //   this.updateProj(allElement)
+        // }
 
+        
       }
     }
 

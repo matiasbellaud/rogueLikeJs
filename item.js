@@ -8,6 +8,8 @@ export default class Item{
         this.width = 15
         this.height = 15
         this.active = true
+        this.color = "blue"
+
     };
   
     draw(){
@@ -47,9 +49,28 @@ export class Gatling extends Item{
 
     use(char){
         char.cooldown += this.reload
-        //char.cooldown = Math.max(1, char.cooldown)
+        
         char.projHeight =  char.projHeight/this.projHeight
         char.shootNbr +=  this.shotNbr
+        
+        this.active = false
+    }
+}
+
+export class Squary extends Item{
+    constructor(){
+        super()
+        this.reload = -5
+
+
+        
+    }
+
+    use(char){
+        char.cooldown += this.reload
+        //char.cooldown = Math.max(1, char.cooldown)
+        char.projHeight =  char.projHeight/this.projHeight
+
         
         this.active = false
     }
