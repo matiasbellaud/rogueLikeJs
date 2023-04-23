@@ -51,7 +51,7 @@ export default class Level{
         this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
     }
 
-    changeRoom(position){
+    positionOnChangeMap(position){
         if(position === "top"){
             this.actualPosition[0] -= 1
         } else if(position === "bottom"){
@@ -60,6 +60,26 @@ export default class Level{
             this.actualPosition[1] +=1
         } else if(position === "left"){
             this.actualPosition[1] -=1
+        }
+    }
+
+    changeMap(){
+        console.log(char.changeMap)
+       
+    }
+
+    EnnemyAction(){
+        if (this.now.allEnnemyDead === false){
+            let allEnnemyDead = 0;
+            this.now.ennemyList.forEach(element => {
+                if (element.alive === false){
+                allEnnemyDead++
+                }
+                element.move(this.now.listMapElement)
+            });
+            if (allEnnemyDead === this.now.ennemyList.length){
+                this.now.allEnnemyDead = true;
+            };
         }
     }
   }

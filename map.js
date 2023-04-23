@@ -37,6 +37,7 @@ class LMap{
 
       this.ennemyList = []
       this.nbrEnnemy = nbrEnnemy;
+      this.allEnnemyDead = false
 
       this.isItem = isItem
     };
@@ -145,8 +146,7 @@ class LMap{
     createMapEnnemy(){
       function randomIntFromInterval(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
-      }
-      console.log(this.nbrEnnemy)
+      } 
       for (let i = 0; i < this.nbrEnnemy; i++) {
         
         const ennemy = new Ennemy(randomIntFromInterval(-4,4),randomIntFromInterval(-4,4))
@@ -200,6 +200,7 @@ class SquareMap {
 
     this.ennemyList = []
     this.nbrEnnemy = nbrEnnemy
+    this.allEnnemyDead = false
 
     this.isItem = isItem
   }

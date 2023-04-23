@@ -94,17 +94,13 @@ export default class Projectil{
           if (this.collisionDetection(allElement[i])[0]) {
             
             if (allElement[i] instanceof Wall) {
-              console.log("hi");
               this.alive = false
-              console.log(this.alive);
             }
             
               if (allElement[i] instanceof Ennemy){
 
                 allElement[i].hp -= this.dmg
                 
-                
-                console.log(allElement[i].hp);
                 if (allElement[i].hp<=0) {
                   allElement[i].alive=false
                   allElement.splice(i, 1)
