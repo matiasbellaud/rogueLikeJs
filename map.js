@@ -273,9 +273,6 @@ class SquareMap {
     this.createMapObstacle()
     this.createMapEnnemy();
     this.createMapItem();
-    if (this.typeRoom === "boss"){
-      this.createMapStair()
-    }
   }
 
   mapDraw(){
@@ -370,8 +367,8 @@ class BossMap extends SquareMap{
     this.stair.src = 'assets/room/stair.png';
   };
 
-  createMapStair(){
-    this.listMapElement.push( new Stair(this.stair,704,384,32,32));
+  drawStair(){
+    this.listMapElement.push( new Stair(this.stair,736,416,32,32));
   }
 };
 

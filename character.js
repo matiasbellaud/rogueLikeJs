@@ -4,6 +4,7 @@ import Door from './door.js';
 import Ennemy from "./ennemy.js";
 import Hp from "/hp.js";
 import Item from "./item.js";
+import Stair from './stair.js'
 
 
 let canvas = document.querySelector('#char');
@@ -24,6 +25,7 @@ export default class Character {
         this.projectilNbr = 0;
         this.canShoot = true;
         this.changeMap = false;
+        this.changeLevel = false;
         this.doorPosition = top
 
         //Projectil parameter
@@ -254,29 +256,27 @@ export default class Character {
           this.y=cell.y+cell.height
     
         }
+
       } else if (cell instanceof Door){
         this.changeMap = true;
-        this.doorPosition = cell.doorPosition; 
-      }else if (cell instanceof Ennemy){
- 
-        if (this.canTakeDmg) {
+        this.doorPosition = cell.doorPosition;
 
-          
+      }else if (cell instanceof Ennemy){
+        if (this.canTakeDmg) {
           this.invulnerabilityTime().then(result => this.canTakeDmg = true)
-          
           this.hp.currentHp--
           this.currentHp--
         }
         
-        
       }else if (cell instanceof Item){
-        
-        console.log(this.cooldown);
         cell.use(this)
-        console.log(this.cooldown);
         const index =  listMapElement.indexOf(cell);
         listMapElement.splice(index, 1);
+
+      } else if (cell instanceof Stair){
+        this.changeLevel = true;
       }
+
       cell.isColliding = false
     }
   

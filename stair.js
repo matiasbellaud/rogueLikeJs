@@ -11,8 +11,6 @@ export default class Stair{
     };
   
     draw(){
-        ctx.translate(this.x +32, this.y+32);
-        ctx.drawImage(this.stair,0,0,this.width,this.height);
-        ctx.translate(-this.x-32, -this.y-32);   
+        ctx.drawImage(this.stair,this.x,this.y,this.width,this.height); 
     }
   }
