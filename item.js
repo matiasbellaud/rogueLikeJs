@@ -75,3 +75,34 @@ export class Squary extends Item{
         this.active = false
     }
 }
+
+export class Autoguide extends Item{
+    constructor(){
+        super()
+        this.target = true
+        this.range = 100
+        this.speed = 4
+    }
+
+    use(char){
+
+        char.target= this.target;
+        char.projectilSpeed = this.speed;
+        char.range = this.range;        
+        this.active = false
+    }
+}
+
+export class Spectral extends Item{
+    constructor(){
+        super()
+        this.spectral = true
+
+    }
+
+    use(char){
+
+        char.spectral = this.spectral     
+        this.active = false
+    }
+}

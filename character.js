@@ -2,7 +2,7 @@ import Projectil from "./projectil.js";
 import Wall from "./wall.js";
 import Door from './door.js';
 import Ennemy from "./ennemy.js";
-import Hp from "/hp.js";
+import Hp from "./hp.js";
 import Item from "./item.js";
 
 
@@ -31,9 +31,11 @@ export default class Character {
         this.projHeight = 10;
         this.shootNbr=1;
         this.cooldown = 20;
-        this.projectilSpeed = 11;
+        this.projectilSpeed = 7;
         this.range = 40;
         this.projDmg = 2;
+        this.spectral = false;
+        this.target = false;
 
         //--------------------------
 
@@ -104,7 +106,7 @@ export default class Character {
         }
 
         if (moveNow != ""){
-          console.log(moveNow)
+          //console.log(moveNow)
           this.direction = moveNow
         }
         this.sprite(isMove)
@@ -281,7 +283,7 @@ export default class Character {
       cell.isColliding = false
     }
   
-    shoot(allElement){
+    shoot(allElement,ennemyList){
       
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
         
@@ -314,9 +316,9 @@ export default class Character {
           if (this.canShoot){
            if(this.projectilNbr===1){
             if (xLook=== 0){
-              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg))
+              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target))
             }else{
-              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg))
+              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target))
             }
             this.projectilNbr++
            }else{
@@ -324,9 +326,9 @@ export default class Character {
 
                 if (xLook=== 0){
                   
-                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg))
+                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target))
                 }else{
-                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg))
+                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target))
                 }
                 this.projectilNbr++
               }
@@ -334,29 +336,20 @@ export default class Character {
             this.canShoot = false
           }
       }
-      this.updateProj(allElement);
+      this.updateProj(allElement,ennemyList);
     }
   
-    updateProj(allElement){
+    updateProj(allElement,ennemyList){
       let index = []
       if (this.listProj.length > 0){
         this.listProj.forEach(element => {
           if (element.alive === true){
-            element.move(allElement)
+            element.move(allElement,ennemyList)
           } else {
             index.push(this.listProj.indexOf(element))
             this.projectilNbr--
           }
         });
-        // index.forEach(element => {
-        //   this.listProj.splice(element,1)
-          
-        // });
-        // if (index.length>0) {
-        //   this.updateProj(allElement)
-        // }
-
-        
       }
     }
 

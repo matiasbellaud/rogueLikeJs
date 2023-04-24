@@ -2,7 +2,8 @@
 import Character from './character.js';
 import Ennemy from './ennemy.js';
 import Level from './level.js'
-import { DoubleShot, Gatling } from './item.js';
+import { Autoguide, DoubleShot, Gatling, Spectral } from './item.js';
+import  rayCasting  from "./rayCasting.js";
 
 
 let canvas = document.querySelector('#char');
@@ -12,24 +13,33 @@ const char = new Character();
 
 let frame = 0;
 
-function randomIntFromInterval(min, max) { // min and max included 
+function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 
 
 const level = new Level();
+
 level.addMap()
+level.now.listMapElement.push(char)
 level.now.createMap()
 
+
 let ennemyList = []
+let ray
 
 for (let i = 0; i < 1; i++) {
-  const ennemy = new Ennemy(randomIntFromInterval(-4,4),randomIntFromInterval(-4,4))
+
+  const ennemy = new Ennemy(char.x,char.y)
+  ray = new rayCasting(0,level.now.listMapElement[0],ennemy,level.now.listMapElement)
+  console.log(ennemy);
   ennemyList.push(ennemy)
   level.now.listMapElement.push(ennemy)
 }
-const item = new DoubleShot()
+
+
+const item = new Spectral()
 level.now.listMapElement.push(item)
 
 function gameLoop() {
@@ -44,12 +54,19 @@ function gameLoop() {
     char.move( level.now.listMapElement);
     char.collisionUpdate(level.now.listMapElement)
     char.draw();
-    char.shoot(level.now.listMapElement);
+    char.shoot(level.now.listMapElement,ennemyList);
     
   };
   
   ennemyList.forEach(element => {
-    element.move(level.now.listMapElement)
+    if (element.alive) {
+      element.move(level.now.listMapElement,ray)
+    }else{
+      let index = ennemyList.indexOf(element)
+      ennemyList.splice(index,1)
+    }
+    
+
   });
 
   item.draw()
