@@ -39,7 +39,7 @@ for (let i = 0; i < 1; i++) {
 }
 
 
-const item = new Spectral()
+const item = new Autoguide()
 level.now.listMapElement.push(item)
 
 function gameLoop() {
