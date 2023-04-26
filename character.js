@@ -12,6 +12,9 @@ let ctx = canvas.getContext('2d');
 let frame = 0;
 
 
+
+
+
 export default class Character {
     constructor(){
         this.x = 700
@@ -22,6 +25,7 @@ export default class Character {
         this.maxHp = 5
         this.currentHp = 5
         this.hp = new Hp(this.maxHp);
+        this.alive = true
         this.invulnerability = 100;
         this.canTakeDmg = true;
         this.listProj  = []
@@ -238,10 +242,22 @@ export default class Character {
     }
 
     takeDamage(){
+      
       if ( this.canTakeDmg) {
+        var dmg = new Audio("/assets/sound/dmg.mp3")
+        dmg.play()
         this.invulnerabilityTime().then(result => this.canTakeDmg = true)
         this.hp.currentHp--
         this.currentHp--
+        
+      }
+      if (this.currentHp<=0) {
+        this.alive = false
+        var death = new Audio("/assets/sound/death.mp3")
+        death.play()
+        death.addEventListener('ended', function() {
+        death = null
+          }, false);
       }
 
     }
@@ -276,6 +292,8 @@ export default class Character {
       
         
       }else if (cell instanceof Item){
+        var dmg = new Audio("/assets/sound/powerUp.mp3")
+        dmg.play()
         cell.use(this)
         const index =  listMapElement.indexOf(cell);
         listMapElement.splice(index, 1);
@@ -384,7 +402,7 @@ export default class Character {
     }
   }
 
-  
+
 let keyPresses = [];
 window.addEventListener('keydown', keyDownListener);
 function keyDownListener(event) {

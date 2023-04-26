@@ -8,8 +8,8 @@ export default class Ennemy{
     constructor(){
       this.x = 200;
       this.y = 300;
-      this.width = 15;
-      this.height = 15;
+      this.width = 30;
+      this.height = 30;
       this.movement_speed = 2;
 
       this.dx = 0
@@ -38,14 +38,14 @@ export default class Ennemy{
         
         ctx.beginPath();
 
-        ctx.ellipse(this.x+this.height, this.y+this.width, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
+        ctx.ellipse(this.x+this.height/2, this.y+this.width/2, this.width/2,this.height/2, Math.PI / 4, 0, 2 * Math.PI);
         ctx.strokeStyle = "rgb(102, 0, 102)";
         ctx.fillStyle = this.color;
         ctx.fill();
         ctx.stroke();
         
       }
-      this.hitbox()
+
     };
 
     hitbox(){
@@ -161,26 +161,26 @@ export default class Ennemy{
     };
   
     collisionDetection(element){
-      const xAxis = (this.x+this.width > element.x+1 && this.x < element.x+element.width-1)
-      const yAxis = this.y+this.height > element.y+1 && this.y< element.y+element.height-1
+      const xAxis = (this.x+this.width*2 > element.x+1 && this.x < element.x+element.width-1)
+      const yAxis = this.y+this.height*2 > element.y+1 && this.y< element.y+element.height-1
   
-      const upBox = (this.y+this.height*2 >= element.y && this.y <= element.y+1)
+      const upBox = (this.y >= element.y && this.y <= element.y+1)
       const downBox = (this.y <= element.y+element.height && this.y >= element.y+element.height-1)
   
-      const leftBox = (this.x+this.width*2 >= element.x && this.x <= element.x+1)
+      const leftBox = (this.x+this.width >= element.x && this.x <= element.x+1)
       const rightBox = (this.x <= element.x+element.width && this.x >= element.x+element.width-1)
 
       if (xAxis){
   
         if (upBox) {
-          //element.isColliding = true
+          
           return [true,'up']
   
         }else {this.sMove = true}
   
         if (downBox) {
   
-          //element.isColliding = true
+          
           return [true,"down"]
   
         }else{this.zMove = true}
@@ -190,13 +190,13 @@ export default class Ennemy{
         
         if (leftBox) {
   
-          //element.isColliding = true
+
           return [true, "left"]
         }else { this.dMove = true}
   
         if (rightBox) {
   
-          //element.isColliding = true
+          
           return [true,"right"]
         }else{ this.qMove = true}
   
@@ -217,15 +217,9 @@ export class Mucusthing extends Ennemy{
 
   constructor(){
     super()
-      this.x = 200;
-      this.y = 300;
-      this.width = 15;
-      this.height = 15;
       this.movement_speed = 2;
 
-      this.dx = 0
-      this.dy = 0
-      this.alive = true
+
       this.hp = 10
       this.color ="rgb(153, 255, 153)"
   }
@@ -237,13 +231,10 @@ export class Oozeling extends Ennemy{
     super()
       this.x = x;
       this.y = 300;
-      this.width = 15;
-      this.height = 15;
+
       this.movement_speed = 2;
 
-      this.dx = 0
-      this.dy = 0
-      this.alive = true
+
       this.hp = 10
       this.color ="rgb(153, 255, 153)"
       this.listProj  = []
@@ -256,6 +247,7 @@ export class Oozeling extends Ennemy{
        this.projectilSpeed = 5;
        this.range = 40;
        this.projDmg = 2;
+       
 
 
        //--------------------------
@@ -275,10 +267,25 @@ export class Oozeling extends Ennemy{
       dy /= hyp;
       let xLook = -dx
       let yLook = -dy
-      this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Character"))
+      this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,true,this.target,"Character"))
       this.projectilNbr++
       
     }
     this.updateProj(allElement,ennemyList);
+  }
+
+}
+  
+
+
+export class g extends Ennemy{
+
+  constructor(){
+    super()
+      this.movement_speed = 2;
+
+
+      this.hp = 10
+      this.color ="rgb(153, 255, 153)"
   }
 }

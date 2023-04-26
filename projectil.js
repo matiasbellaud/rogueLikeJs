@@ -1,6 +1,7 @@
-import Wall from "./wall.js";
+import Wall, { Obstacle } from "./wall.js";
 import Ennemy from "./ennemy.js";
 import Character from "./character.js";
+import Floor from "./floor.js";
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
@@ -115,15 +116,17 @@ export default class Projectil{
       if (this.alive){
         for (let i = 0; i < allElement.length; i++) {
           if (this.collisionDetection(allElement[i])[0]) {
+
             
             if (!this.spectral) {
               if (allElement[i] instanceof Wall) {
-
                 this.alive = false
-  
               }
+            }else if (allElement[i] instanceof Wall && !(allElement[i] instanceof Obstacle)){
+                this.alive = false
+              
             }
-
+            
             
               if (allElement[i] instanceof Ennemy && this.focus == "Ennemy"){
 
@@ -141,12 +144,9 @@ export default class Projectil{
                 
               }
               if (allElement[i] instanceof Character && this.focus == "Character"){
-                console.log(this);
-                console.log(allElement[i]);
+   
                 allElement[i].takeDamage()
                 
-                
-                console.log(allElement[i].currentHp);
                 if (allElement[i].hp<=0) {
                   allElement[i].alive=false
                   

@@ -52,6 +52,13 @@ export default class Wall{
       }
       //this.hitbox()
     }
+
+
   }
   
+export class Obstacle extends Wall{
+    constructor(sens,wall,x,y,width,height){
+      super(sens,wall,x,y,width,height)
+    }
+  }
 

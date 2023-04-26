@@ -1,5 +1,5 @@
 import Floor from './floor.js';
-import Wall from './wall.js';
+import Wall, { Obstacle } from './wall.js';
 import Door from './door.js';
 import {Mucusthing,Oozeling} from './ennemy.js';
 import { DoubleShot, Gatling,Autoguide,Spectral} from './item.js';
@@ -133,14 +133,12 @@ class AllMap{
   }
 
   createMapEnnemy(){
-
-    console.log(this);
     this.nbrEnnemy =1
-    //for (let i = 0; i < this.nbrEnnemy; i++) {  
+    for (let i = 0; i < this.nbrEnnemy; i++) {  
       const ennemy = new Oozeling(randomIntFromInterval(100,400))
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
-    //}
+    }
   }
 
   createMapItem(){
@@ -263,14 +261,14 @@ class SquareMap extends AllMap {
         let nbrBoucle1 = paterne1.length
 
         for (let i=0;i<nbrBoucle1;i+=2){
-          this.listMapElement.push( new Wall(0, this.obstaclePillar,paterne1[i],paterne1[i+1],32,32));
+          this.listMapElement.push( new Obstacle(0, this.obstaclePillar,paterne1[i],paterne1[i+1],32,32));
         }
         break;
       case 2:
         let nbrBoucle2 = paterne2.length
 
         for (let i=0;i<nbrBoucle2;i+=2){
-          this.listMapElement.push( new Wall(0, this.obstaclePillar,paterne2[i],paterne2[i+1],32,32));
+          this.listMapElement.push( new Obstacle(0, this.obstaclePillar,paterne2[i],paterne2[i+1],32,32));
         }
         break;
     }

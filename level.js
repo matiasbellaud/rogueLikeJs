@@ -26,7 +26,7 @@ export default class Level{
         
         this.listMap = []
         this.now 
-        this.actualPosition = [1,1]
+        this.actualPosition = [0,1]
     };
 
     addMap(char){
