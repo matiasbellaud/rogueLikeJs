@@ -17,6 +17,19 @@ export default class Ennemy{
       this.alive = true
       this.hp = 10
       this.color ="rgb(153, 51, 153)"
+
+             //Projectil parameter
+
+             this.projHeight = 10;
+             this.shootNbr=1;
+             this.cooldown = 1000;
+             this.projectilSpeed = 7;
+             this.range = 40;
+             this.projDmg = 2;
+             this.spectral = false;
+             this.target = false;
+      
+             //--------------------------
     
     };
 
@@ -195,7 +208,7 @@ export default class Ennemy{
     reload(){
       this.canShoot = false
       return new Promise(function(resolve, reject) {
-        setTimeout(() => resolve("done"), 1500);
+        setTimeout(() => resolve("done"), 1000);
       });
     }
   };
@@ -240,13 +253,10 @@ export class Oozeling extends Ennemy{
        //Projectil parameter
 
        this.projHeight = 10;
-       this.shootNbr=1;
-       this.cooldown = 20;
-       this.projectilSpeed = 7;
+       this.projectilSpeed = 5;
        this.range = 40;
        this.projDmg = 2;
-       this.spectral = false;
-       this.target = false;
+
 
        //--------------------------
       
@@ -265,7 +275,7 @@ export class Oozeling extends Ennemy{
       dy /= hyp;
       let xLook = -dx
       let yLook = -dy
-      this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
+      this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Character"))
       this.projectilNbr++
       
     }

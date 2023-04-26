@@ -61,8 +61,8 @@ export default class Projectil{
           this.x -=dx;
           this.y -=dy;
         }else if(this.focus =="Character"){
-          this.x+=Math.sign(this.xDirection)
-          this.y+=Math.sign(this.yDirection)
+          this.x+=this.xDirection
+          this.y+=this.yDirection
          
 
         }else{
@@ -143,7 +143,7 @@ export default class Projectil{
               if (allElement[i] instanceof Character && this.focus == "Character"){
                 console.log(this);
                 console.log(allElement[i]);
-                //allElement[i].takeDamage()
+                allElement[i].takeDamage()
                 
                 
                 console.log(allElement[i].currentHp);
@@ -151,7 +151,7 @@ export default class Projectil{
                   allElement[i].alive=false
                   
                 }
-                //this.alive = false
+                this.alive = false
                 
               }
           }
