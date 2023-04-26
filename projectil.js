@@ -5,55 +5,80 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
 export default class Projectil{
-    constructor(x,y,xDirection,yDirection,height,range,speed,dmg){
+    constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,target){
       this.x = x
       this.y = y
       this.xDirection = xDirection
       this.yDirection = yDirection
+
       this.width = height
       this.height = height
       this.life = range
       this.movement_speed = speed;
       this.dmg = dmg
+      this.spectral = spectral
+      this.target = [target,null]
       this.alive = true
       this.color = "rgb(0, 255, 0)"
+      if (!this.spectral) {
+        this.opacity = 1
+      }else{
+        this.opacity = 0.4
+      }
+      
+      this.frame = 0
     }
   
     draw(){
-      
+      this.frame++
+   
       if (this.alive) {
         ctx.beginPath();
+        ctx.globalAlpha = this.opacity;
         ctx.ellipse(this.x+this.height*0.8, this.y+this.height*0.8, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
         ctx.fillStyle = this.color;
         ctx.strokeStyle = "black";
         ctx.fill()
         ctx.stroke();
       }
-       
+      ctx.globalAlpha = 1;
     }
   
-    move(allWall){
+    move(allElement,ennemyList){
       for (let i = 0; i < this.movement_speed; i++) {
-        if (this.xDirection > 0){
-          this.x ++
-          
-        } else if (this.xDirection < 0){
-          this.x --
-        } else if (this.yDirection > 0) {
-          this.y ++
+        if (!this.target[0] || this.frame < 15 || ennemyList.length == 0) {
+          if (this.xDirection > 0){
+            this.x ++
+            
+          } else if (this.xDirection < 0){
+            this.x --
+          } else if (this.yDirection > 0) {
+            this.y ++
+  
+          } else if (this.yDirection < 0) {
+            this.y --
+  
+          }
+        }else{
 
-        } else if (this.yDirection < 0) {
-          this.y --
+          this.color = "rgb(255,0,0)"
+          let dx = this.x - ennemyList[ennemyList.length-1].x;
+          let dy = this.y - ennemyList[ennemyList.length-1].y;
+          let hyp = Math.sqrt(dx*dx + dy*dy);
+          dx /= hyp;
+          dy /= hyp;
 
+          this.x -=dx;
+          this.y -=dy;
         }
-        this.collision(allWall)
+        
+        this.collision(allElement)
       }
 
       this.life --
       if (this.life<=0) {
         this.alive = false
-      }
-      if (this.alive) {
+      }else{
         this.draw()
       }
       
@@ -93,11 +118,14 @@ export default class Projectil{
         for (let i = 0; i < allElement.length; i++) {
           if (this.collisionDetection(allElement[i])[0]) {
             
-            if (allElement[i] instanceof Wall) {
-              console.log("hi");
-              this.alive = false
-              console.log(this.alive);
+            if (!this.spectral) {
+              if (allElement[i] instanceof Wall) {
+
+                this.alive = false
+  
+              }
             }
+
             
               if (allElement[i] instanceof Ennemy){
 
@@ -116,6 +144,11 @@ export default class Projectil{
           }
         }
       }
+    }
+
+    distance(x,y,target){
+      const res = Math.sqrt((target.x-x)**2+(target.y-y)**2)
+      return res
     }
   }
   

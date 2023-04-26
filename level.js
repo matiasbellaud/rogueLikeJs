@@ -10,7 +10,7 @@ export default class Level{
 
         this.listMap = []
         this.now 
-        this.actualPosition = [1,1]
+        this.actualPosition = [1,2]
     };
 
     addMap(){
