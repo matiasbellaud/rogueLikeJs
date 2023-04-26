@@ -62,6 +62,8 @@ export default class Level{
             }
         }
         this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
+
+        this.now.listMapElement.splice(0, 0, char);
     }
 
     positionOnChangeMap(position){
@@ -106,6 +108,7 @@ export default class Level{
                 allEnnemyDead++
                 }
                 element.move(this.now.listMapElement)
+                element.shoot(this.now.listMapElement,this.now.ennemyList)
             });
             if (allEnnemyDead === this.now.ennemyList.length){
                 this.now.allEnnemyDead = true;
