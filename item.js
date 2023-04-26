@@ -73,8 +73,8 @@ export class Squary extends Item{
 }
 
 export class Autoguide extends Item{
-    constructor(){
-        super()
+    constructor(x,y){
+        super(x,y)
         this.target = true
         this.range = 100
         this.speed = 4

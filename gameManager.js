@@ -1,7 +1,6 @@
 import Character from './character.js';
 import Level from './level.js'
-import { Autoguide, DoubleShot, Gatling, Spectral } from './item.js';
-import  rayCasting  from "./rayCasting.js";
+
 
 
 let canvas = document.querySelector('#char');
@@ -9,22 +8,10 @@ let ctx = canvas.getContext('2d');
 
 const char = new Character();
 
-let frame = 0;
-
-function randomIntFromInterval(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-
-
 const level = new Level();
 
 
 level.addMap(char)
-level.now.createMap()
-
-const item = new Autoguide()
-level.now.listMapElement.push(item)
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);

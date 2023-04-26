@@ -60,12 +60,6 @@ export default class Level{
         this.now.listMapElement.splice(0, 0, char);
     }
 
-    createMap(char){
-        this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
-        console.log(char)
-        this.now.listMapElement.splice(0, 0, char);
-    }
-
     positionOnChangeMap(position){
         if(position === "top"){
             this.actualPosition[0] -= 1
@@ -81,7 +75,6 @@ export default class Level{
     changeMap(char){
         if (char.changeMap === true && this.now.allEnnemyDead === true){
           this.positionOnChangeMap(char.doorPosition)
-          this.createMap(char)
           if (char.doorPosition === "top"){
             char.teleportation(this.now.positionDoorBottom[0],this.now.positionDoorBottom[1]-32);
           }
@@ -106,7 +99,7 @@ export default class Level{
                 allEnnemyDead++
                 }
                 element.move(this.now.listMapElement)
-                // console.log(this.now.listMapElement[0])
+                element.shoot(this.now.listMapElement,this.now.ennemyList)
             });
             if (allEnnemyDead === this.now.ennemyList.length){
                 this.now.allEnnemyDead = true;

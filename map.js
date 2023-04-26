@@ -1,8 +1,8 @@
 import Floor from './floor.js';
 import Wall from './wall.js';
 import Door from './door.js';
-import Ennemy from './ennemy.js';
-import { DoubleShot, Gatling } from './item.js';
+import {Mucusthing,Oozeling} from './ennemy.js';
+import { DoubleShot, Gatling,Autoguide,Spectral} from './item.js';
 import Stair from './stair.js'
 
 function randomIntFromInterval(min, max) { // min and max included 
@@ -159,7 +159,7 @@ class LMap{
       } 
       for (let i = 0; i < this.nbrEnnemy; i++) {
         
-        const ennemy = new Ennemy(randomIntFromInterval(-4,4),randomIntFromInterval(-4,4))
+        const ennemy = new Mucusthing()
         this.ennemyList.push(ennemy)
         this.listMapElement.push(ennemy)
       }
@@ -290,27 +290,32 @@ class SquareMap {
   }
   
   mapDraw(){
+    
     for (let i=0;i<this.listMapFloor.length;i++){
       this.listMapFloor[i].draw();
     };
     for (let i=0;i<this.listMapElement.length;i++){
-        this.listMapElement[i].draw();
+        
+      this.listMapElement[i].draw();
     };
   };
 
   createMapEnnemy(){
-    for (let i = 0; i < this.nbrEnnemy; i++) {  
-      const ennemy = new Ennemy(randomIntFromInterval(-4,4),randomIntFromInterval(-4,4))
+
+    console.log(this);
+    this.nbrEnnemy =1
+    //for (let i = 0; i < this.nbrEnnemy; i++) {  
+      const ennemy = new Oozeling(randomIntFromInterval(100,400))
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
-    }
+    //}
   }
 
   createMapItem(){
     if (this.isItem != 0){
       let x = randomIntFromInterval(this.mapLeftX+64,this.mapRightX-64)
       let y = randomIntFromInterval(this.mapTopY+64,this.mapBottomY-64)
-      const item = new DoubleShot(x,y)
+      const item = new Autoguide(x,y)
       this.listMapElement.push(item)
     }
   }

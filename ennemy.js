@@ -1,4 +1,4 @@
-import rayCasting from "./rayCasting.js";
+import Projectil from "./projectil.js";
 import Wall from "./wall.js";
 
 let canvas = document.querySelector('#char');
@@ -16,6 +16,7 @@ export default class Ennemy{
       this.dy = 0
       this.alive = true
       this.hp = 10
+      this.color ="rgb(153, 51, 153)"
     
     };
 
@@ -26,7 +27,7 @@ export default class Ennemy{
 
         ctx.ellipse(this.x+this.height, this.y+this.width, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
         ctx.strokeStyle = "rgb(102, 0, 102)";
-        ctx.fillStyle = "rgb(153, 51, 153)";
+        ctx.fillStyle = this.color;
         ctx.fill();
         ctx.stroke();
         
@@ -44,6 +45,22 @@ export default class Ennemy{
 
     }
 
+    shoot(allElement){
+    
+    }
+    updateProj(allElement,ennemyList){
+      let index = []
+      if (this.listProj.length > 0){
+        this.listProj.forEach(element => {
+          if (element.alive === true){
+            element.move(allElement,ennemyList)
+          } else {
+            index.push(this.listProj.indexOf(element))
+            this.projectilNbr--
+          }
+        });
+      }
+    }
 
 
     randomIntFromInterval(min, max) { // min and max included 
@@ -53,26 +70,13 @@ export default class Ennemy{
 
 
   
-    move(allElement,ray){
+    move(allElement){
       this.dx = this.x - allElement[0].x;
       this.dy = this.y - allElement[0].y;
       let hyp = Math.sqrt(this.dx*this.dx + this.dy*this.dy);
       this.dx /= hyp;
       this.dy /= hyp;
 
-      if (this.alive) {
-
-        // ray.draw()
-        // ray.move()
-        
-          
-        
-        
-      }
-
-      //if (ray.simulation()) {
-      
-      
 
 
       for (let i = 0; i < this.movement_speed; i++) {
@@ -131,14 +135,12 @@ export default class Ennemy{
             }
           }
         
-      //}
+
       
 
       
       
-      if (this.alive) {
-        this.draw(allElement);
-      } else {
+      if (!this.alive) {
         this.movement_speed = 0
       }
       
@@ -154,13 +156,7 @@ export default class Ennemy{
   
       const leftBox = (this.x+this.width*2 >= element.x && this.x <= element.x+1)
       const rightBox = (this.x <= element.x+element.width && this.x >= element.x+element.width-1)
-      if (xAxis && yAxis) {
-        if (rightBox) {
-          console.log("hi");
-        }
-        
-      }
-  
+
       if (xAxis){
   
         if (upBox) {
@@ -195,4 +191,84 @@ export default class Ennemy{
       //element.isColliding = false
       return [false,"none"]  
     }
+
+    reload(){
+      this.canShoot = false
+      return new Promise(function(resolve, reject) {
+        setTimeout(() => resolve("done"), 1500);
+      });
+    }
   };
+
+export class Mucusthing extends Ennemy{
+
+  constructor(){
+    super()
+      this.x = 200;
+      this.y = 300;
+      this.width = 15;
+      this.height = 15;
+      this.movement_speed = 2;
+
+      this.dx = 0
+      this.dy = 0
+      this.alive = true
+      this.hp = 10
+      this.color ="rgb(153, 255, 153)"
+  }
+}
+
+export class Oozeling extends Ennemy{
+
+  constructor(x){
+    super()
+      this.x = x;
+      this.y = 300;
+      this.width = 15;
+      this.height = 15;
+      this.movement_speed = 2;
+
+      this.dx = 0
+      this.dy = 0
+      this.alive = true
+      this.hp = 10
+      this.color ="rgb(153, 255, 153)"
+      this.listProj  = []
+      this.projectilNbr = 0;
+      this.canShoot = true;
+
+       //Projectil parameter
+
+       this.projHeight = 10;
+       this.shootNbr=1;
+       this.cooldown = 20;
+       this.projectilSpeed = 7;
+       this.range = 40;
+       this.projDmg = 2;
+       this.spectral = false;
+       this.target = false;
+
+       //--------------------------
+      
+  }
+
+  move(allElement){}
+
+  shoot(allElement,ennemyList){
+    if (this.canShoot) {
+      
+      this.reload().then(result => this.canShoot = true)
+      let dx = this.x - allElement[0].x;
+      let dy = this.y - allElement[0].y;
+      let hyp = Math.sqrt(dx*dx + dy*dy);
+      dx /= hyp;
+      dy /= hyp;
+      let xLook = -dx
+      let yLook = -dy
+      this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Character"))
+      this.projectilNbr++
+      
+    }
+    this.updateProj(allElement,ennemyList);
+  }
+}
