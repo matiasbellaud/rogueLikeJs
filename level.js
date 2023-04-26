@@ -58,19 +58,10 @@ export default class Level{
             let listMapLengthI = this.listMap[i].length
             for (let j = 0; j<listMapLengthI;j++){
                 if (this.listMap[i][j] !== 0)
-
                 this.listMap[i][j].createMap(char)
-                
             }
         }
         this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
-
-        this.now.listMapElement.splice(0, 0, char);
-    }
-
-    createMap(char){
-        this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
-        this.now.listMapElement.splice(0, 0, char);
     }
 
     positionOnChangeMap(position){
@@ -86,9 +77,10 @@ export default class Level{
     }
 
     changeMap(char){
+
         if (char.changeMap === true && this.now.allEnnemyDead === true){
           this.positionOnChangeMap(char.doorPosition)
-          this.createMap(char)
+          this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
           if (char.doorPosition === "top"){
             char.teleportation(this.now.positionDoorBottom[0],this.now.positionDoorBottom[1]-32);
           }
@@ -101,6 +93,7 @@ export default class Level{
           if (char.doorPosition === "right"){
             char.teleportation(this.now.positionDoorLeft[0]+64,this.now.positionDoorLeft[1]);
           }
+          this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
           char.changeMap = false
         }
       }
@@ -113,7 +106,6 @@ export default class Level{
                 allEnnemyDead++
                 }
                 element.move(this.now.listMapElement)
-                // console.log(this.now.listMapElement[0])
             });
             if (allEnnemyDead === this.now.ennemyList.length){
                 this.now.allEnnemyDead = true;

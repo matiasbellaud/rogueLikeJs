@@ -138,8 +138,6 @@ class AllMap{
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
     }
-
-    console.log(this.ennemyList)
   }
 
   createMapItem(){
@@ -151,7 +149,8 @@ class AllMap{
     }
   }
 
-  createMap(){
+  createMap(char){
+    this.listMapElement.push(char)
     this.createMapFloor();
     this.createMapWalls();
     this.createMapDoor(this.doorLeft, this.doorRight);
