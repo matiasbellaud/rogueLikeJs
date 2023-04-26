@@ -21,7 +21,6 @@ const level = new Level();
 
 
 level.addMap(char)
-level.now.createMap()
 
 const item = new Autoguide()
 level.now.listMapElement.push(item)
