@@ -18,6 +18,7 @@ function gameLoop() {
 
   level.now.mapDraw();
   
+  
   if (char.currentHp > 0){
     char.reload()
     char.move( level.now.listMapElement);
