@@ -49,10 +49,7 @@ export default class Character {
     }
 
     draw(){
-
-
       this.hp.draw();
-      
     }
 
     teleportation(x,y){

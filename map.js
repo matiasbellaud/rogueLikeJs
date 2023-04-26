@@ -288,7 +288,7 @@ class SquareMap {
     this.createMapEnnemy();
     this.createMapItem();
   }
-
+  
   mapDraw(){
     for (let i=0;i<this.listMapFloor.length;i++){
       this.listMapFloor[i].draw();

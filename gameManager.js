@@ -19,23 +19,9 @@ function randomIntFromInterval(min, max) {
 
 const level = new Level();
 
-level.addMap()
-level.now.listMapElement.push(char)
+
+level.addMap(char)
 level.now.createMap()
-
-
-let ennemyList = []
-let ray
-
-for (let i = 0; i < 1; i++) {
-
-  const ennemy = new Ennemy(char.x,char.y)
-  ray = new rayCasting(0,level.now.listMapElement[0],ennemy,level.now.listMapElement)
-  console.log(ennemy);
-  ennemyList.push(ennemy)
-  level.now.listMapElement.push(ennemy)
-}
-
 
 const item = new Autoguide()
 level.now.listMapElement.push(item)
@@ -50,7 +36,7 @@ function gameLoop() {
     char.move( level.now.listMapElement);
     char.collisionUpdate(level.now.listMapElement)
     char.draw();
-    char.shoot(level.now.listMapElement,ennemyList);
+    char.shoot(level.now.listMapElement,level.now.ennemyList);
     
   };
   

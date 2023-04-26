@@ -18,10 +18,10 @@ export default class Level{
         
         this.listMap = []
         this.now 
-        this.actualPosition = [1,2]
+        this.actualPosition = [1,1]
     };
 
-    addMap(){
+    addMap(char){
         this.listMap=[]
         let tempList = []
         for (let i = 0; i<this.nowPaterne.length;i++){
@@ -50,14 +50,20 @@ export default class Level{
             let listMapLength = this.listMap[i].length
             for (let j = 0; j<listMapLength;j++){
                 if (this.listMap[i][j] !== 0)
-                this.listMap[i][j].createMap()
+
+                this.listMap[i][j].createMap(char)
+                
             }
         }
         this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
+
+        this.now.listMapElement.splice(0, 0, char);
     }
 
-    createMap(){
+    createMap(char){
         this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
+        console.log(char)
+        this.now.listMapElement.splice(0, 0, char);
     }
 
     positionOnChangeMap(position){
@@ -75,7 +81,7 @@ export default class Level{
     changeMap(char){
         if (char.changeMap === true && this.now.allEnnemyDead === true){
           this.positionOnChangeMap(char.doorPosition)
-          this.createMap()
+          this.createMap(char)
           if (char.doorPosition === "top"){
             char.teleportation(this.now.positionDoorBottom[0],this.now.positionDoorBottom[1]-32);
           }
@@ -100,6 +106,7 @@ export default class Level{
                 allEnnemyDead++
                 }
                 element.move(this.now.listMapElement)
+                // console.log(this.now.listMapElement[0])
             });
             if (allEnnemyDead === this.now.ennemyList.length){
                 this.now.allEnnemyDead = true;
@@ -111,7 +118,7 @@ export default class Level{
     changeLevel(char){
         if (char.changeLevel){
             this.nowPaterne = this.paterne2;
-            this.addMap()
+            this.addMap(char)
             char.changeLevel = false
         } 
     }
