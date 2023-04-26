@@ -1,4 +1,3 @@
-
 import Character from './character.js';
 import Level from './level.js'
 import { Autoguide, DoubleShot, Gatling, Spectral } from './item.js';
@@ -55,38 +54,13 @@ function gameLoop() {
     
   };
   
-  ennemyList.forEach(element => {
-    if (element.alive) {
-      element.move(level.now.listMapElement,ray)
-    }else{
-      let index = ennemyList.indexOf(element)
-      ennemyList.splice(index,1)
-    }
-    
-
-  });
-
-  
-
-  if (char.changeMap === true){
-    level.changeRoom(char.doorPosition)
-    level.createMap()
-    if (char.doorPosition === "top"){
-      char.teleportation(level.now.positionDoorBottom[0],level.now.positionDoorBottom[1]-32);
-    }
-    if (char.doorPosition === "left"){
-      char.teleportation(level.now.positionDoorRight[0]-32,level.now.positionDoorRight[1]);
-    }
-    if (char.doorPosition === "bottom"){
-      char.teleportation(level.now.positionDoorTop[0],level.now.positionDoorTop[1]+64);
-    }
-    if (char.doorPosition === "right"){
-      char.teleportation(level.now.positionDoorLeft[0]+64,level.now.positionDoorLeft[1]);
-    }
-    char.changeMap = false
-  }
-
+  level.ennemyAction();
+  level.drawStair();
+  level.changeMap(char);
+  level.changeLevel(char);
   window.requestAnimationFrame(gameLoop);
 };
+
+
 
 gameLoop();

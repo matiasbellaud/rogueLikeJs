@@ -131,8 +131,6 @@ export default class Projectil{
 
                 allElement[i].hp -= this.dmg
                 
-                
-                console.log(allElement[i].hp);
                 if (allElement[i].hp<=0) {
                   allElement[i].alive=false
                   allElement.splice(i, 1)
