@@ -7,6 +7,7 @@ let ctx = canvas.getContext('2d');
 
 export default class Projectil{
     constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,target,focus){
+
       this.x = x
       this.y = y
       this.xDirection = xDirection
@@ -59,7 +60,7 @@ export default class Projectil{
 
           this.x -=dx;
           this.y -=dy;
-        }else if(this.focus ="Character"){
+        }else if(this.focus =="Character"){
           this.x+=Math.sign(this.xDirection)
           this.y+=Math.sign(this.yDirection)
          
@@ -129,7 +130,6 @@ export default class Projectil{
                 allElement[i].hp -= this.dmg
                 
                 
-                console.log(allElement[i].hp);
                 if (allElement[i].hp<=0) {
                   allElement[i].alive=false
                   const index =ennemyList.indexOf(allElement[i])
@@ -141,8 +141,9 @@ export default class Projectil{
                 
               }
               if (allElement[i] instanceof Character && this.focus == "Character"){
+                console.log(this);
                 console.log(allElement[i]);
-                allElement[i].takeDamage()
+                //allElement[i].takeDamage()
                 
                 
                 console.log(allElement[i].currentHp);
@@ -150,7 +151,7 @@ export default class Projectil{
                   allElement[i].alive=false
                   
                 }
-                this.alive = false
+                //this.alive = false
                 
               }
           }

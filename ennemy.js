@@ -265,7 +265,7 @@ export class Oozeling extends Ennemy{
       dy /= hyp;
       let xLook = -dx
       let yLook = -dy
-      this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Character"))
+      this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
       this.projectilNbr++
       
     }
