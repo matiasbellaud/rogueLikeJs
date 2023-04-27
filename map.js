@@ -1,7 +1,7 @@
 import Floor from './floor.js';
 import Wall, { Obstacle } from './wall.js';
 import Door from './door.js';
-import {Mucusthing,Oozeling} from './ennemy.js';
+import {Cthonicbeast, Mucusthing,Necrodrake,Oozeling, Shadowraith} from './ennemy.js';
 import { DoubleShot, Gatling,Autoguide,Spectral} from './item.js';
 import Stair from './stair.js'
 
@@ -134,11 +134,27 @@ class AllMap{
 
   createMapEnnemy(){
     this.nbrEnnemy =1
-    for (let i = 0; i < this.nbrEnnemy; i++) {  
-      const ennemy = new Oozeling(randomIntFromInterval(100,400))
+    // for (let i = 0; i < this.nbrEnnemy; i++) { 
+    //   const index = randomIntFromInterval(0,2)
+    //   let ennemy
+    //   switch (index) {
+    //     case 0:
+    //       ennemy = new Mucusthing(randomIntFromInterval(100,400))
+    //       break;
+    //     case 1:
+    //       ennemy = new Oozeling(randomIntFromInterval(100,400))
+    //       break;
+    //     case 2:
+    //       ennemy = new Shadowraith(randomIntFromInterval(100,400))
+    //       break;
+      
+    //     default:
+    //       break;
+    //   }
+    const ennemy = new Necrodrake(randomIntFromInterval(100,400))
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
-    }
+    //}
   }
 
   createMapItem(){

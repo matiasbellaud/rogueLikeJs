@@ -2,8 +2,8 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d');
 
 export default class Hp {
-    constructor(maxHp){
-      this.currentHp = 5
+    constructor(maxHp,currentHp){
+      this.currentHp = currentHp
       this.maxHp = maxHp
     }
   

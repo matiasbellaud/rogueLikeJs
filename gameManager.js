@@ -22,7 +22,7 @@ function gameLoop() {
 
     level.now.mapDraw();
     
-    console.log(char.alive);
+
     if (char.alive){
       char.reload()
       char.move( level.now.listMapElement);

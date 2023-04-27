@@ -23,8 +23,8 @@ export default class Character {
         this.height = 25
         this.movement_speed = 4;
         this.maxHp = 5
-        this.currentHp = 5
-        this.hp = new Hp(this.maxHp);
+        this.currentHp = this.maxHp
+        this.hp = new Hp(this.maxHp,this.currentHp);
         this.alive = true
         this.invulnerability = 100;
         this.canTakeDmg = true;
@@ -42,7 +42,7 @@ export default class Character {
         this.cooldown = 20;
         this.projectilSpeed = 7;
         this.range = 40;
-        this.projDmg = 2;
+        this.projDmg = 5;
         this.spectral = false;
         this.target = false;
 
@@ -54,7 +54,7 @@ export default class Character {
     }
 
     draw(){
-      this.hp.draw();
+      this.hp.draw(this.currentHp);
     }
 
     teleportation(x,y){
@@ -122,7 +122,7 @@ export default class Character {
       let positionX = (this.x+this.width/2)-widthChar/2
       let positionY = (this.y+this.height/2)-heightChar/2
 
-      let  char = new Image(100, 200);
+      let  char = new Image();
       char.src = 'assets/character/character.png';
 
       if (isMove === true){
