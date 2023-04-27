@@ -31,6 +31,20 @@ export default class Ennemy{
              this.target = false;
       
              //--------------------------
+      this.color ="rgb(153, 51, 153)"
+
+             //Projectil parameter
+
+             this.projHeight = 10;
+             this.shootNbr=1;
+             this.cooldown = 1000;
+             this.projectilSpeed = 7;
+             this.range = 40;
+             this.projDmg = 2;
+             this.spectral = false;
+             this.target = false;
+      
+             //--------------------------
     
     };
 
@@ -41,6 +55,7 @@ export default class Ennemy{
 
         ctx.ellipse(this.x+this.height/2, this.y+this.width/2, this.width/2,this.height/2, Math.PI / 4, 0, 2 * Math.PI);
         ctx.strokeStyle = "rgb(102, 0, 102)";
+        ctx.fillStyle = this.color;
         ctx.fillStyle = this.color;
         ctx.fill();
         //tx.stroke();
@@ -83,11 +98,13 @@ export default class Ennemy{
 
   
     move(allElement){
+    move(allElement){
       this.dx = this.x - allElement[0].x;
       this.dy = this.y - allElement[0].y;
       let hyp = Math.sqrt(this.dx*this.dx + this.dy*this.dy);
       this.dx /= hyp;
       this.dy /= hyp;
+
 
 
 
@@ -221,6 +238,7 @@ export default class Ennemy{
   
       const leftBox = (this.x+this.width >= element.x && this.x <= element.x+1)
       const rightBox = (this.x <= element.x+element.width && this.x >= element.x+element.width-1)
+
 
       if (xAxis){
   
