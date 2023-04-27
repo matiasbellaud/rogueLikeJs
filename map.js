@@ -162,13 +162,9 @@ class AllMap{
       let x = randomIntFromInterval(this.mapLeftX+64,this.mapRightX-64)
       let y = randomIntFromInterval(this.mapTopY+64,this.mapBottomY-64)
       const item = new Autoguide(x,y)
-      const item = new Autoguide(x,y)
       this.listMapElement.push(item)
     }
   }
-
-  createMap(char){
-    this.listMapElement.push(char)
   createMap(char){
     this.listMapElement.push(char)
     this.createMapFloor();

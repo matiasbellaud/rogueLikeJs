@@ -94,10 +94,6 @@ export default class Ennemy{
       return Math.floor(Math.random() * (max - min + 1) + min)
     }
 
-
-
-  
-    move(allElement){
     move(allElement){
       this.dx = this.x - allElement[0].x;
       this.dy = this.y - allElement[0].y;
