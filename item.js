@@ -92,15 +92,30 @@ export class Autoguide extends Item{
 }
 
 export class Spectral extends Item{
-    constructor(){
-        super()
+    constructor(x,y){
+        super(x,y)
         this.spectral = true
+
+    }
+    use(char){
+        char.spectral = this.spectral     
+        this.active = false
+    }
+}
+
+export class healPotion extends Item{
+    constructor(x,y){
+        super(x,y)
 
     }
 
     use(char){
-
-        char.spectral = this.spectral     
-        this.active = false
+        console.log(char.currentHp);
+        if (char.currentHp < char.maxHp) {
+            char.currentHp++
+            char.hp.currentHp++
+            this.active = false
+        }
+        console.log(char.currentHp);
     }
 }

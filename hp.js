@@ -7,11 +7,6 @@ export default class Hp {
       this.maxHp = maxHp
     }
   
-    takeDamage(){
-      if (this.currentHp > 0){
-        this.currentHp--
-      } 
-    }
   
     draw(){
       let fullHeartImage = new Image(100, 200);

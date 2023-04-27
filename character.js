@@ -249,8 +249,8 @@ export default class Character {
         this.invulnerabilityTime().then(result => this.canTakeDmg = true)
         this.hp.currentHp--
         this.currentHp--
-        
       }
+
       if (this.currentHp<=0) {
         this.alive = false
         var death = new Audio("/assets/sound/death.mp3")
@@ -295,8 +295,11 @@ export default class Character {
         var dmg = new Audio("/assets/sound/powerUp.mp3")
         dmg.play()
         cell.use(this)
-        const index =  listMapElement.indexOf(cell);
-        listMapElement.splice(index, 1);
+        if (!cell.active) {
+          const index =  listMapElement.indexOf(cell);
+          listMapElement.splice(index, 1);
+        }
+       
 
       } else if (cell instanceof Stair){
         this.changeLevel = true;
