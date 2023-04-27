@@ -6,7 +6,7 @@ export default class Level{
         this.numPaterne = 1
         this.paterne1 = 
         [[[0,0,0,0,0,0,0,0],[1,0,0,1,0,2,1,1]  ,[0,0,0,0,0,0,0,0]],
-        [[2,0,0,1,1,0,0,1],["B",1,1,1,1,0,3,1],["I",0,1,0,0,1,2,0]],
+        [[2,0,0,1,1,0,0,0],["B",1,1,1,1,0,3,1],["I",0,1,0,0,1,2,0]],
         [[1,1,0,1,0,0,5,0],[1,1,0,0,0,1,0,0]  ,[0,0,0,0,0,0,0,0]],
         [[1,1,0,0,0,0,0,0],[1,1,0,0,0,1,0,0]  ,[0,0,0,0,0,0,0,0]]];
 
@@ -20,7 +20,7 @@ export default class Level{
         [[["I",0,0,1,1,0,1,1],[1,0,1,1,0,2,1,1]  ,[0,0,0,0,0,0,0,0]],
         [[0,0,0,0,0,0,0,0],[1,1,0,1,0,0,3,1],["B",0,0,1,0,1,2,1]],
         [[1,0,0,1,0,0,5,0],[1,1,0,1,0,1,0,0]  ,[1,1,0,1,0,2,0,1]],
-        [["I",1,0,0,1,0,0,0],[1,1,1,0,1,1,0,0]  ,[2,1,1,0,0,0,1,0]]];
+        [["I",1,0,0,1,0,0,0],[1,1,1,0,1,1,0,0]  ,[2,1,1,0,0,0,0,0]]];
 
         this.nowPaterne = this.paterne1
         
@@ -58,18 +58,11 @@ export default class Level{
             let listMapLengthI = this.listMap[i].length
             for (let j = 0; j<listMapLengthI;j++){
                 if (this.listMap[i][j] !== 0)
-
                 this.listMap[i][j].createMap(char)
-                
             }
         }
         this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
 
-        this.now.listMapElement.splice(0, 0, char);
-    }
-
-    createMap(char){
-        this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
         this.now.listMapElement.splice(0, 0, char);
     }
 
@@ -86,9 +79,10 @@ export default class Level{
     }
 
     changeMap(char){
+
         if (char.changeMap === true && this.now.allEnnemyDead === true){
           this.positionOnChangeMap(char.doorPosition)
-          this.createMap(char)
+          this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
           if (char.doorPosition === "top"){
             char.teleportation(this.now.positionDoorBottom[0],this.now.positionDoorBottom[1]-32);
           }
@@ -101,6 +95,7 @@ export default class Level{
           if (char.doorPosition === "right"){
             char.teleportation(this.now.positionDoorLeft[0]+64,this.now.positionDoorLeft[1]);
           }
+          this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
           char.changeMap = false
         }
       }
@@ -113,7 +108,7 @@ export default class Level{
                 allEnnemyDead++
                 }
                 element.move(this.now.listMapElement)
-                // console.log(this.now.listMapElement[0])
+                element.shoot(this.now.listMapElement,this.now.ennemyList)
             });
             if (allEnnemyDead === this.now.ennemyList.length){
                 this.now.allEnnemyDead = true;

@@ -1,15 +1,9 @@
-#box{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2em;
-    height: 2em;
-    background-color: rgb(194, 23, 194);
-    clip-path: polygon(20% 50%, 0 0, 100% 50%, 0% 100%);
-    transition-property: top ;
-    transition-duration: 0.1s;
+body {
+    background-color: black;
 }
 
 canvas {
     border: 1px solid black;
-  }
+    margin-top: 5%;
+    margin-left: 25%;
+}

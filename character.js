@@ -21,6 +21,9 @@ export default class Character {
         this.movement_speed = 4;
         this.maxHp = 5
         this.currentHp = 5
+        this.hp = new Hp(this.maxHp);
+        this.invulnerability = 100;
+        this.canTakeDmg = true;
         this.listProj  = []
         this.projectilNbr = 0;
         this.canShoot = true;
@@ -31,7 +34,7 @@ export default class Character {
         //Projectil parameter
 
         this.projHeight = 10;
-        this.shootNbr=5;
+        this.shootNbr=1;
         this.cooldown = 20;
         this.projectilSpeed = 7;
         this.range = 40;
@@ -41,9 +44,7 @@ export default class Character {
 
         //--------------------------
 
-        this.hp = new Hp(this.maxHp);
-        this.invulnerability = 100;
-        this.canTakeDmg = true;
+
         this.stateSprite = 0;
         this.direction = "S"
     }
@@ -235,6 +236,15 @@ export default class Character {
       return [false,"none"]  
       
     }
+
+    takeDamage(){
+      if ( this.canTakeDmg) {
+        this.invulnerabilityTime().then(result => this.canTakeDmg = true)
+        this.hp.currentHp--
+        this.currentHp--
+      }
+
+    }
   
     collisionReaction(cell,side,listMapElement){
 
@@ -261,11 +271,9 @@ export default class Character {
         this.doorPosition = cell.doorPosition;
 
       }else if (cell instanceof Ennemy){
-        if (this.canTakeDmg) {
-          this.invulnerabilityTime().then(result => this.canTakeDmg = true)
-          this.hp.currentHp--
-          this.currentHp--
-        }
+       
+          this.takeDamage();
+      
         
       }else if (cell instanceof Item){
         cell.use(this)
@@ -312,9 +320,9 @@ export default class Character {
           if (this.canShoot){
            if(this.projectilNbr===1){
             if (xLook=== 0){
-              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target))
+              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
             }else{
-              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target))
+              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
             }
             this.projectilNbr++
            }else{
@@ -322,9 +330,9 @@ export default class Character {
 
                 if (xLook=== 0){
                   
-                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target))
+                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
                 }else{
-                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target))
+                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
                 }
                 this.projectilNbr++
               }

@@ -1,11 +1,13 @@
 import Wall from "./wall.js";
 import Ennemy from "./ennemy.js";
+import Character from "./character.js";
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
 export default class Projectil{
-    constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,target){
+    constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,target,focus){
+
       this.x = x
       this.y = y
       this.xDirection = xDirection
@@ -27,6 +29,7 @@ export default class Projectil{
       }
       
       this.frame = 0
+      this.focus= focus
     }
   
     draw(){
@@ -46,20 +49,7 @@ export default class Projectil{
   
     move(allElement,ennemyList){
       for (let i = 0; i < this.movement_speed; i++) {
-        if (!this.target[0] || this.frame < 15 || ennemyList.length == 0) {
-          if (this.xDirection > 0){
-            this.x ++
-            
-          } else if (this.xDirection < 0){
-            this.x --
-          } else if (this.yDirection > 0) {
-            this.y ++
-  
-          } else if (this.yDirection < 0) {
-            this.y --
-  
-          }
-        }else{
+        if (this.target[0] && this.frame > 15 && ennemyList.length >0) {
 
           this.color = "rgb(255,0,0)"
           let dx = this.x - ennemyList[ennemyList.length-1].x;
@@ -70,9 +60,17 @@ export default class Projectil{
 
           this.x -=dx;
           this.y -=dy;
+        }else if(this.focus =="Character"){
+          this.x+=this.xDirection
+          this.y+=this.yDirection
+         
+
+        }else{
+          this.x+=Math.sign(this.xDirection)
+          this.y+=Math.sign(this.yDirection)
         }
         
-        this.collision(allElement)
+        this.collision(allElement,ennemyList)
       }
 
       this.life --
@@ -113,7 +111,7 @@ export default class Projectil{
         return [false,"none"]  
     }
 
-    collision(allElement){
+    collision(allElement,ennemyList){
       if (this.alive){
         for (let i = 0; i < allElement.length; i++) {
           if (this.collisionDetection(allElement[i])[0]) {
@@ -127,15 +125,28 @@ export default class Projectil{
             }
 
             
-              if (allElement[i] instanceof Ennemy){
+              if (allElement[i] instanceof Ennemy && this.focus == "Ennemy"){
 
                 allElement[i].hp -= this.dmg
                 
+                
                 if (allElement[i].hp<=0) {
                   allElement[i].alive=false
+                  const index =ennemyList.indexOf(allElement[i])
+                  ennemyList.splice(index,1)
                   allElement.splice(i, 1)
                 }
 
+                this.alive = false
+                
+              }
+              if (allElement[i] instanceof Character && this.focus == "Character"){
+                allElement[i].takeDamage()
+                
+                if (allElement[i].hp<=0) {
+                  allElement[i].alive=false
+                  
+                }
                 this.alive = false
                 
               }
@@ -149,4 +160,4 @@ export default class Projectil{
       return res
     }
   }
-  
+
