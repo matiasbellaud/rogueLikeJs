@@ -288,11 +288,14 @@ export default class Character {
       
         
       }else if (cell instanceof Item){
-        this.listItem.push(cell)
-        var dmg = new Audio("/assets/sound/powerUp.mp3")
-        dmg.play()
+       
         cell.use(this)
         if (!cell.active) {
+          // var dmg = new Audio("/assets/sound/powerUp.mp3")
+          // dmg.play()
+          if (!cell.consumable){
+            this.listItem.push(cell)
+          }
           const index =  listMapElement.indexOf(cell);
           listMapElement.splice(index, 1);
         }

@@ -163,7 +163,6 @@ class AllMap{
       let y = randomIntFromInterval(this.mapTopY+64,this.mapBottomY-64)
       const item = new healPotion(x,y)
       this.listMapElement.push(item)
-      console.log(item);
     }
   }
   createMap(char){

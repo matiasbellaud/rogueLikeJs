@@ -9,17 +9,15 @@ export default class Item{
         this.height = 30
         this.active = true
         this.img = 'assets/item/Autoguide.png'
-
+        this.consumable = false
     };
   
     draw(x,y){
         let  item = new Image();
         item.src = this.img;
-        if (this.active) {
-            
+        if (this.active) {  
             ctx.drawImage(item,this.x,this.y,this.width,this.height)
         } else {
-            console.log("test")
             ctx.drawImage(item,x,y,this.width,this.height)
         }
         
@@ -87,7 +85,6 @@ export class Autoguide extends Item{
     }
 
     use(char){
-
         char.target= this.target;
         char.projectilSpeed += this.speed;
         char.range += this.range;        
@@ -110,16 +107,14 @@ export class Spectral extends Item{
 export class healPotion extends Item{
     constructor(x,y){
         super(x,y)
-
+        this.consumable = true
     }
 
     use(char){
-        console.log(char.currentHp);
         if (char.currentHp < char.maxHp) {
             char.currentHp++
             char.hp.currentHp++
             this.active = false
         }
-        console.log(char.currentHp);
     }
 }
