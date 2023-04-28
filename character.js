@@ -11,10 +11,6 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 let frame = 0;
 
-
-
-
-
 export default class Character {
     constructor(){
         this.x = 700
@@ -34,6 +30,7 @@ export default class Character {
         this.changeMap = false;
         this.changeLevel = false;
         this.doorPosition = top
+        this.listItem = []
 
         //Projectil parameter
 
@@ -47,7 +44,6 @@ export default class Character {
         this.target = false;
 
         //--------------------------
-
 
         this.stateSprite = 0;
         this.direction = "S"
@@ -292,6 +288,7 @@ export default class Character {
       
         
       }else if (cell instanceof Item){
+        this.listItem.push(cell)
         var dmg = new Audio("/assets/sound/powerUp.mp3")
         dmg.play()
         cell.use(this)
@@ -399,6 +396,14 @@ export default class Character {
       ctx.lineTo(char.x+xLook+char.width/2,char.y+yLook+char.height/2)
       ctx.stroke()
       ctx.closePath();
+    }
+
+    drawListItem(){
+      let x =850
+      for(let i=0;i<this.listItem.length;i++){
+        this.listItem[i].draw(x,0)
+        x-=30
+      }
     }
   }
 

@@ -117,7 +117,7 @@ export default class Level{
         }
     }
 
-    changeLevel(char){
+    changeLevel(char,menu){
         if (char.changeLevel){
             let numPaterneTemp =  Math.floor(Math.random() * (this.nbrPaterne-1)+1);
             if (this.numPaterne === numPaterneTemp){
@@ -139,6 +139,8 @@ export default class Level{
             this.actualPosition = [1,1]
             this.addMap(char)
             char.changeLevel = false
+            console.log(menu.isChangeLevel)
+            menu.isChangeLevel = true
         } 
     }
 

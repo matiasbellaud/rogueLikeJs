@@ -12,11 +12,15 @@ export default class Item{
 
     };
   
-    draw(){
+    draw(x,y){
+        let  item = new Image();
+        item.src = this.img;
         if (this.active) {
-            let  item = new Image();
-            item.src = this.img;
+            
             ctx.drawImage(item,this.x,this.y,this.width,this.height)
+        } else {
+            console.log("test")
+            ctx.drawImage(item,x,y,this.width,this.height)
         }
         
     }

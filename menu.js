@@ -12,10 +12,13 @@ export default class menu {
         this.isPaused = false;
         this.frame = 0
         this.start = true
+        this.isChangeLevel = false
     }
 
-    isStart(){
-        this.drawMenu()
+    startMenu(){
+        let text = "Presse Enter to play"
+        this.buttonStart(true,text,"white","30",this.x-50, this.y+100)
+
         this.reload()
         if (this.canClick){
             if (keyPresses.Enter) {
@@ -25,7 +28,7 @@ export default class menu {
         } 
     }
 
-    isPause(){
+    pauseMenu(){
         this.reload()
         if (this.canClick){
             if (keyPresses.Escape) {
@@ -47,12 +50,27 @@ export default class menu {
         } 
     }
 
-    isDeath(){
-        this.drawDeath()
+    deathMenu(){
+        this.deathImage()
         this.reload()
         if (this.canClick){
             if (keyPresses.Enter) {
                 this.start = true
+                this.canClick = false
+            }  
+        } 
+    }
+
+    changeLevelMenu(){
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,900,600)
+        let text = "You change level, be careful little one ..."
+        this.buttonChangeLevel(text,"white",20,this.x-150,500)
+
+        this.reload()
+        if (this.canClick){
+            if (keyPresses.Enter) {
+                this.isChangeLevel = false
                 this.canClick = false
             }  
         } 
@@ -86,6 +104,10 @@ export default class menu {
         this.drawText("Presse enter to restart","red",this.x,500,"15")
     }
 
+    buttonChangeLevel(text,color,height,x,y){
+        this.drawText(text,color,x,y,height)
+    }
+
     drawText(text, color,x,y,height){
         let font = "px monospace"
         font = height+font
@@ -94,19 +116,11 @@ export default class menu {
         ctx.fillText(text, x, y);
     }
 
-    drawMenu(){
-        let text = "Presse Enter to play"
-        this.buttonStart(true,text,"white","30",this.x-50, this.y+100)
-    }
 
     drawPause(){
         let text = "presse Echap to play"
         this.buttonStart(false,text,"black","15",this.x+20,this.y+70)
         this.buttonMenu()
-    }
-
-    drawDeath(){
-        this.deathImage()
     }
 
     reload(){
@@ -118,9 +132,7 @@ export default class menu {
           this.canClick = true;
           this.frame = 0;
         };
-      }
-
-    
+    } 
 }
 
 let keyPresses = [];

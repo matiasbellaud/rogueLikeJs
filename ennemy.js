@@ -101,9 +101,6 @@ export default class Ennemy{
       this.dx /= hyp;
       this.dy /= hyp;
 
-
-
-
       for (let i = 0; i < this.movement_speed; i++) {
         // if (this.distance(this.x,this.y+0.5,allElement[0])<=this.distance(this.x,this.y-0.5,allElement[0])){
         //   this.y++
