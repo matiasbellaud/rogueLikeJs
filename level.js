@@ -1,4 +1,5 @@
 import {NormalMap, LMap, ItemMap,BossMap} from './map.js'
+import Menu from './menu.js'
 
 export default class Level{
     constructor(){
@@ -17,16 +18,17 @@ export default class Level{
         [[1,1,0,0,1,0,0,0],[1,1,1,0,0,1,0,0]  ,[0,0,0,0,0,0,0,0]]];
 
         this.paterne3 = 
-        [[["I",0,0,1,1,0,1,1],[1,0,1,1,0,2,1,1]  ,[0,0,0,0,0,0,0,0]],
+        [[["I",0,0,1,0,0,1,1],[1,0,1,1,0,2,1,1]  ,[0,0,0,0,0,0,0,0]],
         [[0,0,0,0,0,0,0,0],[1,1,0,1,0,0,3,1],["B",0,0,1,0,1,2,1]],
         [[1,0,0,1,0,0,5,0],[1,1,0,1,0,1,0,0]  ,[1,1,0,1,0,2,0,1]],
-        [["I",1,0,0,1,0,0,0],[1,1,1,0,1,1,0,0]  ,[2,1,1,0,0,0,0,0]]];
+        [["I",1,0,0,0,0,0,0],[1,1,1,0,1,1,0,0]  ,[2,1,1,0,0,0,0,0]]];
 
         this.nowPaterne = this.paterne1
         
         this.listMap = []
         this.now 
         this.actualPosition = [0,1]
+        this.listItemLevel = []
     };
 
     addMap(char){
@@ -58,11 +60,16 @@ export default class Level{
             let listMapLengthI = this.listMap[i].length
             for (let j = 0; j<listMapLengthI;j++){
                 if (this.listMap[i][j] !== 0)
-                this.listMap[i][j].createMap(char)
+                this.listMap[i][j].createMap(char,this.listItemLevel)
+                if (this.listMap[i][j] != 0){
+                    if(this.listMap[i][j].itemMap[0] != 0){
+                        this.listItemLevel.push(this.listMap[i][j].itemMap[0])
+                    }
+                }
+                
             }
         }
         this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
-
         this.now.listMapElement.splice(0, 0, char);
     }
 
@@ -79,7 +86,6 @@ export default class Level{
     }
 
     changeMap(char){
-
         if (char.changeMap === true && this.now.allEnnemyDead === true){
           this.positionOnChangeMap(char.doorPosition)
           this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
@@ -119,12 +125,12 @@ export default class Level{
 
     changeLevel(char,menu){
         if (char.changeLevel){
+            
             let numPaterneTemp =  Math.floor(Math.random() * (this.nbrPaterne-1)+1);
             if (this.numPaterne === numPaterneTemp){
-                return this.changeLevel(char)
+                return this.changeLevel(char,menu)
             }
             this.numPaterne = numPaterneTemp
-            console.log(this.numPaterne)
             switch (this.numPaterne) {
                 case 1 : 
                     this.nowPaterne = this.paterne1;

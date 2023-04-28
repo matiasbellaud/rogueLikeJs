@@ -2,7 +2,7 @@ import Floor from './floor.js';
 import Wall, { Obstacle } from './wall.js';
 import Door from './door.js';
 import {Cthonicbeast, Mucusthing,Necrodrake,Oozeling, Shadowraith} from './ennemy.js';
-import { DoubleShot, Gatling,Autoguide,Spectral, healPotion} from './item.js';
+import { DoubleShot, Gatling, Squary,Autoguide,Spectral, healPotion} from './item.js';
 import Stair from './stair.js'
 
 function randomIntFromInterval(min, max) { // min and max included 
@@ -43,6 +43,7 @@ class AllMap{
     this.allEnnemyDead = false
 
     this.isItem = isItem
+    this.itemMap = [0]
   };
 
   createMapFloor(){ 
@@ -133,46 +134,74 @@ class AllMap{
   }
 
   createMapEnnemy(){
-    this.nbrEnnemy =1
-    // for (let i = 0; i < this.nbrEnnemy; i++) { 
-    //   const index = randomIntFromInterval(0,2)
-    //   let ennemy
-    //   switch (index) {
-    //     case 0:
-    //       ennemy = new Mucusthing(randomIntFromInterval(100,400))
-    //       break;
-    //     case 1:
-    //       ennemy = new Oozeling(randomIntFromInterval(100,400))
-    //       break;
-    //     case 2:
-    //       ennemy = new Shadowraith(randomIntFromInterval(100,400))
-    //       break;
-      
-    //     default:
-    //       break;
-    //   }
-    const ennemy = new Necrodrake(randomIntFromInterval(100,400))
+    for (let i = 0; i < this.nbrEnnemy; i++) { 
+      const index = randomIntFromInterval(0,3)
+      let ennemy
+      switch (index) {
+        case 0:
+          ennemy = new Mucusthing(randomIntFromInterval(100,400))
+          break;
+        case 1:
+          ennemy = new Oozeling(randomIntFromInterval(100,400))
+          break;
+        case 2:
+          ennemy = new Shadowraith(randomIntFromInterval(100,400))
+          break;
+        case 3:
+          ennemy = new Cthonicbeast(randomIntFromInterval(100,400))
+          break;
+        default:
+          break;
+      }
+    // const ennemy = new Necrodrake(randomIntFromInterval(100,400))
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
-    //}
+    }
   }
 
-  createMapItem(){
+  createMapItem(listItemLevel){
     if (this.isItem != 0){
       let x = randomIntFromInterval(this.mapLeftX+64,this.mapRightX-64)
       let y = randomIntFromInterval(this.mapTopY+64,this.mapBottomY-64)
-      const item = new healPotion(x,y)
+      const index = randomIntFromInterval(0,3)
+      let item
+      switch (index) {
+        case 0:
+          item = new Gatling(x,y)
+          break;
+        case 1:
+          item = new DoubleShot(x,y)
+          break;
+        case 2:
+          item = new healPotion (x,y)
+          break;
+        case 3:
+          item = new Autoguide(x,y)
+          break;
+        default:
+          break;
+      }
+  
+      for (let i=0;i<listItemLevel.length;i++){
+        if (item.consumable === false){
+          if (listItemLevel[i].name === item.name){
+            return (this.createMapItem(listItemLevel))
+          }
+        }
+      }
+      this.itemMap.splice(0, 0, item)
       this.listMapElement.push(item)
-    }
+    } 
   }
-  createMap(char){
+
+  createMap(char,listItemLevel){
     this.listMapElement.push(char)
     this.createMapFloor();
     this.createMapWalls();
     this.createMapDoor(this.doorLeft, this.doorRight);
     this.createMapObstacle()
     this.createMapEnnemy();
-    this.createMapItem();
+    this.createMapItem(listItemLevel);
   }
 
   mapDraw(){

@@ -1,7 +1,7 @@
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d')
 
-export default class menu {
+export default class Menu {
     constructor(){
         this.x=350
         this.y=200

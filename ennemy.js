@@ -366,7 +366,6 @@ export class Cthonicbeast extends Ennemy{
             crack.src ='assets/animation/fissure.png';
             ctx.drawImage(crack,this.xAttack-this.range,this.yAttack-this.range+10,this.range*2,this.range*2)
             ctx.globalAlpha = 1
-            console.log(this.xAttack-this.range);
     }else{
       
       this.xAttack = this.x
