@@ -139,7 +139,6 @@ export default class Level{
             this.actualPosition = [1,1]
             this.addMap(char)
             char.changeLevel = false
-            console.log(menu.isChangeLevel)
             menu.isChangeLevel = true
         } 
     }
