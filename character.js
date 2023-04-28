@@ -122,9 +122,18 @@ export default class Character {
       char.src = 'assets/character/character.png';
 
       if (isMove === true){
-        char.src = 'assets/character/character.png';
+        if (this.canTakeDmg){
+          char.src = 'assets/character/character.png';
+        } else {
+          char.src = 'assets/character/characterRed.png';
+        }
+        
       } else {
-        char.src = 'assets/character/stopCharacter.png';
+        if (this.canTakeDmg){
+          char.src = 'assets/character/stopCharacter.png';
+        } else {
+          char.src = 'assets/character/stopCharacterRed.png';
+        }
       }
         
       switch (this.direction){
