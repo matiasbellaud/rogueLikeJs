@@ -7,7 +7,7 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
 export default class Projectil{
-    constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,target,focus){
+    constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,target,focus,img){
 
       this.x = x
       this.y = y
@@ -31,19 +31,37 @@ export default class Projectil{
       
       this.frame = 0
       this.focus= focus
+      this.img = img
+    }
+
+    getAngles(){
+      let scalaire =0*this.xDirection+-1*this.yDirection
+      let angle = scalaire/((this.distance(0,0,0,-1)*this.distance(0,0,this.xDirection,this.yDirection)))
+      if (this.xDirection>0) {
+        angle = Math.acos(angle)
+      }else{
+        angle = -Math.acos(angle)
+      }
+      
+      return angle
     }
   
     draw(){
       this.frame++
+      let degrees =this.getAngles()
+
+      let  arrow = new Image();
+      arrow.src = this.img;
    
       if (this.alive) {
-        ctx.beginPath();
-        ctx.globalAlpha = this.opacity;
-        ctx.ellipse(this.x+this.height*0.8, this.y+this.height*0.8, this.width,this.height, Math.PI / 4, 0, 2 * Math.PI);
-        ctx.fillStyle = this.color;
-        ctx.strokeStyle = "black";
-        ctx.fill()
-        ctx.stroke();
+        ctx.save();
+        ctx.translate(this.x+this.height/2,this.y+this.width/2)
+        ctx.rotate(degrees);
+        
+        ctx.drawImage(arrow,0-this.height,0-this.width,this.width*2,this.height*2)
+        
+        ctx.restore();
+
       }
       ctx.globalAlpha = 1;
     }
@@ -56,8 +74,11 @@ export default class Projectil{
           let dx = this.x - ennemyList[ennemyList.length-1].x;
           let dy = this.y - ennemyList[ennemyList.length-1].y;
           let hyp = Math.sqrt(dx*dx + dy*dy);
+
           dx /= hyp;
           dy /= hyp;
+          this.xDirection = -dx
+          this.yDirection = -dy
 
           this.x -=dx;
           this.y -=dy;
@@ -159,8 +180,8 @@ export default class Projectil{
       }
     }
 
-    distance(x,y,target){
-      const res = Math.sqrt((target.x-x)**2+(target.y-y)**2)
+    distance(x,y,x2,y2){
+      const res = Math.sqrt((x2-x)**2+(y2-y)**2)
       return res
     }
   }
