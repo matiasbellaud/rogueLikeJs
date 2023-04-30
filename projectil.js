@@ -51,6 +51,8 @@ export default class Projectil{
       let  arrow = new Image();
       if (this.spectral) {
         arrow.src = "/assets/projectil/spectralArrow.png"
+      }else if (this.piercing){
+        arrow.src = "/assets/projectil/piercingArrow.png"
       }else{
         arrow.src = this.img;
       }

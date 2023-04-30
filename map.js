@@ -165,7 +165,7 @@ class AllMap{
     if (this.isItem != 0){
       let x = randomIntFromInterval(this.mapLeftX+64,this.mapRightX-64)
       let y = randomIntFromInterval(this.mapTopY+64,this.mapBottomY-64)
-      const item = new Autoguide(x,y)
+      const item = new Gatling(x,y)
       this.listMapElement.push(item)
     }
   }

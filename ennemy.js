@@ -217,7 +217,7 @@ export default class Ennemy{
         dy /= hyp;
         let xLook = -dx
         let yLook = -dy
-        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
+        this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
         this.projectilNbr++
         
       }
