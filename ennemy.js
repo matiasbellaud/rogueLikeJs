@@ -43,6 +43,7 @@ export default class Ennemy{
              this.range = 40;
              this.projDmg = 2;
              this.spectral = false;
+             this.piercing = false
              this.target = false;
       
              //--------------------------
@@ -216,7 +217,7 @@ export default class Ennemy{
         dy /= hyp;
         let xLook = -dx
         let yLook = -dy
-        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Character",this.projImg))
+        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
         this.projectilNbr++
         
       }
@@ -310,12 +311,12 @@ export class Oozeling extends Ennemy{
 
        //Projectil parameter
 
-       this.projHeight = 10;
+       this.projHeight = 25;
        this.projectilSpeed = 5;
        this.range = 40;
        this.projDmg = 2;
        this.spectral = false
-       
+       this.projImg = 'assets/projectil/acidball.png'
 
 
        //--------------------------
@@ -443,6 +444,7 @@ export class Necrodrake extends Ennemy{
       this.canShoot=true
       this.fly = true
       this.delay = 1000
+      this.projHeight = 15
       this.hp = 10
       this.range=100
       this.color ="rgb(49, 30, 64)"
@@ -462,7 +464,7 @@ export class Necrodrake extends Ennemy{
         let xLook = -dx
         let yLook = -dy
         
-        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Character",this.projImg))
+        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
         this.projectilNbr++
         
       }

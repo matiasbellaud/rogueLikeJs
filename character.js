@@ -34,13 +34,14 @@ export default class Character {
 
         //Projectil parameter
 
-        this.projHeight = 10;
+        this.projHeight = 15;
         this.shootNbr=1;
         this.cooldown = 20;
         this.projectilSpeed = 7;
         this.range = 40;
         this.projDmg = 5;
         this.spectral = false;
+        this.piercing = false;
         this.target = false;
         this.projImg='assets/projectil/baseArrow.png'
 
@@ -342,9 +343,9 @@ export default class Character {
           if (this.canShoot){
            if(this.projectilNbr===1){
             if (xLook=== 0){
-              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy",this.projImg))
+              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
             }else{
-              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy",this.projImg))
+              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
             }
             this.projectilNbr++
            }else{
@@ -352,9 +353,9 @@ export default class Character {
 
                 if (xLook=== 0){
                   
-                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy",this.projImg))
+                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
                 }else{
-                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy",this.projImg))
+                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
                 }
                 this.projectilNbr++
               }
