@@ -66,21 +66,6 @@ export class Gatling extends Item{
     }
 }
 
-export class Squary extends Item{
-    constructor(x,y){
-        super(x,y)
-        this.reload = -5    
-    }
-
-    use(char){
-        char.cooldown += this.reload
-        //char.cooldown = Math.max(1, char.cooldown)
-        char.projHeight =  char.projHeight/this.projHeight
-
-        
-        this.active = false
-    }
-}
 
 export class Autoguide extends Item{
     constructor(x,y){

@@ -95,6 +95,8 @@ export default class Projectil{
     }
   
     move(allElement,ennemyList){
+ 
+
       this.movement_speed = Math.max(1,this.movement_speed)
       for (let i = 0; i < this.movement_speed; i++) {
         if (this.target[0] && this.frame > 15 && ennemyList.length >0) {
