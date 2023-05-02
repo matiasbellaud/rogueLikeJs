@@ -34,7 +34,6 @@ export default class Item{
 export class DoubleShot extends Item{
     constructor(x,y){
         super(x,y)
-        this.name = "doubleShot"
         this.reload = 5
         this.shotNbr = 1
         this.img = 'assets/item/doubleShoot.png'
@@ -51,7 +50,6 @@ export class DoubleShot extends Item{
 export class Gatling extends Item{
     constructor(x,y){
         super(x,y)
-        this.name = "gatling"
         this.reload = -15
         this.projHeight = 2
         this.shotNbr = 1
@@ -75,7 +73,6 @@ export class Autoguide extends Item{
         this.target = true
         this.range = 30
         this.speed = -3
-        this.name = "autoguide"
         this.img = 'assets/item/Autoguide.png'
     }
 
@@ -103,7 +100,6 @@ export class Spectral extends Item{
 export class healPotion extends Item{
     constructor(x,y){
         super(x,y)
-        this.name = "healPotion"
         this.consumable = true
         this.height = 20
         this.width = 20
