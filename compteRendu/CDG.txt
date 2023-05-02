@@ -1,0 +1,68 @@
+Rogue like 
+
+dévellopeur : Mathis Silotia, Matias Bellaud
+
+DA : 
+	Style Hollow Knight + sol en damier(metal,roche...)
+
+Objectif: 
+	Nous sommes un petit insecte rêvant d'atteindre 
+	des sommets, pour cela l'objectif de notre simple vie 
+	est l'ascension de cette immense tour se dressant devant nous ...
+
+Environnement : 
+	- Salles/Etages
+	- Caverne/Industrielle
+
+Action : 
+	- Tirer 
+	- Ramasser objet
+	- Objet activable(potion, clé ...)
+	- Passer de salle en salle et détage en étage
+
+Difficulté croissante par étage (boss, + d'ennemies, + de dégats)
+
+sauvegarde : JSON?  --> optionnel
+
+son : 
+	- Musique de fond
+	- Bruit de tir
+	- Ennemie
+	- Au ramassage d'un item
+
+interactions du joueur : 
+	- Collision (mur, eau, ennemi ...)
+	- Prendre des dégats(pique, poison, ennemi ...) 
+
+Limitation techniques : 
+	- Acces base de données
+	- Language pas adapté,
+
+Étapes:
+	Jour 1 :
+	- Déplacement du personnage  
+	- Tir du personnage
+
+	Jour 2/3:
+	- Barre de vie
+	- Gérer les collisions
+
+	Jour 4/5:
+	- Géneration des salles (salle de boss, salle d'item)
+	- Déplacement de salle en salle
+
+	Jour 6:
+	- Géneration d'ennemies sans deplacements
+
+	jour 7/8:
+	- Création des items (minimum 2)
+	- Modification du tir(double,avec effets)
+
+	jour 9/10:
+	- IA ennemies
+	
+Optionnel:
+	- Menu
+	- Plus d'item d'armes
+	- Boss
+	- Manette (gamepad API)
