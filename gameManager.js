@@ -49,7 +49,7 @@ function gameLoop() {
       char.collisionUpdate(level.now.listMapElement)
       char.draw();
       char.drawListItem();
-
+      level.drawPlayerLevel()
       if (!menu.isPaused){
         char.move( level.now.listMapElement);
         char.shoot(level.now.listMapElement,level.now.ennemyList);

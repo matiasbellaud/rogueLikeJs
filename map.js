@@ -133,7 +133,7 @@ class AllMap{
     this.createMapDoor(this.openDoorLeft,this.openDoorRight)
   }
 
-  createMapEnnemy(){
+  createMapEnnemy(levelPlayer){
     for (let i = 0; i < this.nbrEnnemy; i++) { 
       const index = randomIntFromInterval(0,3)
       let ennemy
@@ -153,6 +153,7 @@ class AllMap{
         default:
           break;
       }
+      ennemy.hp = ennemy.hp+ennemy.hp*(levelPlayer*0.25)
     // const ennemy = new Necrodrake(randomIntFromInterval(100,400))
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
@@ -194,13 +195,13 @@ class AllMap{
     } 
   }
 
-  createMap(char,listItemLevel){
+  createMap(char,listItemLevel,levelPlayer){
     this.listMapElement.push(char)
     this.createMapFloor();
     this.createMapWalls();
     this.createMapDoor(this.doorLeft, this.doorRight);
     this.createMapObstacle()
-    this.createMapEnnemy();
+    this.createMapEnnemy(levelPlayer);
     this.createMapItem(listItemLevel);
   }
 

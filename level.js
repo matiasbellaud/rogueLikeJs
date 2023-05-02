@@ -1,33 +1,49 @@
 import {NormalMap, LMap, ItemMap,BossMap} from './map.js'
 import Menu from './menu.js'
 
+let canvas = document.querySelector('#char');
+let ctx = canvas.getContext('2d')
+
 export default class Level{
     constructor(){
-        this.nbrPaterne = 4;
-        this.numPaterne = 1
+        this.levelPlayer = 1;
+        this.nbrPaterne = 5;
+        this.numPaterne = 1;
         this.paterne1 = 
-        [[[0,0,0,0,0,0,0,0],[1,0,0,1,0,2,1,1]  ,[0,0,0,0,0,0,0,0]],
-        [[2,0,0,1,1,0,0,0],["B",1,1,1,1,0,3,1],["I",0,1,0,0,1,2,0]],
+        [[[0,0,0,0,0,0,0,0],[1,0,0,1,0,2,1,0]  ,[0,0,0,0,0,0,0,0]],
+        [[2,0,0,1,1,0,0,0],[1,1,1,1,1,0,0,0],["I",0,1,0,0,1,0,1]],
         [[1,1,0,1,0,0,5,0],[1,1,0,0,0,1,0,0]  ,[0,0,0,0,0,0,0,0]],
-        [[1,1,0,0,0,0,0,0],[1,1,0,0,0,1,0,0]  ,[0,0,0,0,0,0,0,0]]];
+        [["B",1,0,0,0,0,1,0],[1,1,0,0,0,1,0,0]  ,[0,0,0,0,0,0,0,0]]];
 
         this.paterne2 = 
-        [[[2,0,0,0,1,0,0,0],[1,0,1,1,0,2,1,1]  ,[0,0,0,0,0,0,0,0]],
-        [[0,0,0,0,0,0,0,0],[1,1,0,1,1,0,3,1],["B",0,1,0,0,1,2,1]],
+        [[[2,0,0,0,1,0,0,0],[1,0,1,1,0,2,1,0]  ,[0,0,0,0,0,0,0,0]],
+        [[0,0,0,0,0,0,0,0],[1,1,0,1,1,0,0,0],["B",0,1,0,0,1,2,0]],
         [[1,0,0,1,1,0,5,0],[1,1,1,1,0,1,0,0]  ,[0,0,0,0,0,0,0,0]],
-        [[1,1,0,0,1,0,0,0],[1,1,1,0,0,1,0,0]  ,[0,0,0,0,0,0,0,0]]];
+        [[1,1,0,0,1,0,0,0],["I",1,1,0,0,0,0,1]  ,[0,0,0,0,0,0,0,0]]];
 
         this.paterne3 = 
-        [[["I",0,0,1,0,0,1,1],[1,0,1,1,0,2,1,1]  ,[0,0,0,0,0,0,0,0]],
-        [[0,0,0,0,0,0,0,0],[1,1,0,1,0,0,3,1],["B",0,0,1,0,1,2,1]],
-        [[1,0,0,1,0,0,5,0],[1,1,0,1,0,1,0,0]  ,[1,1,0,1,0,2,0,1]],
-        [["I",1,0,0,0,0,0,0],[1,1,1,0,1,1,0,0]  ,[2,1,1,0,0,0,0,0]]];
+        [[["I",0,0,0,1,0,0,1],[1,0,1,1,0,2,1,0]  ,[0,0,0,0,0,0,0,0]],
+        [[0,0,0,0,0,0,0,0],[1,1,0,1,0,0,0,0],["B",0,0,1,0,1,2,0]],
+        [[1,0,0,0,1,0,5,0],[1,1,1,1,0,1,0,0]  ,[1,1,0,1,0,2,0,0]],
+        [["I",0,0,0,1,0,0,1],[1,1,1,0,1,1,0,0]  ,[2,1,1,0,0,0,0,0]]];
 
-        this.nowPaterne = this.paterne1
+        this.paterne4 = 
+        [[["I",0,0,0,1,0,0,1],[1,0,1,1,0,2,1,0]  ,[0,0,0,0,0,0,0,0]],
+        [[0,0,0,0,0,0,0,0],[1,1,0,1,0,0,0,0],[1,0,0,1,0,1,2,0]],
+        [[1,0,0,0,1,0,5,0],[1,1,1,0,1,1,0,0]  ,[1,1,1,1,0,2,0,0]],
+        [["I",0,0,0,1,0,0,1],["B",0,1,0,1,1,1,0]  ,[1,1,1,0,0,1,4,0]]];
+
+        this.paterne5 = 
+        [[["B",0,0,0,1,0,1,0],[1,0,1,1,1,2,3,0]  ,[2,0,1,0,0,0,0,0]],
+        [[1,0,0,1,1,1,2,0],[1,1,1,1,0,0,0,0],[0,0,0,0,0,0,0,0]],
+        [[1,1,0,0,1,0,5,0],[1,1,1,1,0,1,0,0]  ,["I",0,0,1,0,2,0,1]],
+        [[2,0,0,0,1,0,0,0],[1,1,1,0,1,1,3,0]  ,[2,1,1,0,0,0,0,0]]];
+
+        this.nowPaterne = this.paterne4
         
         this.listMap = []
         this.now 
-        this.actualPosition = [0,1]
+        this.actualPosition = [1,1]
         this.listItemLevel = []
     };
 
@@ -60,7 +76,7 @@ export default class Level{
             let listMapLengthI = this.listMap[i].length
             for (let j = 0; j<listMapLengthI;j++){
                 if (this.listMap[i][j] !== 0)
-                this.listMap[i][j].createMap(char,this.listItemLevel)
+                this.listMap[i][j].createMap(char,this.listItemLevel,this.levelPlayer)
                 if (this.listMap[i][j] != 0){
                     if(this.listMap[i][j].itemMap[0] != 0){
                         this.listItemLevel.push(this.listMap[i][j].itemMap[0])
@@ -125,8 +141,7 @@ export default class Level{
 
     changeLevel(char,menu){
         if (char.changeLevel){
-            
-            let numPaterneTemp =  Math.floor(Math.random() * (this.nbrPaterne-1)+1);
+            let numPaterneTemp =  Math.floor(Math.random() * (this.nbrPaterne)+1);
             if (this.numPaterne === numPaterneTemp){
                 return this.changeLevel(char,menu)
             }
@@ -142,6 +157,7 @@ export default class Level{
                     this.nowPaterne = this.paterne3;
                     break;
             }
+            this.levelPlayer++
             this.actualPosition = [1,1]
             this.addMap(char)
             char.changeLevel = false
@@ -153,5 +169,13 @@ export default class Level{
         if (this.now instanceof BossMap && this.now.allEnnemyDead){
             this.now.drawStair();
         }
+    }
+
+    drawPlayerLevel(){
+        let text = "Level " + this.levelPlayer;
+        let color ="white"
+        ctx.font = "20px monospace";
+        ctx.fillStyle = color
+        ctx.fillText(text, 32, 570);
     }
   }
