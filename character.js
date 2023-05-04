@@ -5,6 +5,7 @@ import Ennemy from "./ennemy.js";
 import Hp from "./hp.js";
 import Item from "./item.js";
 import Stair from './stair.js'
+import Ray from "./ray.js";
 
 
 let canvas = document.querySelector('#char');
@@ -251,8 +252,8 @@ export default class Character {
     takeDamage(){
       
       if ( this.canTakeDmg) {
-        var dmg = new Audio("/assets/sound/dmg.mp3")
-        dmg.play()
+        // var dmg = new Audio("/assets/sound/dmg.mp3")
+        // dmg.play()
         this.invulnerabilityTime().then(result => this.canTakeDmg = true)
         this.hp.currentHp--
         this.currentHp--
@@ -260,8 +261,8 @@ export default class Character {
 
       if (this.currentHp<=0) {
         this.alive = false
-        var death = new Audio("/assets/sound/death.mp3")
-        death.play()
+        // var death = new Audio("/assets/sound/death.mp3")
+        // death.play()
         death.addEventListener('ended', function() {
         death = null
           }, false);
@@ -322,7 +323,6 @@ export default class Character {
     shoot(allElement,ennemyList){
       
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
-        
         let xLook = 0
         let yLook = 0
         if (keyPresses.ArrowUp) {
@@ -350,6 +350,9 @@ export default class Character {
             
           }
           if (this.canShoot){
+
+           // const ray = new Ray(this.x,this.y+15, xLook, yLook,this.projDmg,this.piercing,this.target,focus)
+           // ray.draw(allElement)
            if(this.projectilNbr===1){
             if (xLook=== 0){
               this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
