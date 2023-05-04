@@ -98,6 +98,19 @@ export class Spectral extends Item{
     }
 }
 
+export class Piercing extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.piercing = true
+        this.name = "piercing"
+        this.img = 'assets/item/Piercing.png'
+    }
+    use(char){
+        char.piercing = this.piercing     
+        this.active = false
+    }
+}
+
 export class healPotion extends Item{
     constructor(x,y){
         super(x,y)
@@ -117,15 +130,15 @@ export class healPotion extends Item{
     }
 }
 
-export class Piercing extends Item{
+export class UpHpElixir extends Item{
     constructor(x,y){
         super(x,y)
-        this.piercing = true
-        this.name = "piercing"
-        this.img = 'assets/item/Piercing.png'
+        this.name = "upHpElixir"
+        this.img = 'assets/item/healPotion.png'
     }
     use(char){
-        char.piercing = this.piercing     
+        char.maxHp++
+        char.hp.maxHp++    
         this.active = false
     }
 }

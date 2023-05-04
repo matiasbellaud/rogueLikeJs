@@ -1,3 +1,4 @@
+import { healPotion } from "./item.js";
 import Projectil from "./projectil.js";
 import Wall, { Obstacle } from "./wall.js";
 
@@ -238,6 +239,14 @@ export default class Ennemy{
       return new Promise(function(resolve, reject) {
         setTimeout(() => resolve("done"), delay);
       });
+    }
+
+    die(allElement){
+        let chance = Math.floor(Math.random() * (100 - 0 + 1) + 0)
+        if (chance <= 10){
+          let potion = new healPotion(this.x,this.y)
+          allElement.push(potion)
+        }
     }
   };
 
