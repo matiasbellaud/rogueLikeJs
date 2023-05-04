@@ -374,6 +374,27 @@ class BossMap extends SquareMap{
   drawStair(){
     this.listMapElement.push( new Stair(this.stair,736,416,32,32));
   }
+
+  createMapEnnemy(levelPlayer){
+    for (let i = 0; i < this.nbrEnnemy; i++) { 
+      const index = randomIntFromInterval(0,1)
+      let ennemy
+      switch (index) {
+        case 0:
+          ennemy = new Necrodrake(randomIntFromInterval(100,400))
+          break;
+        case 1:
+          ennemy = new Cthonicbeast(randomIntFromInterval(100,400))
+          break;
+        default:
+          break;
+      }
+      ennemy.hp = ennemy.hp+ennemy.hp*(levelPlayer*0.25)
+      this.ennemyList.push(ennemy)
+      this.listMapElement.push(ennemy)
+    }
+  }
+
 };
 
 class NormalMap extends SquareMap{
