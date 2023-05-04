@@ -75,7 +75,6 @@ function gameLoop() {
     if (menu.start === true){
       return (gameManager())
     }
-    
     window.requestAnimationFrame(gameLoop);
   }
 };

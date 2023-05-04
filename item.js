@@ -24,9 +24,6 @@ export default class Item{
         else {
             ctx.drawImage(item,x,y,this.width,this.height)
         }
-
-        
-
     }
   }
 
@@ -36,6 +33,7 @@ export class DoubleShot extends Item{
         super(x,y)
         this.reload = 5
         this.shotNbr = 1
+        this.name = "doubleShot"
         this.img = 'assets/item/doubleShoot.png'
     }
 
@@ -53,6 +51,7 @@ export class Gatling extends Item{
         this.reload = -15
         this.projHeight = 2
         this.shotNbr = 1
+        this.name = "gatling"
         this.img = 'assets/item/gatling.png'
     }
 
@@ -73,6 +72,7 @@ export class Autoguide extends Item{
         this.target = true
         this.range = 30
         this.speed = -3
+        this.name = "autoGuide"
         this.img = 'assets/item/Autoguide.png'
     }
 
@@ -88,6 +88,7 @@ export class Spectral extends Item{
     constructor(x,y){
         super(x,y)
         this.spectral = true
+        this.name = "spectral"
         this.img = 'assets/item/Spectral.png'
 
     }
@@ -103,6 +104,7 @@ export class healPotion extends Item{
         this.consumable = true
         this.height = 20
         this.width = 20
+        this.name = "healPotion"
         this.img = 'assets/item/healPotion.png'
     }
 
@@ -119,8 +121,8 @@ export class Piercing extends Item{
     constructor(x,y){
         super(x,y)
         this.piercing = true
+        this.name = "piercing"
         this.img = 'assets/item/Piercing.png'
-
     }
     use(char){
         char.piercing = this.piercing     

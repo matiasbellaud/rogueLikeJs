@@ -5,9 +5,9 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
 export default class Ennemy{
-    constructor(){
-      this.x = 200;
-      this.y = 300;
+    constructor(x,y){
+      this.x = x;
+      this.y = y;
       this.width = 30;
       this.height = 30;
       this.movement_speed = 2;
@@ -243,8 +243,8 @@ export default class Ennemy{
 
 export class Mucusthing extends Ennemy{
 
-  constructor(){
-    super()
+  constructor(x,y){
+    super(x,y)
       this.movement_speed = 2;
       this.hp = 10
       this.color ="rgb(153, 100, 153)"
@@ -254,11 +254,8 @@ export class Mucusthing extends Ennemy{
 
 export class Oozeling extends Ennemy{
 
-  constructor(x){
-    super()
-      this.x = x;
-      this.y = 300;
-
+  constructor(x,y){
+    super(x,y)
       this.movement_speed = 2;
 
       this.hp = 15
@@ -284,8 +281,8 @@ export class Oozeling extends Ennemy{
 }
   
 export class Shadowraith extends Ennemy{
-  constructor(){
-    super()
+  constructor(x,y){
+    super(x,y)
       this.movement_speed = 1;
       this.fly = true
       this.hp = 5
@@ -295,8 +292,8 @@ export class Shadowraith extends Ennemy{
 }
 
 export class Cthonicbeast extends Ennemy{
-  constructor(){
-    super()
+  constructor(x,y){
+    super(x,y)
       this.movement_speed = 1;
       this.height = 40
       this.width = 40
@@ -304,7 +301,7 @@ export class Cthonicbeast extends Ennemy{
       this.isShooting = false
       this.range = 100
       this.delay = 2000
-      this.hp = 20
+      this.hp = 50
       this.color ="rgb(234,182,118)"
       this.xAttack = this.x
       this.yAttack = this.y
@@ -378,15 +375,15 @@ export class Cthonicbeast extends Ennemy{
 }
 
 export class Necrodrake extends Ennemy{
-  constructor(){
-    super()
+  constructor(x,y){
+    super(x,y)
       this.listProj = []
-      this.movement_speed = 0;
+      this.movement_speed = 2;
       this.canShoot=true
       this.fly = true
       this.delay = 1000
       this.projHeight = 15
-      this.hp = 10
+      this.hp = 30
       this.range=100
       this.color ="rgb(49, 30, 64)"
       this.isBoss = true

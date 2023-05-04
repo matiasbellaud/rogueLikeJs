@@ -135,26 +135,27 @@ class AllMap{
 
   createMapEnnemy(levelPlayer){
     for (let i = 0; i < this.nbrEnnemy; i++) { 
-      const index = randomIntFromInterval(0,3)
+      const index = randomIntFromInterval(0,2)
       let ennemy
+      let x = randomIntFromInterval(260,630)
+      let y = randomIntFromInterval(220,370)
       switch (index) {
         case 0:
-          ennemy = new Mucusthing(randomIntFromInterval(100,400))
+          ennemy = new Mucusthing(x,y)
+          console.log(x,y)
           break;
         case 1:
-          ennemy = new Oozeling(randomIntFromInterval(100,400))
+          ennemy = new Oozeling(x,y)
+          console.log(x,y)
           break;
         case 2:
-          ennemy = new Shadowraith(randomIntFromInterval(100,400))
-          break;
-        case 3:
-          ennemy = new Cthonicbeast(randomIntFromInterval(100,400))
+          ennemy = new Shadowraith(x,y)
+          console.log(x,y)
           break;
         default:
           break;
       }
       ennemy.hp = ennemy.hp+ennemy.hp*(levelPlayer*0.25)
-    // const ennemy = new Necrodrake(randomIntFromInterval(100,400))
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
     }
@@ -379,12 +380,14 @@ class BossMap extends SquareMap{
     for (let i = 0; i < this.nbrEnnemy; i++) { 
       const index = randomIntFromInterval(0,1)
       let ennemy
+      let x = randomIntFromInterval(260,630)
+      let y = randomIntFromInterval(220,370)
       switch (index) {
         case 0:
-          ennemy = new Necrodrake(randomIntFromInterval(100,400))
+          ennemy = new Necrodrake(x,y)
           break;
         case 1:
-          ennemy = new Cthonicbeast(randomIntFromInterval(100,400))
+          ennemy = new Cthonicbeast(x,y)
           break;
         default:
           break;
