@@ -15,12 +15,18 @@ export default class Item{
     draw(x,y){
         let  item = new Image();
         item.src = this.img;
-        if (this.active) {  
+        let pillar = new Image();
+        pillar.src = "assets/room/item_pillar.png"
+        if (this.active) { 
+            ctx.drawImage(pillar,this.x-7,this.y+30,this.width*1.5,this.height*1.5)
             ctx.drawImage(item,this.x,this.y,this.width,this.height)
-        } else {
+        } 
+        else {
             ctx.drawImage(item,x,y,this.width,this.height)
         }
+
         
+
     }
   }
 
@@ -28,10 +34,9 @@ export default class Item{
 export class DoubleShot extends Item{
     constructor(x,y){
         super(x,y)
-        this.name = "doubleShot"
         this.reload = 5
         this.shotNbr = 1
-        
+        this.img = 'assets/item/doubleShoot.png'
     }
 
     use(char){
@@ -45,15 +50,15 @@ export class DoubleShot extends Item{
 export class Gatling extends Item{
     constructor(x,y){
         super(x,y)
-        this.name = "gatling"
         this.reload = -15
         this.projHeight = 2
         this.shotNbr = 1
+        this.img = 'assets/item/gatling.png'
     }
 
     use(char){
         char.cooldown += this.reload
-        
+        char.projDmg /=5
         char.projHeight =  char.projHeight/this.projHeight
         char.shootNbr +=  this.shotNbr
         
@@ -61,21 +66,6 @@ export class Gatling extends Item{
     }
 }
 
-export class Squary extends Item{
-    constructor(x,y){
-        super(x,y)
-        this.reload = -5    
-    }
-
-    use(char){
-        char.cooldown += this.reload
-        //char.cooldown = Math.max(1, char.cooldown)
-        char.projHeight =  char.projHeight/this.projHeight
-
-        
-        this.active = false
-    }
-}
 
 export class Autoguide extends Item{
     constructor(x,y){
@@ -83,7 +73,6 @@ export class Autoguide extends Item{
         this.target = true
         this.range = 30
         this.speed = -3
-        this.name = "autoguide"
         this.img = 'assets/item/Autoguide.png'
     }
 
@@ -99,6 +88,7 @@ export class Spectral extends Item{
     constructor(x,y){
         super(x,y)
         this.spectral = true
+        this.img = 'assets/item/Spectral.png'
 
     }
     use(char){
@@ -110,8 +100,10 @@ export class Spectral extends Item{
 export class healPotion extends Item{
     constructor(x,y){
         super(x,y)
-        this.name = "healPotion"
         this.consumable = true
+        this.height = 20
+        this.width = 20
+        this.img = 'assets/item/healPotion.png'
     }
 
     use(char){
@@ -120,5 +112,18 @@ export class healPotion extends Item{
             char.hp.currentHp++
             this.active = false
         }
+    }
+}
+
+export class Piercing extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.piercing = true
+        this.img = 'assets/item/Piercing.png'
+
+    }
+    use(char){
+        char.piercing = this.piercing     
+        this.active = false
     }
 }

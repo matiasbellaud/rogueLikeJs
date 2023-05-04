@@ -22,29 +22,33 @@ export default class Ennemy{
 
       //Projectil parameter
 
-      this.projHeight = 10;
-      this.shootNbr=1;
-      this.cooldown = 1000;
-      this.projectilSpeed = 7;
-      this.range = 40;
-      this.projDmg = 2;
-      this.spectral = false;
-      this.target = false;
-
-      //--------------------------
+             this.projHeight = 10;
+             this.shootNbr=1;
+             this.cooldown = 1000;
+             this.projectilSpeed = 7;
+             this.range = 40;
+             this.projDmg = 2;
+             this.spectral = false;
+             this.target = false;
+             this.projImg = 'assets/projectil/fireball.png'
       
+             //--------------------------
       this.color ="rgb(153, 51, 153)"
 
       //Projectil parameter
 
-      this.projHeight = 10;
-      this.shootNbr=1;
-      this.cooldown = 1000;
-      this.projectilSpeed = 7;
-      this.range = 40;
-      this.projDmg = 2;
-      this.spectral = false;
-      this.target = false;
+             this.projHeight = 10;
+             this.shootNbr=1;
+             this.cooldown = 1000;
+             this.projectilSpeed = 7;
+             this.range = 40;
+             this.projDmg = 2;
+             this.spectral = false;
+             this.piercing = false
+             this.target = false;
+      
+             //--------------------------
+    
     };
 
     draw(allElement){
@@ -187,7 +191,7 @@ export default class Ennemy{
         dy /= hyp;
         let xLook = -dx
         let yLook = -dy
-        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Character"))
+        this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
         this.projectilNbr++
       }
       this.updateProj(allElement,ennemyList);
@@ -265,11 +269,16 @@ export class Oozeling extends Ennemy{
 
        //Projectil parameter
 
-       this.projHeight = 10;
+       this.projHeight = 25;
        this.projectilSpeed = 5;
        this.range = 40;
        this.projDmg = 2;
        this.spectral = false
+       this.projImg = 'assets/projectil/acidball.png'
+
+
+       //--------------------------
+      
   }
   move(allElement){}
 }
@@ -376,6 +385,7 @@ export class Necrodrake extends Ennemy{
       this.canShoot=true
       this.fly = true
       this.delay = 1000
+      this.projHeight = 15
       this.hp = 10
       this.range=100
       this.color ="rgb(49, 30, 64)"
@@ -385,17 +395,17 @@ export class Necrodrake extends Ennemy{
   shoot(allElement,ennemyList){
     if (this.canShoot) {
       this.reload().then(result => this.canShoot = true)
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < this.randomIntFromInterval(7,12); i++) {
         this.projectilSpeed = this.randomIntFromInterval(3,5)
-        let dx = this.x - allElement[0].x+this.randomIntFromInterval(-30,30);
-        let dy = this.y - allElement[0].y+this.randomIntFromInterval(-30,30);
+        let dx = this.x - allElement[0].x+this.randomIntFromInterval(-35,35);
+        let dy = this.y - allElement[0].y+this.randomIntFromInterval(-35,35);
         let hyp = Math.sqrt(dx*dx + dy*dy);
         dx /= hyp;
         dy /= hyp;
         let xLook = -dx
         let yLook = -dy
         
-        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Character"))
+        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
         this.projectilNbr++
       }
     }

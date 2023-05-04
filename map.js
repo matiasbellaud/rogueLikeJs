@@ -2,7 +2,7 @@ import Floor from './floor.js';
 import Wall, { Obstacle } from './wall.js';
 import Door from './door.js';
 import {Cthonicbeast, Mucusthing,Necrodrake,Oozeling, Shadowraith} from './ennemy.js';
-import { DoubleShot, Gatling, Squary,Autoguide,Spectral, healPotion} from './item.js';
+import { DoubleShot, Gatling,Autoguide,Spectral, healPotion} from './item.js';
 import Stair from './stair.js'
 
 function randomIntFromInterval(min, max) { // min and max included 
@@ -174,7 +174,7 @@ class AllMap{
           item = new DoubleShot(x,y)
           break;
         case 2:
-          item = new healPotion (x,y)
+          item = new Spectral (x,y)
           break;
         case 3:
           item = new Autoguide(x,y)

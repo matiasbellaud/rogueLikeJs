@@ -5,6 +5,7 @@ import Ennemy from "./ennemy.js";
 import Hp from "./hp.js";
 import Item from "./item.js";
 import Stair from './stair.js'
+import Ray from "./ray.js";
 
 
 let canvas = document.querySelector('#char');
@@ -34,14 +35,17 @@ export default class Character {
 
         //Projectil parameter
 
-        this.projHeight = 10;
+        this.projHeight = 15;
         this.shootNbr=1;
         this.cooldown = 20;
-        this.projectilSpeed = 7;
+        this.projectilSpeed = 8;
         this.range = 40;
         this.projDmg = 5;
         this.spectral = false;
+        this.piercing = false;
         this.target = false;
+        this.ray = true
+        this.projImg='assets/projectil/baseArrow.png'
 
         //--------------------------
 
@@ -249,8 +253,8 @@ export default class Character {
     takeDamage(){
       
       if ( this.canTakeDmg) {
-        var dmg = new Audio("/assets/sound/dmg.mp3")
-        dmg.play()
+        // var dmg = new Audio("/assets/sound/dmg.mp3")
+        // dmg.play()
         this.invulnerabilityTime().then(result => this.canTakeDmg = true)
         this.hp.currentHp--
         this.currentHp--
@@ -258,8 +262,8 @@ export default class Character {
 
       if (this.currentHp<=0) {
         this.alive = false
-        var death = new Audio("/assets/sound/death.mp3")
-        death.play()
+        // var death = new Audio("/assets/sound/death.mp3")
+        // death.play()
         death.addEventListener('ended', function() {
         death = null
           }, false);
@@ -320,7 +324,6 @@ export default class Character {
     shoot(allElement,ennemyList){
       
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
-        
         let xLook = 0
         let yLook = 0
         if (keyPresses.ArrowUp) {
@@ -348,11 +351,22 @@ export default class Character {
             
           }
           if (this.canShoot){
+            if (this.ray) {
+              console.log(this.shootNbr);
+              for (let i = 1; i <= this.shootNbr; i++) {
+                const ray = new Ray(this.x+5,this.y+(10+(i*3.5)), xLook, yLook,this.projDmg,this.spectral,this.target,focus)
+                ray.draw(allElement,ennemyList)
+              }
+              
+
+
+            }else{
+           
            if(this.projectilNbr===1){
             if (xLook=== 0){
-              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
+              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
             }else{
-              this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
+              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
             }
             this.projectilNbr++
            }else{
@@ -360,13 +374,14 @@ export default class Character {
 
                 if (xLook=== 0){
                   
-                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
+                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
                 }else{
-                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.target,"Ennemy"))
+                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
                 }
                 this.projectilNbr++
               }
            }
+            }
             this.canShoot = false
           }
       }
