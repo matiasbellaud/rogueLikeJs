@@ -38,12 +38,13 @@ export default class Character {
         this.projHeight = 15;
         this.shootNbr=1;
         this.cooldown = 20;
-        this.projectilSpeed = 7;
+        this.projectilSpeed = 8;
         this.range = 40;
         this.projDmg = 5;
         this.spectral = false;
         this.piercing = false;
         this.target = false;
+        this.ray = true
         this.projImg='assets/projectil/baseArrow.png'
 
         //--------------------------
@@ -350,9 +351,17 @@ export default class Character {
             
           }
           if (this.canShoot){
+            if (this.ray) {
+              console.log(this.shootNbr);
+              for (let i = 1; i <= this.shootNbr; i++) {
+                const ray = new Ray(this.x+5,this.y+(10+(i*3.5)), xLook, yLook,this.projDmg,this.spectral,this.target,focus)
+                ray.draw(allElement,ennemyList)
+              }
+              
 
-           // const ray = new Ray(this.x,this.y+15, xLook, yLook,this.projDmg,this.piercing,this.target,focus)
-           // ray.draw(allElement)
+
+            }else{
+           
            if(this.projectilNbr===1){
             if (xLook=== 0){
               this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
@@ -372,6 +381,7 @@ export default class Character {
                 this.projectilNbr++
               }
            }
+            }
             this.canShoot = false
           }
       }

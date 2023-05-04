@@ -174,7 +174,7 @@ class AllMap{
           item = new DoubleShot(x,y)
           break;
         case 2:
-          item = new healPotion (x,y)
+          item = new Spectral (x,y)
           break;
         case 3:
           item = new Autoguide(x,y)
