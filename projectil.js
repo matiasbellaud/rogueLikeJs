@@ -1,7 +1,6 @@
 import Wall, { Obstacle } from "./wall.js";
 import Ennemy from "./ennemy.js";
 import Character from "./character.js";
-import Floor from "./floor.js";
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
@@ -10,7 +9,7 @@ function randomIntFromInterval(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 export default class Projectil{
-    constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,piercing,target,blitz,focus,img){
+    constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,piercing,target,blitz,divide,focus,img){
 
       this.x = x
       this.y = y
@@ -25,6 +24,7 @@ export default class Projectil{
       this.spectral = spectral
       this.piercing = piercing;
       this.target = [target,null]
+      this.divide = divide
 
       this.alive = true
       this.frame = 0
@@ -153,15 +153,15 @@ export default class Projectil{
 
 
     collisionDetection(wall){
-      
-        const xAxis = (this.x+this.width > wall.x+1 && this.x < wall.x+wall.width-1)
-        const yAxis = this.y+this.height > wall.y+1 && this.y < wall.y+wall.height-1
-    
-        const upBox = (this.y+this.height >= wall.y && this.y <= wall.y+1)
-        const downBox = (this.y <= wall.y+wall.height && this.y >= wall.y+wall.height-1)
-    
-        const leftBox = (this.x+this.width >= wall.x && this.x <= wall.x+1)
-        const rightBox = (this.x <= wall.x+wall.width && this.x >= wall.x+wall.width-1)
+      const xAxis = (this.x+this.width > wall.x+1 && this.x < wall.x+wall.width-1)
+      const yAxis = this.y+this.height > wall.y+1 && this.y < wall.y+wall.height-1
+  
+      const upBox = (this.y+this.height >= wall.y && this.y <= wall.y+1)
+      const downBox = (this.y <= wall.y+wall.height && this.y >= wall.y+wall.height-1)
+  
+      const leftBox = (this.x+this.width >= wall.x && this.x <= wall.x+1)
+      const rightBox = (this.x <= wall.x+wall.width && this.x >= wall.x+wall.width-1)
+      if (this.alive) {
         if (xAxis){
           if (upBox) {
             return [true,'up']
@@ -179,6 +179,10 @@ export default class Projectil{
           }
         }
         return [false,"none"]  
+      }
+      return [false,"none"]  
+
+        
     }
 
     alreadyHit(ennemy){

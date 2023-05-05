@@ -20,6 +20,7 @@ export default class Ennemy{
       this.hp = 10
       this.color ="rgb(153, 51, 153)"
       this.isBoss = false
+      this.canMove = true
 
       //Projectil parameter
 
@@ -31,25 +32,13 @@ export default class Ennemy{
              this.projDmg = 2;
              this.spectral = false;
              this.target = false;
+             this.blizt = false;
+             this.divide = false
              this.projImg = 'assets/projectil/fireball.png'
       
              //--------------------------
       this.color ="rgb(153, 51, 153)"
 
-      //Projectil parameter
-
-             this.projHeight = 10;
-             this.shootNbr=1;
-             this.cooldown = 1000;
-             this.projectilSpeed = 7;
-             this.range = 40;
-             this.projDmg = 2;
-             this.spectral = false;
-             this.piercing = false
-             this.target = false;
-             this.blizt = false;
-      
-             //--------------------------
     
     };
 
@@ -94,19 +83,38 @@ export default class Ennemy{
     }
 
     move(allElement){
-      this.dx = this.x - allElement[0].x;
-      this.dy = this.y - allElement[0].y;
-      let hyp = Math.sqrt(this.dx*this.dx + this.dy*this.dy);
-      this.dx /= hyp;
-      this.dy /= hyp;
-
-      for (let i = 0; i < this.movement_speed; i++) {
-        this.y -= this.dy
+      if (this.canMove) {
         
-        for (let i = 0; i < allElement.length; i++) {
-              if (this.collisionDetection(allElement[i])[0]) {
-                if (!this.fly) {
-                  if (allElement[i] instanceof Wall) {
+        
+        this.dx = this.x - allElement[0].x;
+        this.dy = this.y - allElement[0].y;
+        let hyp = Math.sqrt(this.dx*this.dx + this.dy*this.dy);
+        this.dx /= hyp;
+        this.dy /= hyp;
+
+        for (let i = 0; i < this.movement_speed; i++) {
+          this.y -= this.dy
+          
+          for (let i = 0; i < allElement.length; i++) {
+                if (this.collisionDetection(allElement[i])[0]) {
+                  if (!this.fly) {
+                    if (allElement[i] instanceof Wall) {
+                      switch (this.collisionDetection(allElement[i])[1]) {
+                        case "up":
+                          this.y+= this.dy
+                          this.movement_speedY = -this.movement_speedY
+                          break;
+                        case "down":
+                          this.y+= this.dy
+                          this.movement_speedY = Math.abs(this.movement_speedY)
+                          break;
+                      
+                        default:
+                          
+                          break;
+                      }
+                    }
+                  }else if(allElement[i] instanceof Wall && !(allElement[i] instanceof Obstacle)){
                     switch (this.collisionDetection(allElement[i])[1]) {
                       case "up":
                         this.y+= this.dy
@@ -120,32 +128,31 @@ export default class Ennemy{
                       default:
                         
                         break;
-                     }
-                   }
-                }else if(allElement[i] instanceof Wall && !(allElement[i] instanceof Obstacle)){
-                  switch (this.collisionDetection(allElement[i])[1]) {
-                    case "up":
-                      this.y+= this.dy
-                      this.movement_speedY = -this.movement_speedY
-                      break;
-                    case "down":
-                      this.y+= this.dy
-                      this.movement_speedY = Math.abs(this.movement_speedY)
-                      break;
+                    }
+                  }
                   
-                    default:
-                      
-                      break;
-                   }
                 }
-                
-               }
-             }
-        this.x -= this.dx
-            for (let i = 0; i < allElement.length; i++) {
-              if (this.collisionDetection(allElement[i])[0]) {
-                if (!this.fly) {
-                  if (allElement[i] instanceof Wall) {
+              }
+          this.x -= this.dx
+              for (let i = 0; i < allElement.length; i++) {
+                if (this.collisionDetection(allElement[i])[0]) {
+                  if (!this.fly) {
+                    if (allElement[i] instanceof Wall) {
+                      switch (this.collisionDetection(allElement[i])[1]) {
+                        case "left":
+                          this.x--
+                          this.movement_speedX = -this.movement_speedX 
+                          break;
+                        case "right":
+                          this.x++
+                          this.movement_speedX = Math.abs(this.movement_speedX)
+                          break;
+                      
+                        default:
+                          break;
+                      }
+                    }
+                  }else if (allElement[i] instanceof Wall && !(allElement[i] instanceof Obstacle)) {
                     switch (this.collisionDetection(allElement[i])[1]) {
                       case "left":
                         this.x--
@@ -160,27 +167,13 @@ export default class Ennemy{
                         break;
                     }
                   }
-                }else if (allElement[i] instanceof Wall && !(allElement[i] instanceof Obstacle)) {
-                  switch (this.collisionDetection(allElement[i])[1]) {
-                    case "left":
-                      this.x--
-                      this.movement_speedX = -this.movement_speedX 
-                      break;
-                    case "right":
-                      this.x++
-                      this.movement_speedX = Math.abs(this.movement_speedX)
-                      break;
-                  
-                    default:
-                      break;
-                  }
                 }
               }
             }
-          }
-      if (!this.alive) {
-        this.movement_speed = 0
-      }  
+        if (!this.alive) {
+          this.movement_speed = 0
+        }  
+      }
     };
 
     shoot(allElement,ennemyList){
@@ -193,7 +186,7 @@ export default class Ennemy{
         dy /= hyp;
         let xLook = -dx
         let yLook = -dy
-        this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,"Character",this.projImg))
+        this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Character",this.projImg))
         this.projectilNbr++
       }
       this.updateProj(allElement,ennemyList);
@@ -341,29 +334,32 @@ export class Cthonicbeast extends Ennemy{
   constructor(x,y){
     super(x,y)
       this.movement_speed = 1;
-      this.height = 40
-      this.width = 40
+      this.height = 100
+      this.width = 100
       this.canShoot=true
       this.isShooting = false
-      this.range = 100
+      this.range = 120
       this.delay = 2000
       this.hp = 50
       this.color ="rgb(234,182,118)"
-      this.xAttack = this.x
-      this.yAttack = this.y
+      this.xAttack = (this.x+this.range/2)
+      this.yAttack = (this.y+this.range/2)
       this.isBoss = true
+
+      this.sprite = 7
+      this.frame = 0
+      this.indexSprite = 0
   }
 
   draw(allElement){
+    this.xAttack = (this.x+this.range/2)
+    this.yAttack = (this.y+this.range/2)
     if (this.isShooting) {
             let  crack = new Image();
             ctx.globalAlpha = 0.5
             crack.src ='assets/animation/fissure.png';
-            ctx.drawImage(crack,this.xAttack-this.range,this.yAttack-this.range+10,this.range*2,this.range*2)
+            ctx.drawImage(crack,this.x-this.range/1.5,this.y-this.range/1.5,this.range*2,this.range*2)
             ctx.globalAlpha = 1
-    }else{ 
-      this.xAttack = this.x
-      this.yAttack = this.y
     }
     if (this.canShoot) {
       ctx.beginPath();
@@ -371,38 +367,55 @@ export class Cthonicbeast extends Ennemy{
       ctx.ellipse(this.x+this.height/2, this.y+this.width/2, this.range,this.range, Math.PI / 4, 0, 2 * Math.PI);
 
       ctx.fillStyle = "rgb(115, 86, 50)";
-      ctx.globalAlpha = 0.1;
+      ctx.globalAlpha = 0.3;
       ctx.fill();
       ctx.globalAlpha = 1;
     }
 
     if (this.alive) {
       
-      ctx.beginPath();
+      let  ennemy = new Image();
+      if (this.frame%4==0) {
+        this.indexSprite ++
+        if (this.indexSprite == this.sprite) {
+          this.indexSprite = 0
+        }
+      }if (this.isShooting) {
+        this.canMove = false
+        ennemy.src = "/assets/Ennemy/ChtonicBeast/chtonicBeastHandUp.png"
+      
+      }else{
+        this.canMove = true
+        ennemy.src = "/assets/Ennemy/ChtonicBeast/chtonicBeast"+this.indexSprite+".png"
+      }
+      
+      ctx.drawImage(ennemy,this.x,this.y,this.width,this.height)
+      this.frame++
+      
 
-      ctx.ellipse(this.x+this.height/2, this.y+this.width/2, this.width/2,this.height/2, Math.PI / 4, 0, 2 * Math.PI);
-      ctx.strokeStyle = "rgb(102, 0, 102)";
-      ctx.fillStyle = this.color;
-      ctx.fill();
     }
   };
 
   shoot(allElement,ennemyList){
     if (this.canShoot) {
       
-      this.dx = this.x - allElement[0].x;
-      this.dy = this.y - allElement[0].y;
+      this.dx = this.xAttack - allElement[0].x;
+      this.dy = this.yAttack- allElement[0].y;
       let hyp = Math.sqrt(this.dx*this.dx + this.dy*this.dy);
+      console.log(hyp);
 
       if (hyp<this.range) {
         this.reload().then(result => this.canShoot = true)
         this.animationTime().then(result => this.isShooting = false)
         this.isShooting = true
-        this.hitDelay().then(result => 
-          {this.dx = this.x - allElement[0].x;
-            this.dy = this.y - allElement[0].y;
+        this.hitDelay().then(result => { 
+            this.dx = this.xAttack - allElement[0].x;
+            this.dy = this.yAttack - allElement[0].y;
             let hyp = Math.sqrt(this.dx*this.dx + this.dy*this.dy);
-            if (hyp<this.range) {allElement[0].takeDamage()}})
+            if (hyp<this.range) {allElement[0].takeDamage()}
+          }
+            
+            )
       }
     }
   }
@@ -433,6 +446,7 @@ export class Necrodrake extends Ennemy{
       this.range=100
       this.color ="rgb(49, 30, 64)"
       this.isBoss = true
+      this.projImg ="assets/projectil/fireball.png"
   }
 
   shoot(allElement,ennemyList){
@@ -448,7 +462,7 @@ export class Necrodrake extends Ennemy{
         let xLook = -dx
         let yLook = -dy
         
-        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
+        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Character",this.projImg))
         this.projectilNbr++
       }
     }

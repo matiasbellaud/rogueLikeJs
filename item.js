@@ -190,13 +190,39 @@ export class UpSpeedMoveElixir extends Item{
 export class Blitz extends Item{
     constructor(x,y){
         super(x,y)
-        this.blitz = true
         this.name = "blitz"
         this.img = 'assets/item/upDamageElixir.png'
     }
     
     use(char){
         char.blitz = true
+        this.active = false
+    }
+}
+
+export class Lazer extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.name = "lazer"
+        this.img = 'assets/item/healPotion.png'
+    }
+    
+    use(char){
+        char.ray = true
+        this.active = false
+    }
+}
+
+export class Divide extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.divide = true
+        this.name = "lazer"
+        this.img = 'assets/item/healPotion.png'
+    }
+    
+    use(char){
+        char.divide = true
         this.active = false
     }
 }
