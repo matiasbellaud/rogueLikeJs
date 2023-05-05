@@ -137,16 +137,16 @@ class AllMap{
   }
 
   createMapEnnemy(levelPlayer){
-    console.log(this.listItem);
+
     for (let i = 0; i < this.nbrEnnemy; i++) { 
       const index = randomIntFromInterval(0,3)
       let ennemy
       switch (index) {
         case 0:
-          ennemy = new Oozeling(randomIntFromInterval(100,400))
+          ennemy = new Necrodrake(randomIntFromInterval(100,400))
           break;
         case 1:
-          ennemy = new Oozeling(randomIntFromInterval(100,400))
+          ennemy = new Mucusthing(randomIntFromInterval(100,400))
           break;
         case 2:
           ennemy = new Oozeling(randomIntFromInterval(100,400))
@@ -171,7 +171,7 @@ class AllMap{
       let x = canvas.width/2-30
       let y = canvas.height/2-30
       let piedestal = new Piedestal(x,y)
-      console.log(piedestal);
+
       piedestal.draw()
       let item = piedestal.itemChoice(this.listItem)
   
