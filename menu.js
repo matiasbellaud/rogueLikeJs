@@ -50,8 +50,8 @@ export default class Menu {
         } 
     }
 
-    deathMenu(){
-        this.deathImage()
+    deathMenu(minutes,secondes){
+        this.deathImage(minutes,secondes)
         this.reload()
         if (this.canClick){
             if (keyPresses.Enter) {
@@ -95,13 +95,15 @@ export default class Menu {
         this.drawText("Presse m to exit","black",this.x+35,this.y +100+70,"15")
     }
 
-    deathImage(){
+    deathImage(minutes,secondes){
         let death = new Image();
         death.src = 'assets/menu/youDied.png';
 
         ctx.drawImage(death, 0, 0, 900, 600);
 
         this.drawText("Presse enter to restart","red",this.x,500,"15")
+
+        this.drawText(`You have survived ${minutes} : ${secondes}`,"red",this.x-10,530,"15")
     }
 
     buttonChangeLevel(text,color,height,x,y){
