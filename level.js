@@ -39,7 +39,7 @@ export default class Level{
         [[1,1,0,0,1,0,5,0],[1,1,1,1,0,1,0,0]  ,["I",0,0,1,0,2,0,1]],
         [[2,0,0,0,1,0,0,0],[1,1,1,0,1,1,3,0]  ,[2,1,1,0,0,0,0,0]]];
 
-        this.nowPaterne = this.paterne2
+        this.nowPaterne = this.paterne1
         
         this.listMap = []
         this.now 
