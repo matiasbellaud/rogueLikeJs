@@ -1,4 +1,4 @@
-import { Autoguide, DoubleShot, Gatling, Piercing, Spectral } from "./item.js";
+import { Autoguide, DoubleShot, Gatling, Piercing, Spectral, UpHpElixir } from "./item.js";
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
@@ -37,6 +37,8 @@ export default class Piedestal {
             case "Piercing":
                 item = new Piercing(x,y)
                 break;
+            case "upHpElixir":
+                item = new UpHpElixir(x,y)
             default:
             break;
         }
