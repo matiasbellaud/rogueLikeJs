@@ -300,6 +300,9 @@ export class Oozeling extends Ennemy{
       this.x = x;
       this.y = 300;
 
+      this.height = 60
+      this.width = 60
+
       this.movement_speed = 2;
 
 
@@ -317,10 +320,27 @@ export class Oozeling extends Ennemy{
        this.projDmg = 2;
        this.spectral = false
        this.projImg = 'assets/projectil/acidball.png'
-
+      
 
        //--------------------------
+       this.sprite = ["/assets/Ennemy/Oozeling/Oozeling-Face.png","/assets/Ennemy/Oozeling/Oozeling-Face2.png","/assets/Ennemy/Oozeling/Oozeling-Face3.png","/assets/Ennemy/Oozeling/Oozeling-Face4.png","/assets/Ennemy/Oozeling/Oozeling-Face5.png"]
+       this.frame = 0
+       this.indexSprite = 0
       
+  }
+
+  draw(){
+    
+    let  ennemy = new Image();
+    if (this.frame%5==0) {
+      this.indexSprite ++
+      if (this.indexSprite == this.sprite.length) {
+        this.indexSprite = 0
+      }
+    }
+    ennemy.src = this.sprite[this.indexSprite]
+    ctx.drawImage(ennemy,this.x,this.y,this.width,this.height)
+    this.frame++
   }
 
   move(allElement){}

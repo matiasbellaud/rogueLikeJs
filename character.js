@@ -44,7 +44,7 @@ export default class Character {
         this.spectral = false;
         this.piercing = false;
         this.target = false;
-        this.ray = true
+        this.ray = false
         this.projImg='assets/projectil/baseArrow.png'
 
         //--------------------------

@@ -10,15 +10,15 @@ export default class Item{
         this.active = true
         this.img = 'assets/item/Autoguide.png'
         this.consumable = false
+        this.name = ""
     };
   
     draw(x,y){
         let  item = new Image();
         item.src = this.img;
-        let pillar = new Image();
-        pillar.src = "assets/room/item_pillar.png"
+       
         if (this.active) { 
-            ctx.drawImage(pillar,this.x-7,this.y+30,this.width*1.5,this.height*1.5)
+            
             ctx.drawImage(item,this.x,this.y,this.width,this.height)
         } 
         else {
@@ -37,6 +37,7 @@ export class DoubleShot extends Item{
         this.reload = 5
         this.shotNbr = 1
         this.img = 'assets/item/doubleShoot.png'
+        this.name = "doubleShot"
     }
 
     use(char){
@@ -54,6 +55,7 @@ export class Gatling extends Item{
         this.projHeight = 2
         this.shotNbr = 1
         this.img = 'assets/item/gatling.png'
+        this.name = "Gatling"
     }
 
     use(char){
@@ -74,6 +76,7 @@ export class Autoguide extends Item{
         this.range = 30
         this.speed = -3
         this.img = 'assets/item/Autoguide.png'
+        this.name = "Autoguide"
     }
 
     use(char){
@@ -89,6 +92,7 @@ export class Spectral extends Item{
         super(x,y)
         this.spectral = true
         this.img = 'assets/item/Spectral.png'
+        this.name = "Spectral"
 
     }
     use(char){
@@ -120,6 +124,7 @@ export class Piercing extends Item{
         super(x,y)
         this.piercing = true
         this.img = 'assets/item/Piercing.png'
+        this.name = "Piercing"
 
     }
     use(char){
