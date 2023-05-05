@@ -47,6 +47,7 @@ export default class Ennemy{
              this.spectral = false;
              this.piercing = false
              this.target = false;
+             this.blizt = false;
       
              //--------------------------
     
@@ -192,7 +193,7 @@ export default class Ennemy{
         dy /= hyp;
         let xLook = -dx
         let yLook = -dy
-        this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
+        this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,"Character",this.projImg))
         this.projectilNbr++
       }
       this.updateProj(allElement,ennemyList);

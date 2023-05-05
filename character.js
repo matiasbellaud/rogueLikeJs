@@ -45,6 +45,7 @@ export default class Character {
         this.piercing = false;
         this.target = false;
         this.ray = false
+        this.blitz = false
         this.projImg='assets/projectil/baseArrow.png'
 
         //--------------------------
@@ -361,9 +362,9 @@ export default class Character {
            
            if(this.projectilNbr===1){
             if (xLook=== 0){
-              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
+              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,"Ennemy",this.projImg))
             }else{
-              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
+              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,"Ennemy",this.projImg))
             }
             this.projectilNbr++
            }else{
@@ -371,9 +372,9 @@ export default class Character {
 
                 if (xLook=== 0){
                   
-                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
+                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,"Ennemy",this.projImg))
                 }else{
-                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
+                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,"Ennemy",this.projImg))
                 }
                 this.projectilNbr++
               }

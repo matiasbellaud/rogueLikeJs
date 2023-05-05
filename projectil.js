@@ -6,8 +6,11 @@ import Floor from "./floor.js";
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
 export default class Projectil{
-    constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,piercing,target,focus,img){
+    constructor(x,y,xDirection,yDirection,height,range,speed,dmg,spectral,piercing,target,blitz,focus,img){
 
       this.x = x
       this.y = y
@@ -22,15 +25,24 @@ export default class Projectil{
       this.spectral = spectral
       this.piercing = piercing;
       this.target = [target,null]
+
       this.alive = true
-      
-      
       this.frame = 0
       this.focus= focus
       this.img = img
 
       this.ennemyList = []
+
+      if (blitz) {
+          let luck = randomIntFromInterval(1,10)
+          if (luck==1) {
+            this.dmg*=3
+            this.movement_speed+=10
+          }
+      }
     }
+
+
 
     getAngles(){
       let scalaire =0*this.xDirection+-1*this.yDirection

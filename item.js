@@ -186,3 +186,17 @@ export class UpSpeedMoveElixir extends Item{
         this.active = false
     }
 }
+
+export class Blitz extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.blitz = true
+        this.name = "blitz"
+        this.img = 'assets/item/upDamageElixir.png'
+    }
+    
+    use(char){
+        char.blitz = true
+        this.active = false
+    }
+}
