@@ -142,15 +142,12 @@ class AllMap{
       switch (index) {
         case 0:
           ennemy = new Mucusthing(x,y)
-          console.log(x,y)
           break;
         case 1:
           ennemy = new Oozeling(x,y)
-          console.log(x,y)
           break;
         case 2:
           ennemy = new Shadowraith(x,y)
-          console.log(x,y)
           break;
         default:
           break;

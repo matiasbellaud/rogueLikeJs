@@ -37,7 +37,7 @@ export default class Character {
 
         this.projHeight = 15;
         this.shootNbr=1;
-        this.cooldown = 20;
+        this.cooldown = 35;
         this.projectilSpeed = 8;
         this.range = 40;
         this.projDmg = 5;

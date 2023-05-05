@@ -48,7 +48,7 @@ export class DoubleShot extends Item{
 export class Gatling extends Item{
     constructor(x,y){
         super(x,y)
-        this.reload = -15
+        this.reload = -12
         this.projHeight = 2
         this.shotNbr = 1
         this.name = "gatling"
@@ -133,12 +133,52 @@ export class healPotion extends Item{
 export class UpHpElixir extends Item{
     constructor(x,y){
         super(x,y)
+        this.consumable = true
         this.name = "upHpElixir"
         this.img = 'assets/item/healPotion.png'
     }
     use(char){
         char.maxHp++
-        char.hp.maxHp++    
+        char.hp.maxHp++
+        this.active = false
+    }
+}
+
+export class UpDamageElixir extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.consumable = true
+        this.name = "upDamageElixir"
+        this.img = 'assets/item/upDamageElixir.png'
+    }
+    use(char){
+        char.projDmg += 2
+        this.active = false
+    }
+}
+
+export class UpSpeedShootElixir extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.consumable = true
+        this.name = "upSpeedShootElixir"
+        this.img = 'assets/item/upSpeedShootElixir.png'
+    }
+    use(char){
+        char.cooldown -= 2
+        this.active = false
+    }
+}
+
+export class UpSpeedMoveElixir extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.consumable = true
+        this.name = "upSpeedMoveElixir"
+        this.img = 'assets/item/upSpeedMoveElixir.png'
+    }
+    use(char){
+        char.movement_speed += 0.5
         this.active = false
     }
 }

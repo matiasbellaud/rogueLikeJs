@@ -28,6 +28,63 @@ export default class Menu {
         } 
     }
 
+    buttonStart(start,text,color,height,x,y){
+        if (!start){
+            let startButton = new Image();
+            startButton.src = 'assets/menu/startButton.jpg';
+            ctx.drawImage(startButton, this.x, this.y, this.width, this.height);
+        }
+        
+        this.drawText(text,color,x,y,height)
+    }
+
+    deathMenu(minutes,secondes,level){
+        this.deathImage(minutes,secondes,level)
+        this.reload()
+        if (this.canClick){
+            if (keyPresses.Enter) {
+                this.start = true
+                this.canClick = false
+            }  
+        } 
+    }
+
+    deathImage(minutes,secondes,level){
+        let death = new Image();
+        death.src = 'assets/menu/youDied.png';
+
+        ctx.drawImage(death, 0, 0, 900, 600);
+
+        this.drawText("Presse enter to restart","red",this.x,500,"15")
+
+        this.drawText(`You have survived ${minutes} : ${secondes}`,"red",this.x-10,530,"15")
+
+        this.drawText(`Level  ${level}`,"red",this.x+70,560,"15")
+    }
+
+    changeLevelMenu(){
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,900,600)
+        let text = "You change level, be careful little one ..."
+        this.drawText(text,"white",this.x-150,500,20)
+
+        this.reload()
+        if (this.canClick){
+            if (keyPresses.Enter) {
+                this.isChangeLevel = false
+                this.canClick = false
+            }  
+        } 
+    }
+
+    drawText(text, color,x,y,height){
+        let font = "px monospace"
+        font = height+font
+        ctx.font = font;
+        ctx.fillStyle = color
+        ctx.fillText(text, x, y);
+    }
+
     pauseMenu(){
         this.reload()
         if (this.canClick){
@@ -43,47 +100,16 @@ export default class Menu {
             if (this.isPaused === true){
                 if (keyPresses.m) {
                     this.reset = true
-                    this.start = true
                     this.canClick = false
                 }
             }
         } 
     }
 
-    deathMenu(minutes,secondes){
-        this.deathImage(minutes,secondes)
-        this.reload()
-        if (this.canClick){
-            if (keyPresses.Enter) {
-                this.start = true
-                this.canClick = false
-            }  
-        } 
-    }
-
-    changeLevelMenu(){
-        ctx.fillStyle = "black";
-        ctx.fillRect(0,0,900,600)
-        let text = "You change level, be careful little one ..."
-        this.buttonChangeLevel(text,"white",20,this.x-150,500)
-
-        this.reload()
-        if (this.canClick){
-            if (keyPresses.Enter) {
-                this.isChangeLevel = false
-                this.canClick = false
-            }  
-        } 
-    }
-
-    buttonStart(start,text,color,height,x,y){
-        if (!start){
-            let startButton = new Image();
-            startButton.src = 'assets/menu/startButton.jpg';
-            ctx.drawImage(startButton, this.x, this.y, this.width, this.height);
-        }
-        
-        this.drawText(text,color,x,y,height)
+    drawPause(){
+        let text = "presse Echap to play"
+        this.buttonStart(false,text,"black","15",this.x+20,this.y+70)
+        this.buttonMenu()
     }
 
     buttonMenu(){
@@ -95,34 +121,21 @@ export default class Menu {
         this.drawText("Presse m to exit","black",this.x+35,this.y +100+70,"15")
     }
 
-    deathImage(minutes,secondes){
-        let death = new Image();
-        death.src = 'assets/menu/youDied.png';
+    winMenu(minutes,secondes){
+        this.reload()
+        let winImage = new Image()
+        winImage.src="assets/menu/win.jpg"
+        ctx.drawImage(winImage,100, 100, 700, 500);
 
-        ctx.drawImage(death, 0, 0, 900, 600);
+        this.drawText(`You win in ${minutes} : ${secondes}`,"white",this.x-10,530,"15")
 
-        this.drawText("Presse enter to restart","red",this.x,500,"15")
-
-        this.drawText(`You have survived ${minutes} : ${secondes}`,"red",this.x-10,530,"15")
-    }
-
-    buttonChangeLevel(text,color,height,x,y){
-        this.drawText(text,color,x,y,height)
-    }
-
-    drawText(text, color,x,y,height){
-        let font = "px monospace"
-        font = height+font
-        ctx.font = font;
-        ctx.fillStyle = color
-        ctx.fillText(text, x, y);
-    }
-
-
-    drawPause(){
-        let text = "presse Echap to play"
-        this.buttonStart(false,text,"black","15",this.x+20,this.y+70)
-        this.buttonMenu()
+        if (this.canClick){
+            if (keyPresses.Enter) {
+                console.log("test")
+                this.reset = true
+                this.canClick = false
+            }  
+        } 
     }
 
     reload(){

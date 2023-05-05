@@ -1,4 +1,4 @@
-import { healPotion } from "./item.js";
+import { healPotion,UpDamageElixir,UpSpeedMoveElixir,UpSpeedShootElixir } from "./item.js";
 import Projectil from "./projectil.js";
 import Wall, { Obstacle } from "./wall.js";
 
@@ -245,6 +245,18 @@ export default class Ennemy{
         let chance = Math.floor(Math.random() * (100 - 0 + 1) + 0)
         if (chance <= 10){
           let potion = new healPotion(this.x,this.y)
+          allElement.push(potion)
+      
+        } else if (chance >= 11 && chance <= 13){
+          let potion = new UpDamageElixir(this.x,this.y)
+          allElement.push(potion)
+     
+        } else if (chance >= 14 && chance <= 17){
+          let potion = new UpSpeedShootElixir(this.x,this.y)
+          allElement.push(potion)
+      
+        } else if (chance >= 18 && chance <= 21){
+          let potion = new UpSpeedMoveElixir(this.x,this.y)
           allElement.push(potion)
         }
     }

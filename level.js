@@ -39,7 +39,7 @@ export default class Level{
         [[1,1,0,0,1,0,5,0],[1,1,1,1,0,1,0,0]  ,["I",0,0,1,0,2,0,1]],
         [[2,0,0,0,1,0,0,0],[1,1,1,0,1,1,3,0]  ,[2,1,1,0,0,0,0,0]]];
 
-        this.nowPaterne = this.paterne1
+        this.nowPaterne = this.paterne2
         
         this.listMap = []
         this.now 
@@ -119,6 +119,7 @@ export default class Level{
           }
           this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
           char.changeMap = false
+          char.listProj = []
         }
       }
 
