@@ -24,9 +24,6 @@ export default class Item{
         else {
             ctx.drawImage(item,x,y,this.width,this.height)
         }
-
-        
-
     }
   }
 
@@ -36,6 +33,7 @@ export class DoubleShot extends Item{
         super(x,y)
         this.reload = 5
         this.shotNbr = 1
+        this.name = "doubleShot"
         this.img = 'assets/item/doubleShoot.png'
         this.name = "doubleShot"
     }
@@ -51,9 +49,10 @@ export class DoubleShot extends Item{
 export class Gatling extends Item{
     constructor(x,y){
         super(x,y)
-        this.reload = -15
+        this.reload = -12
         this.projHeight = 2
         this.shotNbr = 1
+        this.name = "gatling"
         this.img = 'assets/item/gatling.png'
         this.name = "Gatling"
     }
@@ -75,6 +74,7 @@ export class Autoguide extends Item{
         this.target = true
         this.range = 30
         this.speed = -3
+        this.name = "autoGuide"
         this.img = 'assets/item/Autoguide.png'
         this.name = "Autoguide"
     }
@@ -91,6 +91,7 @@ export class Spectral extends Item{
     constructor(x,y){
         super(x,y)
         this.spectral = true
+        this.name = "spectral"
         this.img = 'assets/item/Spectral.png'
         this.name = "Spectral"
 
@@ -101,12 +102,26 @@ export class Spectral extends Item{
     }
 }
 
+export class Piercing extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.piercing = true
+        this.name = "piercing"
+        this.img = 'assets/item/Piercing.png'
+    }
+    use(char){
+        char.piercing = this.piercing     
+        this.active = false
+    }
+}
+
 export class healPotion extends Item{
     constructor(x,y){
         super(x,y)
         this.consumable = true
         this.height = 20
         this.width = 20
+        this.name = "healPotion"
         this.img = 'assets/item/healPotion.png'
     }
 
@@ -119,16 +134,55 @@ export class healPotion extends Item{
     }
 }
 
-export class Piercing extends Item{
+export class UpHpElixir extends Item{
     constructor(x,y){
         super(x,y)
-        this.piercing = true
-        this.img = 'assets/item/Piercing.png'
-        this.name = "Piercing"
-
+        this.consumable = true
+        this.name = "upHpElixir"
+        this.img = 'assets/item/healPotion.png'
     }
     use(char){
-        char.piercing = this.piercing     
+        char.maxHp++
+        char.hp.maxHp++
+        this.active = false
+    }
+}
+
+export class UpDamageElixir extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.consumable = true
+        this.name = "upDamageElixir"
+        this.img = 'assets/item/upDamageElixir.png'
+    }
+    use(char){
+        char.projDmg += 2
+        this.active = false
+    }
+}
+
+export class UpSpeedShootElixir extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.consumable = true
+        this.name = "upSpeedShootElixir"
+        this.img = 'assets/item/upSpeedShootElixir.png'
+    }
+    use(char){
+        char.cooldown -= 2
+        this.active = false
+    }
+}
+
+export class UpSpeedMoveElixir extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.consumable = true
+        this.name = "upSpeedMoveElixir"
+        this.img = 'assets/item/upSpeedMoveElixir.png'
+    }
+    use(char){
+        char.movement_speed += 0.5
         this.active = false
     }
 }

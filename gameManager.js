@@ -30,6 +30,15 @@ function gameManager(){
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+  if (level.levelPlayer === 11){
+    stopTimer()
+    menu.winMenu(minutes,secondes)
+    if (menu.reset === true){
+      return(gameManager())
+    }
+    return window.requestAnimationFrame(gameLoop);
+  }
+
   if (menu.start===true){
     menu.startMenu()
     return window.requestAnimationFrame(gameLoop);
@@ -43,7 +52,7 @@ function gameLoop() {
   if (char.currentHp < 1){
     stopTimer()
     
-    menu.deathMenu(minutes,secondes)
+    menu.deathMenu(minutes,secondes,level.levelPlayer)
     if (menu.start === true){
       return (gameManager())
     }
@@ -51,21 +60,20 @@ function gameLoop() {
 
   } else {
     level.now.mapDraw();
+  
+    char.reload()
     
-    if (char.currentHp > 0){
-      char.reload()
-      
-      char.collisionUpdate(level.now.listMapElement)
-      char.draw();
-      char.drawListItem();
-      level.drawPlayerLevel()
-      if (!menu.isPaused){
-        char.move( level.now.listMapElement);
-        char.shoot(level.now.listMapElement,level.now.ennemyList);
-      } else {
-        char.sprite(false)
-      }
-    };
+    char.collisionUpdate(level.now.listMapElement)
+    char.draw();
+    char.drawListItem();
+    level.drawPlayerLevel()
+
+    if (!menu.isPaused){
+      char.move( level.now.listMapElement);
+      char.shoot(level.now.listMapElement,level.now.ennemyList);
+    } else {
+      char.sprite(false)
+    }
 
     if (!menu.isPaused){
       level.ennemyAction();
@@ -84,7 +92,7 @@ function gameLoop() {
     if (menu.isChangeLevel){
       menu.changeLevelMenu()
     }
-    if (menu.start === true){
+    if (menu.reset === true){
       return (gameManager())
     }
 

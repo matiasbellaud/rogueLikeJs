@@ -1,3 +1,4 @@
+import { healPotion,UpDamageElixir,UpSpeedMoveElixir,UpSpeedShootElixir } from "./item.js";
 import Projectil from "./projectil.js";
 import Wall, { Obstacle } from "./wall.js";
 
@@ -5,9 +6,9 @@ let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
 
 export default class Ennemy{
-    constructor(){
-      this.x = 200;
-      this.y = 300;
+    constructor(x,y){
+      this.x = x;
+      this.y = y;
       this.width = 30;
       this.height = 30;
       this.movement_speed = 2;
@@ -18,8 +19,9 @@ export default class Ennemy{
       this.alive = true
       this.hp = 10
       this.color ="rgb(153, 51, 153)"
+      this.isBoss = false
 
-             //Projectil parameter
+      //Projectil parameter
 
              this.projHeight = 10;
              this.shootNbr=1;
@@ -34,7 +36,7 @@ export default class Ennemy{
              //--------------------------
       this.color ="rgb(153, 51, 153)"
 
-             //Projectil parameter
+      //Projectil parameter
 
              this.projHeight = 10;
              this.shootNbr=1;
@@ -51,19 +53,15 @@ export default class Ennemy{
     };
 
     draw(allElement){
-      if (this.alive) {
-        
+      if (this.alive) {  
         ctx.beginPath();
 
         ctx.ellipse(this.x+this.height/2, this.y+this.width/2, this.width/2,this.height/2, Math.PI / 4, 0, 2 * Math.PI);
         ctx.strokeStyle = "rgb(102, 0, 102)";
         ctx.fillStyle = this.color;
         ctx.fillStyle = this.color;
-        ctx.fill();
-        //tx.stroke();
-        
+        ctx.fill();   
       }
-
     };
 
     hitbox(){
@@ -75,7 +73,6 @@ export default class Ennemy{
       ctx.fillRect(this.x+this.height,this.y,1,this.height*2)
 
     }
-
 
     updateProj(allElement,ennemyList){
       let index = []
@@ -91,7 +88,6 @@ export default class Ennemy{
       }
     }
 
-
     randomIntFromInterval(min, max) { // min and max included 
       return Math.floor(Math.random() * (max - min + 1) + min)
     }
@@ -104,11 +100,6 @@ export default class Ennemy{
       this.dy /= hyp;
 
       for (let i = 0; i < this.movement_speed; i++) {
-        // if (this.distance(this.x,this.y+0.5,allElement[0])<=this.distance(this.x,this.y-0.5,allElement[0])){
-        //   this.y++
-        // }else{
-        //   this.y--
-        // }
         this.y -= this.dy
         
         for (let i = 0; i < allElement.length; i++) {
@@ -130,7 +121,6 @@ export default class Ennemy{
                         break;
                      }
                    }
-                  
                 }else if(allElement[i] instanceof Wall && !(allElement[i] instanceof Obstacle)){
                   switch (this.collisionDetection(allElement[i])[1]) {
                     case "up":
@@ -150,19 +140,10 @@ export default class Ennemy{
                 
                }
              }
- 
-
-        // if (this.distance(this.x+0.15,this.y,allElement[0])<=this.distance(this.x-0.5,this.y,allElement[0])){
-        //   this.x++
-        // }else{
-        //   this.x--
-        // }
         this.x -= this.dx
             for (let i = 0; i < allElement.length; i++) {
               if (this.collisionDetection(allElement[i])[0]) {
                 if (!this.fly) {
-                  
-                
                   if (allElement[i] instanceof Wall) {
                     switch (this.collisionDetection(allElement[i])[1]) {
                       case "left":
@@ -196,19 +177,13 @@ export default class Ennemy{
               }
             }
           }
-        
-
-    
       if (!this.alive) {
         this.movement_speed = 0
-      }
-      
-      
+      }  
     };
 
     shoot(allElement,ennemyList){
       if (this.canShoot) {
-        
         this.reload().then(result => this.canShoot = true)
         let dx = this.x - allElement[0].x;
         let dy = this.y - allElement[0].y;
@@ -219,7 +194,6 @@ export default class Ennemy{
         let yLook = -dy
         this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
         this.projectilNbr++
-        
       }
       this.updateProj(allElement,ennemyList);
     }
@@ -238,35 +212,24 @@ export default class Ennemy{
       if (xAxis){
   
         if (upBox) {
-          
           return [true,'up']
-  
         }else {this.sMove = true}
   
         if (downBox) {
-  
-  
           return [true,"down"]
-  
         }else{this.zMove = true}
-  
+
       }else{this.sMove = true;this.zMove = true}
       if (yAxis) {
         
         if (leftBox) {
-  
-
           return [true, "left"]
         }else { this.dMove = true}
   
-        if (rightBox) {
-  
-          
+        if (rightBox) {   
           return [true,"right"]
         }else{ this.qMove = true}
-  
       }
-      //element.isColliding = false
       return [false,"none"]  
     }
 
@@ -277,19 +240,36 @@ export default class Ennemy{
         setTimeout(() => resolve("done"), delay);
       });
     }
+
+    die(allElement){
+        let chance = Math.floor(Math.random() * (100 - 0 + 1) + 0)
+        if (chance <= 10){
+          let potion = new healPotion(this.x,this.y)
+          allElement.push(potion)
+      
+        } else if (chance >= 11 && chance <= 13){
+          let potion = new UpDamageElixir(this.x,this.y)
+          allElement.push(potion)
+     
+        } else if (chance >= 14 && chance <= 17){
+          let potion = new UpSpeedShootElixir(this.x,this.y)
+          allElement.push(potion)
+      
+        } else if (chance >= 18 && chance <= 21){
+          let potion = new UpSpeedMoveElixir(this.x,this.y)
+          allElement.push(potion)
+        }
+    }
   };
 
 export class Mucusthing extends Ennemy{
 
-  constructor(){
-    super()
+  constructor(x,y){
+    super(x,y)
       this.movement_speed = 2;
-
-      
       this.hp = 10
       this.color ="rgb(153, 100, 153)"
   }
-
   shoot(){}
 }
 
@@ -304,7 +284,6 @@ export class Oozeling extends Ennemy{
       this.width = 60
 
       this.movement_speed = 2;
-
 
       this.hp = 15
       this.color ="rgb(153, 255, 153)"
@@ -344,29 +323,22 @@ export class Oozeling extends Ennemy{
   }
 
   move(allElement){}
-
 }
   
-
-
 export class Shadowraith extends Ennemy{
-
-  constructor(){
-    super()
+  constructor(x,y){
+    super(x,y)
       this.movement_speed = 1;
       this.fly = true
-
       this.hp = 5
       this.color ="rgb(0, 0, 0)"
   }
-
   shoot(){}
 }
 
 export class Cthonicbeast extends Ennemy{
-
-  constructor(){
-    super()
+  constructor(x,y){
+    super(x,y)
       this.movement_speed = 1;
       this.height = 40
       this.width = 40
@@ -374,11 +346,11 @@ export class Cthonicbeast extends Ennemy{
       this.isShooting = false
       this.range = 100
       this.delay = 2000
-      this.hp = 20
+      this.hp = 50
       this.color ="rgb(234,182,118)"
-
       this.xAttack = this.x
       this.yAttack = this.y
+      this.isBoss = true
   }
 
   draw(allElement){
@@ -388,8 +360,7 @@ export class Cthonicbeast extends Ennemy{
             crack.src ='assets/animation/fissure.png';
             ctx.drawImage(crack,this.xAttack-this.range,this.yAttack-this.range+10,this.range*2,this.range*2)
             ctx.globalAlpha = 1
-    }else{
-      
+    }else{ 
       this.xAttack = this.x
       this.yAttack = this.y
     }
@@ -401,7 +372,6 @@ export class Cthonicbeast extends Ennemy{
       ctx.fillStyle = "rgb(115, 86, 50)";
       ctx.globalAlpha = 0.1;
       ctx.fill();
-
       ctx.globalAlpha = 1;
     }
 
@@ -413,10 +383,7 @@ export class Cthonicbeast extends Ennemy{
       ctx.strokeStyle = "rgb(102, 0, 102)";
       ctx.fillStyle = this.color;
       ctx.fill();
-      //tx.stroke();
-      
     }
-    
   };
 
   shoot(allElement,ennemyList){
@@ -435,10 +402,8 @@ export class Cthonicbeast extends Ennemy{
             this.dy = this.y - allElement[0].y;
             let hyp = Math.sqrt(this.dx*this.dx + this.dy*this.dy);
             if (hyp<this.range) {allElement[0].takeDamage()}})
-          
       }
     }
-    
   }
 
   animationTime(){
@@ -455,23 +420,22 @@ export class Cthonicbeast extends Ennemy{
 }
 
 export class Necrodrake extends Ennemy{
-
-  constructor(){
-    super()
+  constructor(x,y){
+    super(x,y)
       this.listProj = []
-      this.movement_speed = 0;
+      this.movement_speed = 2;
       this.canShoot=true
       this.fly = true
       this.delay = 1000
       this.projHeight = 15
-      this.hp = 10
+      this.hp = 30
       this.range=100
       this.color ="rgb(49, 30, 64)"
+      this.isBoss = true
   }
 
   shoot(allElement,ennemyList){
     if (this.canShoot) {
-      
       this.reload().then(result => this.canShoot = true)
       for (let i = 0; i < this.randomIntFromInterval(7,12); i++) {
         this.projectilSpeed = this.randomIntFromInterval(3,5)
@@ -485,13 +449,8 @@ export class Necrodrake extends Ennemy{
         
         this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Character",this.projImg))
         this.projectilNbr++
-        
       }
-      
-      
     }
     this.updateProj(allElement,ennemyList);
   }
-
-
 }

@@ -226,6 +226,7 @@ export default class Projectil{
                 allElement[i].hp -= this.dmg
                 
                 if (allElement[i].hp<=0) {
+                  allElement[i].die(allElement)
                   allElement[i].alive=false
                   const index =ennemyList.indexOf(allElement[i])
                   ennemyList.splice(index,1)

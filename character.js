@@ -16,7 +16,7 @@ export default class Character {
     constructor(){
         this.x = 700
         this.y = 200
-        this.width = 12
+        this.width = 16
         this.height = 25
         this.movement_speed = 4;
         this.maxHp = 5
@@ -37,7 +37,7 @@ export default class Character {
 
         this.projHeight = 15;
         this.shootNbr=1;
-        this.cooldown = 20;
+        this.cooldown = 35;
         this.projectilSpeed = 8;
         this.range = 40;
         this.projDmg = 5;
@@ -264,9 +264,9 @@ export default class Character {
         this.alive = false
         // var death = new Audio("/assets/sound/death.mp3")
         // death.play()
-        death.addEventListener('ended', function() {
-        death = null
-          }, false);
+        // death.addEventListener('ended', function() {
+        // death = null
+        //   }, false);
       }
 
     }
@@ -357,9 +357,6 @@ export default class Character {
                 const ray = new Ray(this.x+5,this.y+(10+(i*3.5)), xLook, yLook,this.projDmg,this.spectral,this.target,focus)
                 ray.draw(allElement,ennemyList)
               }
-              
-
-
             }else{
            
            if(this.projectilNbr===1){
