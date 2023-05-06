@@ -15,8 +15,6 @@ let level = new Level();
 let menu = new Menu();
 
 function gameManager(){
-
-    
     char = new Character();
     temps = 0
     level = new Level();
