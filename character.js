@@ -44,10 +44,10 @@ export default class Character {
         this.spectral = false;
         this.piercing = false;
         this.target = false;
-        this.ray = false
-        this.blitz = false
-        this.divide = false
-        this.projImg='assets/projectil/baseArrow.png'
+        this.ray = false;
+        this.blitz = false;
+        this.divide = false;
+        this.projImg='assets/projectil/baseArrow.png';
 
         //--------------------------
 
@@ -303,7 +303,7 @@ export default class Character {
       
         
       }else if (cell instanceof Item){
-       
+
         cell.use(this)
         if (!cell.active) {
           // var dmg = new Audio("/assets/sound/powerUp.mp3")
@@ -353,6 +353,7 @@ export default class Character {
             
           }
           if (this.canShoot){
+
             if (this.ray) {
 
               for (let i = 1; i <= this.shootNbr; i++) {
@@ -390,7 +391,7 @@ export default class Character {
     updateProj(allElement,ennemyList){
 
       if (this.listProj.length > 0){
-        console.log(this.listProj);
+
         this.listProj.forEach(element => {
           if (!(element=== undefined)) {
             if (element.alive === true){

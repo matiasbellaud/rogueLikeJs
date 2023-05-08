@@ -38,6 +38,7 @@ export default class Projectil{
           if (luck==1) {
             this.dmg*=3
             this.movement_speed+=10
+            this.img = "/assets/projectil/blitz.png"
           }
       }
     }
@@ -91,12 +92,9 @@ export default class Projectil{
       });
 
       const smallest = Math.min(...distValue)
-      console.log(smallest);
-      console.log(close);
+
 
       for (const element of close) {
-        console.log(element[0]);
-        console.log(smallest);
         if(smallest==element[0]){
           return element[1];
           
@@ -111,10 +109,7 @@ export default class Projectil{
 
       this.movement_speed = Math.max(1,this.movement_speed)
       for (let i = 0; i < this.movement_speed; i++) {
-        if (this.target[0] && this.frame > 15 && ennemyList.length >0) {
-
-          const cible = this.closest(ennemyList)
-          console.log(cible)
+        if (this.target[0] && this.frame > 15 && ennemyList.length >0) {z
 
           this.img = "assets/projectil/targetArrow.png"
           let dx = this.x - cible.x;

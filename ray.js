@@ -86,11 +86,21 @@ export default class Ray{
 
             
             if (element instanceof Ennemy) {
+
                 let cell = this.collision(element,endX,endY)
                 if (cell !== undefined) {
 
                     elementOnPath.push(cell)
                 }
+                console.log(ennemyList);
+                if (element.hp<=0) {
+                    element.die(allElement)
+                    element.alive=false
+                    let index =ennemyList.indexOf(element)
+                    ennemyList.splice(index,1)
+                    index =allElement.indexOf(element)
+                    allElement.splice(index, 1)
+                  }
             }
         }
         

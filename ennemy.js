@@ -402,7 +402,6 @@ export class Cthonicbeast extends Ennemy{
       this.dx = this.xAttack - allElement[0].x;
       this.dy = this.yAttack- allElement[0].y;
       let hyp = Math.sqrt(this.dx*this.dx + this.dy*this.dy);
-      console.log(hyp);
 
       if (hyp<this.range) {
         this.reload().then(result => this.canShoot = true)

@@ -196,7 +196,6 @@ class AllMap{
         this.listMapFloor[i].draw();
     };
     for (let i=0;i<this.listMapElement.length;i++){
-      // console.log(this.listMapElement[i]);
         this.listMapElement[i].draw();
     };
   }  
