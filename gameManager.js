@@ -42,7 +42,7 @@ function gameLoop() {
   if (menu.start===true){
     menu.startMenu()
     return window.requestAnimationFrame(gameLoop);
-  } 
+  }
 
   if (timerRun === false){
     startTimer()
@@ -96,6 +96,7 @@ function gameLoop() {
       return (gameManager())
     }
 
+
     window.requestAnimationFrame(gameLoop);
   }
 };
@@ -119,3 +120,4 @@ function stopTimer() {
 
 
 gameManager();
+

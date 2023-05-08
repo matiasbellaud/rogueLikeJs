@@ -1,3 +1,5 @@
+import GamePad from "./gamePad.js";
+
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d')
 
@@ -13,15 +15,18 @@ export default class Menu {
         this.frame = 0
         this.start = true
         this.isChangeLevel = false
+
+        this.gp = new GamePad
     }
 
     startMenu(){
+        this.gp.update()
         let text = "Presse Enter to play"
         this.buttonStart(true,text,"white","30",this.x-50, this.y+100)
 
         this.reload()
         if (this.canClick){
-            if (keyPresses.Enter) {
+            if (keyPresses.Enter || this.gp.entre) {
                 this.start = false
                 this.canClick = false
             }  
@@ -39,10 +44,11 @@ export default class Menu {
     }
 
     deathMenu(minutes,secondes,level){
+        this.gp.update()
         this.deathImage(minutes,secondes,level)
         this.reload()
         if (this.canClick){
-            if (keyPresses.Enter) {
+            if (keyPresses.Enter|| this.gp.entre) {
                 this.start = true
                 this.canClick = false
             }  
@@ -63,6 +69,7 @@ export default class Menu {
     }
 
     changeLevelMenu(){
+        this.gp.update()
         ctx.fillStyle = "black";
         ctx.fillRect(0,0,900,600)
         let text = "You change level, be careful little one ..."
@@ -70,7 +77,7 @@ export default class Menu {
 
         this.reload()
         if (this.canClick){
-            if (keyPresses.Enter) {
+            if (keyPresses.Enter|| this.gp.entre) {
                 this.isChangeLevel = false
                 this.canClick = false
             }  
@@ -86,9 +93,10 @@ export default class Menu {
     }
 
     pauseMenu(){
+        this.gp.update()
         this.reload()
         if (this.canClick){
-            if (keyPresses.Escape) {
+            if (keyPresses.Escape|| this.gp.pause) {
                 if (this.isPaused === false){
                     this.isPaused = true
                 } else {
@@ -98,7 +106,7 @@ export default class Menu {
             }
 
             if (this.isPaused === true){
-                if (keyPresses.m) {
+                if (keyPresses.m || this.gp.entre) {
                     this.reset = true
                     this.canClick = false
                 }
@@ -122,6 +130,7 @@ export default class Menu {
     }
 
     winMenu(minutes,secondes){
+        this.gp.update()
         this.reload()
         let winImage = new Image()
         winImage.src="assets/menu/win.jpg"
@@ -130,7 +139,7 @@ export default class Menu {
         this.drawText(`You win in ${minutes} : ${secondes}`,"white",this.x-10,530,"15")
 
         if (this.canClick){
-            if (keyPresses.Enter) {
+            if (keyPresses.Enter || this.gp.entre) {
                 console.log("test")
                 this.reset = true
                 this.canClick = false
