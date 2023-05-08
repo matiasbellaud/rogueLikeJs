@@ -15,7 +15,7 @@ export default class GamePad{
         let gamepad = navigator.getGamepads();
         let gp = gamepad[0];
 
-        console.log(gp);
+
         if (gp !== null) {
             this.connected = true
             this.x = gp.axes[0];
