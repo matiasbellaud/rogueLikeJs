@@ -109,8 +109,8 @@ export default class Projectil{
 
       this.movement_speed = Math.max(1,this.movement_speed)
       for (let i = 0; i < this.movement_speed; i++) {
-        if (this.target[0] && this.frame > 15 && ennemyList.length >0) {z
-
+        if (this.target[0] && this.frame > 15 && ennemyList.length >0) {
+          const cible = this.closest(ennemyList)
           this.img = "assets/projectil/targetArrow.png"
           let dx = this.x - cible.x;
           let dy = this.y - cible.y;
