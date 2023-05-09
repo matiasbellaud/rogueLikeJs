@@ -157,7 +157,7 @@ export class UpDamageElixir extends Item{
         this.img = 'assets/item/upDamageElixir.png'
     }
     use(char){
-        char.projDmg += 2
+        char.projDmg += 1
         this.active = false
     }
 }
@@ -170,7 +170,7 @@ export class UpSpeedShootElixir extends Item{
         this.img = 'assets/item/upSpeedShootElixir.png'
     }
     use(char){
-        char.cooldown -= 2
+        char.cooldown -= char.cooldown*0.05
         this.active = false
     }
 }
@@ -183,7 +183,7 @@ export class UpSpeedMoveElixir extends Item{
         this.img = 'assets/item/upSpeedMoveElixir.png'
     }
     use(char){
-        char.movement_speed += 0.5
+        char.movement_speed += char.movement_speed*0.05
         this.active = false
     }
 }

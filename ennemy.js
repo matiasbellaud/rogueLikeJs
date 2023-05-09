@@ -239,19 +239,19 @@ export default class Ennemy{
 
     die(allElement){
         let chance = Math.floor(Math.random() * (100 - 0 + 1) + 0)
-        if (chance <= 10){
+        if (chance <= 20){
           let potion = new healPotion(this.x,this.y)
           allElement.push(potion)
       
-        } else if (chance >= 11 && chance <= 13){
+        } else if (chance >= 21 && chance <= 23){
           let potion = new UpDamageElixir(this.x,this.y)
           allElement.push(potion)
      
-        } else if (chance >= 14 && chance <= 17){
+        } else if (chance >= 24 && chance <= 27){
           let potion = new UpSpeedShootElixir(this.x,this.y)
           allElement.push(potion)
       
-        } else if (chance >= 18 && chance <= 21){
+        } else if (chance >= 28 && chance <= 31){
           let potion = new UpSpeedMoveElixir(this.x,this.y)
           allElement.push(potion)
         }
@@ -259,7 +259,7 @@ export default class Ennemy{
 
     drawHpBar(){
       if (this.isBoss){
-
+        console.log("test")
         let widthHpBar = this.hp/this.maxHp*500
 
         ctx.fillStyle = "grey"
@@ -327,6 +327,7 @@ export class Oozeling extends Ennemy{
     }
     ennemy.src = this.sprite[this.indexSprite]
     ctx.drawImage(ennemy,this.x,this.y,this.width,this.height)
+    this.drawHpBar()  
     this.frame++
   }
 
@@ -404,6 +405,7 @@ export class Cthonicbeast extends Ennemy{
       }
       
       ctx.drawImage(ennemy,this.x,this.y,this.width,this.height)
+      this.drawHpBar()  
       this.frame++
       
 
