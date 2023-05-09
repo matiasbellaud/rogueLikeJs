@@ -186,7 +186,7 @@ export default class Ennemy{
         dy /= hyp;
         let xLook = -dx
         let yLook = -dy
-        this.listProj.push(new Projectil(this.x,this.y, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Character",this.projImg))
+        this.listProj.push(new Projectil(this.x+this.width/2,this.y+this.height/4, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Character",this.projImg))
         this.projectilNbr++
       }
       this.updateProj(allElement,ennemyList);
@@ -262,8 +262,31 @@ export class Mucusthing extends Ennemy{
     super(x,y)
       this.movement_speed = 2;
       this.hp = 10
-      this.color ="rgb(153, 100, 153)"
-  }
+      this.height=40
+      this.width=40
+
+      this.sprite = 11
+      this.frame = 0
+      this.indexSprite = 0
+    }
+  
+    draw(){
+      
+      let  ennemy = new Image();
+      if (this.frame%2==0) {
+        this.indexSprite ++
+        if (this.indexSprite == this.sprite+1) {
+          this.indexSprite = 0
+        }
+      }
+       if (this.dx>0) {
+        ennemy.src = "/assets/Ennemy/Mucuthing/reverse/Mucuthing"+this.indexSprite+".png"
+       }else{
+      ennemy.src = "/assets/Ennemy/Mucuthing/Mucuthing"+this.indexSprite+".png"
+      }
+      ctx.drawImage(ennemy,this.x,this.y,this.width,this.height)
+      this.frame++
+    }
   shoot(){}
 }
 
@@ -322,10 +345,30 @@ export class Oozeling extends Ennemy{
 export class Shadowraith extends Ennemy{
   constructor(x,y){
     super(x,y)
-      this.movement_speed = 1;
-      this.fly = true
-      this.hp = 5
-      this.color ="rgb(0, 0, 0)"
+    this.height = 60
+    this.width = 60
+    this.movement_speed = 1;
+    this.fly = true
+    this.hp = 5
+      
+      
+    this.sprite = 3
+    this.frame = 0
+    this.indexSprite = 0
+  }
+
+  draw(){
+    
+    let  ennemy = new Image();
+    if (this.frame%10==0) {
+      this.indexSprite ++
+      if (this.indexSprite == this.sprite+1) {
+        this.indexSprite = 0
+      }
+    }
+    ennemy.src = "/assets/Ennemy/ShadowWrath/ShadowWrath"+this.indexSprite+".png"
+    ctx.drawImage(ennemy,this.x,this.y,this.width,this.height)
+    this.frame++
   }
   shoot(){}
 }

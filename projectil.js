@@ -112,8 +112,8 @@ export default class Projectil{
         if (this.target[0] && this.frame > 15 && ennemyList.length >0) {
           const cible = this.closest(ennemyList)
           this.img = "assets/projectil/targetArrow.png"
-          let dx = this.x - cible.x;
-          let dy = this.y - cible.y;
+          let dx = this.x - (cible.x+cible.width/2);
+          let dy = this.y - (cible.y+cible.height/2);
           let hyp = Math.sqrt(dx*dx + dy*dy);
 
           dx /= hyp;

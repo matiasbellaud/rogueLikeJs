@@ -57,7 +57,7 @@ export default class Level{
         this.now 
         this.actualPosition = [1,1]
         this.listItemLevel = []
-        this.listItem = ["blitz","doubleShot","Gatling","Spectral","Autoguide","Piercing","upHpElixir"]
+        this.listItem = ["blitz","doubleShot","Gatling","Spectral","Autoguide","Piercing","upHpElixir","divide","cross"]
     };
 
     addMap(char){

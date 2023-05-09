@@ -33,6 +33,7 @@ export default class Character {
         this.changeLevel = false;
         this.doorPosition = top
         this.listItem = []
+        this.cross=false
 
         //Projectil parameter
 
@@ -333,6 +334,7 @@ export default class Character {
     shoot(allElement,ennemyList){
       
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight || this.gp.X || this.gp.Y || this.gp.A || this.gp.B) {
+
         let xLook = 0
         let yLook = 0
         if (keyPresses.ArrowUp || this.gp.X) {
@@ -360,7 +362,14 @@ export default class Character {
             
           }
           if (this.canShoot){
-
+            if (this.cross) {
+              let cross = [[0,1],[0,-1],[-1,0],[1,0]]
+                    for (let i = 0; i < cross.length; i++) {
+                      this.listProj.push( new Projectil(this.x,this.y+5,cross[i][0],cross[i][1],this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Ennemy",this.projImg))
+                      this.projectilNbr++
+                    }
+                    this.canShoot = false
+            }else{
             if (this.ray) {
 
               for (let i = 1; i <= this.shootNbr; i++) {
@@ -391,6 +400,7 @@ export default class Character {
             }
             this.canShoot = false
           }
+        }
       }
       this.updateProj(allElement,ennemyList);
     }
@@ -409,7 +419,7 @@ export default class Character {
               if (element.divide){
                 let cross = [[1,1],[1,-1],[-1,-1],[-1,1]]
                 for (let i = 0; i < cross.length; i++) {
-                  this.listProj.push( new Projectil(element.x,element.y,cross[i][0],cross[i][1],8,13,3,1,this.spectral,this.piercing,this.target,this.blitz,false,"Ennemy",this.projImg))
+                  this.listProj.push( new Projectil(element.x,element.y,cross[i][0],cross[i][1],8,this.range/2,this.projectilSpeed/3,this.projDmg/3,this.spectral,this.piercing,this.target,this.blitz,false,"Ennemy",this.projImg))
                   this.projectilNbr++
                 }
               }
