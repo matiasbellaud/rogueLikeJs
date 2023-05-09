@@ -15,8 +15,6 @@ let level = new Level();
 let menu = new Menu();
 
 function gameManager(){
-
-    
     char = new Character();
     temps = 0
     level = new Level();
@@ -42,7 +40,7 @@ function gameLoop() {
   if (menu.start===true){
     menu.startMenu()
     return window.requestAnimationFrame(gameLoop);
-  } 
+  }
 
   if (timerRun === false){
     startTimer()
@@ -96,6 +94,7 @@ function gameLoop() {
       return (gameManager())
     }
 
+
     window.requestAnimationFrame(gameLoop);
   }
 };
@@ -119,3 +118,4 @@ function stopTimer() {
 
 
 gameManager();
+
