@@ -1,3 +1,5 @@
+import GamePad from "./gamePad.js";
+
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d')
 
@@ -13,64 +15,19 @@ export default class Menu {
         this.frame = 0
         this.start = true
         this.isChangeLevel = false
+
+        this.gp = new GamePad
     }
 
     startMenu(){
+        this.gp.update()
         let text = "Presse Enter to play"
         this.buttonStart(true,text,"white","30",this.x-50, this.y+100)
 
         this.reload()
         if (this.canClick){
-            if (keyPresses.Enter) {
+            if (keyPresses.Enter || this.gp.entre) {
                 this.start = false
-                this.canClick = false
-            }  
-        } 
-    }
-
-    pauseMenu(){
-        this.reload()
-        if (this.canClick){
-            if (keyPresses.Escape) {
-                if (this.isPaused === false){
-                    this.isPaused = true
-                } else {
-                    this.isPaused = false
-                }
-                this.canClick = false
-            }
-
-            if (this.isPaused === true){
-                if (keyPresses.m) {
-                    this.reset = true
-                    this.start = true
-                    this.canClick = false
-                }
-            }
-        } 
-    }
-
-    deathMenu(){
-        this.deathImage()
-        this.reload()
-        if (this.canClick){
-            if (keyPresses.Enter) {
-                this.start = true
-                this.canClick = false
-            }  
-        } 
-    }
-
-    changeLevelMenu(){
-        ctx.fillStyle = "black";
-        ctx.fillRect(0,0,900,600)
-        let text = "You change level, be careful little one ..."
-        this.buttonChangeLevel(text,"white",20,this.x-150,500)
-
-        this.reload()
-        if (this.canClick){
-            if (keyPresses.Enter) {
-                this.isChangeLevel = false
                 this.canClick = false
             }  
         } 
@@ -86,26 +43,45 @@ export default class Menu {
         this.drawText(text,color,x,y,height)
     }
 
-    buttonMenu(){
-        let menuButton = new Image();
-        menuButton.src = 'assets/menu/menuButton.jpg';
-
-        ctx.drawImage(menuButton, this.x, this.y +100, this.width, this.height);
-
-        this.drawText("Presse m to exit","black",this.x+35,this.y +100+70,"15")
+    deathMenu(minutes,secondes,level){
+        this.gp.update()
+        this.deathImage(minutes,secondes,level)
+        this.reload()
+        if (this.canClick){
+            if (keyPresses.Enter|| this.gp.entre) {
+                this.start = true
+                this.canClick = false
+            }  
+        } 
     }
 
-    deathImage(){
+    deathImage(minutes,secondes,level){
         let death = new Image();
         death.src = 'assets/menu/youDied.png';
 
         ctx.drawImage(death, 0, 0, 900, 600);
 
         this.drawText("Presse enter to restart","red",this.x,500,"15")
+
+        this.drawText(`You have survived ${minutes} : ${secondes}`,"red",this.x-10,530,"15")
+
+        this.drawText(`Level  ${level}`,"red",this.x+70,560,"15")
     }
 
-    buttonChangeLevel(text,color,height,x,y){
-        this.drawText(text,color,x,y,height)
+    changeLevelMenu(){
+        this.gp.update()
+        ctx.fillStyle = "black";
+        ctx.fillRect(0,0,900,600)
+        let text = "You change level, be careful little one ..."
+        this.drawText(text,"white",this.x-150,500,20)
+
+        this.reload()
+        if (this.canClick){
+            if (keyPresses.Enter|| this.gp.entre) {
+                this.isChangeLevel = false
+                this.canClick = false
+            }  
+        } 
     }
 
     drawText(text, color,x,y,height){
@@ -116,11 +92,59 @@ export default class Menu {
         ctx.fillText(text, x, y);
     }
 
+    pauseMenu(){
+        this.gp.update()
+        this.reload()
+        if (this.canClick){
+            if (keyPresses.Escape|| this.gp.pause) {
+                if (this.isPaused === false){
+                    this.isPaused = true
+                } else {
+                    this.isPaused = false
+                }
+                this.canClick = false
+            }
+
+            if (this.isPaused === true){
+                if (keyPresses.m || this.gp.entre) {
+                    this.reset = true
+                    this.canClick = false
+                }
+            }
+        } 
+    }
 
     drawPause(){
         let text = "presse Echap to play"
         this.buttonStart(false,text,"black","15",this.x+20,this.y+70)
         this.buttonMenu()
+    }
+
+    buttonMenu(){
+        let menuButton = new Image();
+        menuButton.src = 'assets/menu/menuButton.jpg';
+
+        ctx.drawImage(menuButton, this.x, this.y +100, this.width, this.height);
+
+        this.drawText("Presse m to exit","black",this.x+35,this.y +100+70,"15")
+    }
+
+    winMenu(minutes,secondes){
+        this.gp.update()
+        this.reload()
+        let winImage = new Image()
+        winImage.src="assets/menu/win.jpg"
+        ctx.drawImage(winImage,100, 100, 700, 500);
+
+        this.drawText(`You win in ${minutes} : ${secondes}`,"white",this.x-10,530,"15")
+
+        if (this.canClick){
+            if (keyPresses.Enter || this.gp.entre) {
+                console.log("test")
+                this.reset = true
+                this.canClick = false
+            }  
+        } 
     }
 
     reload(){

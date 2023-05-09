@@ -10,20 +10,20 @@ export default class Level{
         this.nbrPaterne = 5;
         this.numPaterne = 1;
         this.paterne1 = 
-        [[[0,0,0,0,0,0,0,0],[1,0,0,1,0,2,1,0]  ,[0,0,0,0,0,0,0,0]],
+        [[[0,0,0,0,0,0,1,0],[1,0,0,1,0,2,1,0]  ,[0,0,0,0,0,0,1,0]],
         [[2,0,0,1,1,0,0,0],[1,1,1,1,1,0,0,0],["I",0,1,0,0,1,0,1]],
-        [[1,1,0,1,0,0,5,0],[1,1,0,0,0,1,0,0]  ,[0,0,0,0,0,0,0,0]],
-        [["B",1,0,0,0,0,1,0],[1,1,0,0,0,1,0,0]  ,[0,0,0,0,0,0,0,0]]];
+        [[1,1,0,1,0,0,5,0],[1,1,0,0,0,1,1,0]  ,[0,0,0,0,0,0,1,0]],
+        [["B",1,0,0,0,1,1,0],[1,1,0,0,0,1,1,0]  ,[0,0,0,0,0,0,1,0]]];
 
         this.paterne2 = 
         [[[2,0,0,0,1,0,0,0],[1,0,1,1,0,2,1,0]  ,[0,0,0,0,0,0,0,0]],
-        [[0,0,0,0,0,0,0,0],[1,1,0,1,1,0,0,0],["B",0,1,0,0,1,2,0]],
+        [[0,0,0,0,0,0,0,0],[1,1,0,1,1,0,0,0],["B",0,1,0,0,1,1,0]],
         [[1,0,0,1,1,0,5,0],[1,1,1,1,0,1,0,0]  ,[0,0,0,0,0,0,0,0]],
         [[1,1,0,0,1,0,0,0],["I",1,1,0,0,0,0,1]  ,[0,0,0,0,0,0,0,0]]];
 
         this.paterne3 = 
         [[["I",0,0,0,1,0,0,1],[1,0,1,1,0,2,1,0]  ,[0,0,0,0,0,0,0,0]],
-        [[0,0,0,0,0,0,0,0],[1,1,0,1,0,0,0,0],["B",0,0,1,0,1,2,0]],
+        [[0,0,0,0,0,0,0,0],[1,1,0,1,0,0,0,0],["B",0,0,1,0,1,1,0]],
         [[1,0,0,0,1,0,5,0],[1,1,1,1,0,1,0,0]  ,[1,1,0,1,0,2,0,0]],
         [["I",0,0,0,1,0,0,1],[1,1,1,0,1,1,0,0]  ,[2,1,1,0,0,0,0,0]]];
 
@@ -45,29 +45,32 @@ export default class Level{
         this.now 
         this.actualPosition = [1,1]
         this.listItemLevel = []
+        this.listItem = ["blitz","doubleShot","Gatling","Spectral","Autoguide","Piercing","upHpElixir"]
     };
 
     addMap(char){
+        
         this.listMap=[]
         let tempList = []
         for (let i = 0; i<this.nowPaterne.length;i++){
             for (let j=0;j<this.nowPaterne[i].length;j++){
                 if (this.nowPaterne[i][j][0]===1){
                     let door = this.nowPaterne[i][j];
-                    tempList.push(new NormalMap(door[1],door[2],door[3],door[4],this.nowPaterne[i][j][5],this.nowPaterne[i][j][6],this.nowPaterne[i][j][7]));
+                    tempList.push(new NormalMap(door[1],door[2],door[3],door[4],this.nowPaterne[i][j][5],this.nowPaterne[i][j][6],this.nowPaterne[i][j][7],this.listItem));
                 } else if (this.nowPaterne[i][j][0]===2){
                     let door = this.nowPaterne[i][j];
-                    tempList.push(new LMap(door[1],door[2],door[3],door[4],this.nowPaterne[i][j][5],this.nowPaterne[i][j][6],this.nowPaterne[i][j][7]));
+                    tempList.push(new LMap(door[1],door[2],door[3],door[4],this.nowPaterne[i][j][5],this.nowPaterne[i][j][6],this.nowPaterne[i][j][7],this.listItem));
                 } else if (this.nowPaterne[i][j][0]==="I"){
                     let door = this.nowPaterne[i][j];
-                    tempList.push(new ItemMap(door[1],door[2],door[3],door[4],this.nowPaterne[i][j][5],this.nowPaterne[i][j][6],this.nowPaterne[i][j][7]));
+                    tempList.push(new ItemMap(door[1],door[2],door[3],door[4],this.nowPaterne[i][j][5],this.nowPaterne[i][j][6],this.nowPaterne[i][j][7],this.listItem));
                 } else if (this.nowPaterne[i][j][0]==="B"){
                     let door = this.nowPaterne[i][j];
-                    tempList.push(new BossMap(door[1],door[2],door[3],door[4],this.nowPaterne[i][j][5],this.nowPaterne[i][j][6],this.nowPaterne[i][j][7]));
+                    tempList.push(new BossMap(door[1],door[2],door[3],door[4],this.nowPaterne[i][j][5],this.nowPaterne[i][j][6],this.nowPaterne[i][j][7],this.listItem));
                 } else {
                     tempList.push(0);  
                 }
             }
+            
             this.listMap.push(tempList)
             tempList = []
         }
@@ -76,7 +79,8 @@ export default class Level{
             let listMapLengthI = this.listMap[i].length
             for (let j = 0; j<listMapLengthI;j++){
                 if (this.listMap[i][j] !== 0)
-                this.listMap[i][j].createMap(char,this.listItemLevel,this.levelPlayer)
+                
+                this.listMap[i][j].createMap(char,this.levelPlayer)
                 if (this.listMap[i][j] != 0){
                     if(this.listMap[i][j].itemMap[0] != 0){
                         this.listItemLevel.push(this.listMap[i][j].itemMap[0])
@@ -119,7 +123,9 @@ export default class Level{
           }
           this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
           char.changeMap = false
+          char.listProj = []
         }
+        
       }
 
     ennemyAction(){
@@ -155,6 +161,12 @@ export default class Level{
                     break;
                 case 3 : 
                     this.nowPaterne = this.paterne3;
+                    break;
+                case 4 : 
+                    this.nowPaterne = this.paterne4;
+                    break;
+                case 5 : 
+                    this.nowPaterne = this.paterne5;
                     break;
             }
             this.levelPlayer++

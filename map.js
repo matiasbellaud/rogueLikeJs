@@ -2,15 +2,17 @@ import Floor from './floor.js';
 import Wall, { Obstacle } from './wall.js';
 import Door from './door.js';
 import {Cthonicbeast, Mucusthing,Necrodrake,Oozeling, Shadowraith} from './ennemy.js';
-import { DoubleShot, Gatling,Autoguide,Spectral, healPotion} from './item.js';
+import { DoubleShot, Gatling,Autoguide,Spectral, healPotion, UpHpElixir} from './item.js';
 import Stair from './stair.js'
+import Piedestal from './piedestal.js';
 
+let canvas = document.querySelector('#char');
 function randomIntFromInterval(min, max) { // min and max included 
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 class AllMap{
-  constructor(isDoorTop,isDoorLeft,isDoorBottom,isDoorRight,paterneObstacle,nbrEnnemy,isItem){
+  constructor(isDoorTop,isDoorLeft,isDoorBottom,isDoorRight,paterneObstacle,nbrEnnemy,isItem,listItem){
     this.listMapElement = [];
     this.listMapFloor = [];
 
@@ -44,6 +46,8 @@ class AllMap{
 
     this.isItem = isItem
     this.itemMap = [0]
+
+    this.listItem = listItem
   };
 
   createMapFloor(){ 
@@ -134,75 +138,57 @@ class AllMap{
   }
 
   createMapEnnemy(levelPlayer){
+
     for (let i = 0; i < this.nbrEnnemy; i++) { 
-      const index = randomIntFromInterval(0,3)
+      const index = randomIntFromInterval(0,2)
       let ennemy
+      let x = randomIntFromInterval(260,630)
+      let y = randomIntFromInterval(220,370)
       switch (index) {
         case 0:
-          ennemy = new Mucusthing(randomIntFromInterval(100,400))
+          ennemy = new Mucusthing(x,y)
           break;
         case 1:
-          ennemy = new Oozeling(randomIntFromInterval(100,400))
+          ennemy = new Oozeling(x,y)
           break;
         case 2:
-          ennemy = new Shadowraith(randomIntFromInterval(100,400))
-          break;
-        case 3:
-          ennemy = new Cthonicbeast(randomIntFromInterval(100,400))
+          ennemy = new Shadowraith(x,y)
           break;
         default:
           break;
       }
       ennemy.hp = ennemy.hp+ennemy.hp*(levelPlayer*0.25)
-    // const ennemy = new Necrodrake(randomIntFromInterval(100,400))
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
     }
   }
 
-  createMapItem(listItemLevel){
+  createMapItem(){
+    
     if (this.isItem != 0){
-      let x = randomIntFromInterval(this.mapLeftX+64,this.mapRightX-64)
-      let y = randomIntFromInterval(this.mapTopY+64,this.mapBottomY-64)
-      const index = randomIntFromInterval(0,3)
-      let item
-      switch (index) {
-        case 0:
-          item = new Gatling(x,y)
-          break;
-        case 1:
-          item = new DoubleShot(x,y)
-          break;
-        case 2:
-          item = new healPotion (x,y)
-          break;
-        case 3:
-          item = new Autoguide(x,y)
-          break;
-        default:
-          break;
-      }
+      
+      let x = canvas.width/2-30
+      let y = canvas.height/2-30
+      let piedestal = new Piedestal(x,y)
+
+      piedestal.draw()
+      let item = piedestal.itemChoice(this.listItem)
   
-      for (let i=0;i<listItemLevel.length;i++){
-        if (item.consumable === false){
-          if (listItemLevel[i].name === item.name){
-            return (this.createMapItem(listItemLevel))
-          }
-        }
-      }
+      this.listMapElement.push(piedestal)
       this.itemMap.splice(0, 0, item)
       this.listMapElement.push(item)
     } 
   }
 
-  createMap(char,listItemLevel,levelPlayer){
+  createMap(char,levelPlayer){
     this.listMapElement.push(char)
     this.createMapFloor();
     this.createMapWalls();
     this.createMapDoor(this.doorLeft, this.doorRight);
     this.createMapObstacle()
     this.createMapEnnemy(levelPlayer);
-    this.createMapItem(listItemLevel);
+    
+    this.createMapItem();
   }
 
   mapDraw(){
@@ -216,8 +202,8 @@ class AllMap{
 }
 
 class LMap extends AllMap{
-    constructor(isDoorTop,isDoorLeft,isDoorBottom,isDoorRight,paterneObstacle,nbrEnnemy,isItem){
-      super(isDoorTop,isDoorLeft,isDoorBottom,isDoorRight,paterneObstacle,nbrEnnemy,isItem)
+    constructor(isDoorTop,isDoorLeft,isDoorBottom,isDoorRight,paterneObstacle,nbrEnnemy,isItem,listItem){
+      super(isDoorTop,isDoorLeft,isDoorBottom,isDoorRight,paterneObstacle,nbrEnnemy,isItem,listItem)
 
       this.cutCornerX = 13;
       this.cutCornerY = 7;
@@ -279,16 +265,14 @@ class LMap extends AllMap{
     createMap(){
         this.createMapFloor();
         this.createMapWalls();
-        this.createMapDoor(this.doorLeft, this.doorRight);
-        this.createMapEnnemy();
-        this.createMapItem();
+        this.createMapDoor(this.doorLeft, this.doorRight);    
     }  
   }
 
   
 class SquareMap extends AllMap {
-  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem){
-    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem)
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem,listItem){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem,listItem)
 
     this.IsDoorTop = doorTop;
     this.IsDoorLeft = doorLeft;
@@ -321,8 +305,8 @@ class SquareMap extends AllMap {
 }
 
 class ItemMap extends SquareMap{
-  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy){
-    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy)
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem,listItem){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem,listItem)
     this.typeRoom = "item"
 
     this.floor = new Image(100, 200);
@@ -342,12 +326,14 @@ class ItemMap extends SquareMap{
     this.openDoorLeft.src = 'assets/room/openDoorItemLeft.png';
     this.openDoorRight.src = 'assets/room/openDoorItemRight.png';
     this.obstaclePillar.src = 'assets/room/pillar.png';
+
+    this.listItem = listItem
   };
 };
 
 class BossMap extends SquareMap{
-  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem){
-    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem)
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem,listItem){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem,listItem)
     this.typeRoom = "boss"
 
     this.floor = new Image(100, 200);
@@ -374,13 +360,36 @@ class BossMap extends SquareMap{
   drawStair(){
     this.listMapElement.push( new Stair(this.stair,736,416,32,32));
   }
+
+  createMapEnnemy(levelPlayer){
+    for (let i = 0; i < this.nbrEnnemy; i++) { 
+      const index = randomIntFromInterval(0,1)
+      let ennemy
+      let x = randomIntFromInterval(260,630)
+      let y = randomIntFromInterval(220,370)
+      switch (index) {
+        case 0:
+          ennemy = new Necrodrake(x,y)
+          break;
+        case 1:
+          ennemy = new Cthonicbeast(x,y)
+          break;
+        default:
+          break;
+      }
+      ennemy.hp = ennemy.hp+ennemy.hp*(levelPlayer*0.25)
+      this.ennemyList.push(ennemy)
+      this.listMapElement.push(ennemy)
+    }
+  }
+
 };
 
 class NormalMap extends SquareMap{
-  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem){
-    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem)
+  constructor(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem,listItem){
+    super(doorTop,doorLeft,doorBottom,doorRight,paterneObstacle,nbrEnnemy,isItem,listItem)
     this.typeRoom = "normal"
-
+    
     this.floor = new Image(100, 200);
     this.wall = new Image(100, 200);
     this.angleWall = new Image(100, 200);
