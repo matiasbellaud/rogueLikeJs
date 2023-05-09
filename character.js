@@ -6,6 +6,7 @@ import Hp from "./hp.js";
 import Item from "./item.js";
 import Stair from './stair.js'
 import Ray from "./ray.js";
+import GamePad from "./gamePad.js";
 
 
 let canvas = document.querySelector('#char');
@@ -53,9 +54,12 @@ export default class Character {
 
         this.stateSprite = 0;
         this.direction = "S"
+
+        this.gp = new GamePad()
     }
 
     draw(){
+      this.gp.update()
       this.hp.draw(this.currentHp);
     }
 
@@ -65,26 +69,29 @@ export default class Character {
     }
   
     move(listMapElement){
+      
       let isMoveTop = false;
       let isMoveRight = false;
       let isMoveBottom = false;
       let isMoveLeft = false;
       let isMove = false
       let moveNow = ""
+      
+
 
       for (let i = 0; i < this.movement_speed; i++) {
-        if (keyPresses.z) {
+        if (keyPresses.z || this.gp.y<0) {
           this.y -=  1
           isMoveTop = true
-        } else if (keyPresses.s) {
+        } else if (keyPresses.s || this.gp.y>0) {
           this.y +=  1
           isMoveBottom = true
         }
     
-        if (keyPresses.q ) {
+        if (keyPresses.q || this.gp.x<0) {
           this.x -=  1
           isMoveLeft = true
-        } else if (keyPresses.d ) {
+        } else if (keyPresses.d || this.gp.x>0) {
           this.x +=  1
           isMoveRight = true
         }
@@ -325,28 +332,28 @@ export default class Character {
   
     shoot(allElement,ennemyList){
       
-      if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
+      if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight || this.gp.X || this.gp.Y || this.gp.A || this.gp.B) {
         let xLook = 0
         let yLook = 0
-        if (keyPresses.ArrowUp) {
+        if (keyPresses.ArrowUp || this.gp.X) {
             xLook = 0
             yLook = -50
             this.look(xLook,yLook)
   
             
-          } else if (keyPresses.ArrowDown) {
+          } else if (keyPresses.ArrowDown || this.gp.B) {
             xLook = 0
             yLook = 50
             this.look(xLook,yLook)
   
           }
       
-          if (keyPresses.ArrowLeft) {
+          if (keyPresses.ArrowLeft || this.gp.Y) {
             xLook = -50
             yLook = 0
             this.look(xLook,yLook)
   
-          } else if (keyPresses.ArrowRight) {
+          } else if (keyPresses.ArrowRight || this.gp.A) {
             xLook = 50
             yLook = 0
             this.look(xLook,yLook)
@@ -460,3 +467,8 @@ window.addEventListener('keyup', keyUpListener);
 function keyUpListener(event) {
     keyPresses[event.key] = false;
 };
+
+
+
+
+
