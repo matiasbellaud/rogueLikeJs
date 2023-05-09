@@ -6,6 +6,7 @@ import Hp from "./hp.js";
 import Item from "./item.js";
 import Stair from './stair.js'
 import Ray from "./ray.js";
+import GamePad from "./gamePad.js";
 
 
 let canvas = document.querySelector('#char');
@@ -44,16 +45,21 @@ export default class Character {
         this.spectral = false;
         this.piercing = false;
         this.target = false;
-        this.ray = false
-        this.projImg='assets/projectil/baseArrow.png'
+        this.ray = false;
+        this.blitz = false;
+        this.divide = false;
+        this.projImg='assets/projectil/baseArrow.png';
 
         //--------------------------
 
         this.stateSprite = 0;
         this.direction = "S"
+
+        this.gp = new GamePad()
     }
 
     draw(){
+      this.gp.update()
       this.hp.draw(this.currentHp);
     }
 
@@ -63,26 +69,29 @@ export default class Character {
     }
   
     move(listMapElement){
+      
       let isMoveTop = false;
       let isMoveRight = false;
       let isMoveBottom = false;
       let isMoveLeft = false;
       let isMove = false
       let moveNow = ""
+      
+
 
       for (let i = 0; i < this.movement_speed; i++) {
-        if (keyPresses.z) {
+        if (keyPresses.z || this.gp.y<0) {
           this.y -=  1
           isMoveTop = true
-        } else if (keyPresses.s) {
+        } else if (keyPresses.s || this.gp.y>0) {
           this.y +=  1
           isMoveBottom = true
         }
     
-        if (keyPresses.q ) {
+        if (keyPresses.q || this.gp.x<0) {
           this.x -=  1
           isMoveLeft = true
-        } else if (keyPresses.d ) {
+        } else if (keyPresses.d || this.gp.x>0) {
           this.x +=  1
           isMoveRight = true
         }
@@ -301,7 +310,7 @@ export default class Character {
       
         
       }else if (cell instanceof Item){
-       
+
         cell.use(this)
         if (!cell.active) {
           // var dmg = new Audio("/assets/sound/powerUp.mp3")
@@ -323,47 +332,48 @@ export default class Character {
   
     shoot(allElement,ennemyList){
       
-      if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight) {
+      if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight || this.gp.X || this.gp.Y || this.gp.A || this.gp.B) {
         let xLook = 0
         let yLook = 0
-        if (keyPresses.ArrowUp) {
+        if (keyPresses.ArrowUp || this.gp.X) {
             xLook = 0
             yLook = -50
             this.look(xLook,yLook)
   
             
-          } else if (keyPresses.ArrowDown) {
+          } else if (keyPresses.ArrowDown || this.gp.B) {
             xLook = 0
             yLook = 50
             this.look(xLook,yLook)
   
           }
       
-          if (keyPresses.ArrowLeft) {
+          if (keyPresses.ArrowLeft || this.gp.Y) {
             xLook = -50
             yLook = 0
             this.look(xLook,yLook)
   
-          } else if (keyPresses.ArrowRight) {
+          } else if (keyPresses.ArrowRight || this.gp.A) {
             xLook = 50
             yLook = 0
             this.look(xLook,yLook)
             
           }
           if (this.canShoot){
+
             if (this.ray) {
-              console.log(this.shootNbr);
+
               for (let i = 1; i <= this.shootNbr; i++) {
                 const ray = new Ray(this.x+5,this.y+(10+(i*3.5)), xLook, yLook,this.projDmg,this.spectral,this.target,focus)
                 ray.draw(allElement,ennemyList)
               }
             }else{
            
-           if(this.projectilNbr===1){
+           if(this.shootNbr===1){
             if (xLook=== 0){
-              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
+              this.listProj.push(new Projectil(this.x,this.y+5, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Ennemy",this.projImg))
             }else{
-              this.listProj.push(new Projectil(this.x,this.y+15, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
+              this.listProj.push(new Projectil(this.x,this.y+5, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Ennemy",this.projImg))
             }
             this.projectilNbr++
            }else{
@@ -371,9 +381,9 @@ export default class Character {
 
                 if (xLook=== 0){
                   
-                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
+                  this.listProj.push( new Projectil((this.x+this.height/2)-((this.projHeight*this.shootNbr)/1.1)+(i*this.projHeight)*2,this.y+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Ennemy",this.projImg))
                 }else{
-                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,"Ennemy",this.projImg))
+                  this.listProj.push(new Projectil(this.x,(this.y+this.width/2)-((this.projHeight*this.shootNbr)/1.2)+(i*this.projHeight)*2+10, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Ennemy",this.projImg))
                 }
                 this.projectilNbr++
               }
@@ -386,14 +396,24 @@ export default class Character {
     }
   
     updateProj(allElement,ennemyList){
-      let index = []
+
       if (this.listProj.length > 0){
+
         this.listProj.forEach(element => {
-          if (element.alive === true){
-            element.move(allElement,ennemyList)
-          } else {
-            index.push(this.listProj.indexOf(element))
-            this.projectilNbr--
+          if (!(element=== undefined)) {
+            if (element.alive === true){
+              element.move(allElement,ennemyList)
+            } else {
+              delete this.listProj[this.listProj.indexOf(element)]
+              this.projectilNbr--
+              if (element.divide){
+                let cross = [[1,1],[1,-1],[-1,-1],[-1,1]]
+                for (let i = 0; i < cross.length; i++) {
+                  this.listProj.push( new Projectil(element.x,element.y,cross[i][0],cross[i][1],8,13,3,1,this.spectral,this.piercing,this.target,this.blitz,false,"Ennemy",this.projImg))
+                  this.projectilNbr++
+                }
+              }
+            }
           }
         });
       }
@@ -401,8 +421,9 @@ export default class Character {
 
     invulnerabilityTime(){
       this.canTakeDmg = false
+      let delay = this.invulnerability*10
       return new Promise(function(resolve, reject) {
-        setTimeout(() => resolve("done"), 1500);
+        setTimeout(() => resolve("done"), delay);
       });
     }
 
@@ -446,3 +467,8 @@ window.addEventListener('keyup', keyUpListener);
 function keyUpListener(event) {
     keyPresses[event.key] = false;
 };
+
+
+
+
+

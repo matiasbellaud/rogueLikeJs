@@ -137,11 +137,12 @@ export class healPotion extends Item{
 export class UpHpElixir extends Item{
     constructor(x,y){
         super(x,y)
-        this.consumable = true
         this.name = "upHpElixir"
         this.img = 'assets/item/healPotion.png'
+
     }
     use(char){
+
         char.maxHp++
         char.hp.maxHp++
         this.active = false
@@ -183,6 +184,46 @@ export class UpSpeedMoveElixir extends Item{
     }
     use(char){
         char.movement_speed += 0.5
+        this.active = false
+    }
+}
+
+export class Blitz extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.name = "blitz"
+        this.img = 'assets/item/blitz.png'
+    }
+    
+    use(char){
+        char.blitz = true
+        this.active = false
+    }
+}
+
+export class Lazer extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.name = "lazer"
+        this.img = 'assets/item/lazer.png'
+    }
+    
+    use(char){
+        char.ray = true
+        this.active = false
+    }
+}
+
+export class Divide extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.divide = true
+        this.name = "divide"
+        this.img = 'assets/item/healPotion.png'
+    }
+    
+    use(char){
+        char.divide = true
         this.active = false
     }
 }

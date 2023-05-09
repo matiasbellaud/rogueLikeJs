@@ -1,4 +1,4 @@
-import { Autoguide, DoubleShot, Gatling, Piercing, Spectral, UpHpElixir } from "./item.js";
+import { Autoguide, Blitz, DoubleShot, Gatling, Piercing, Lazer, Spectral, UpHpElixir } from "./item.js";
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
@@ -20,6 +20,7 @@ export default class Piedestal {
         let x = this.x+this.width/4
         let y = this.y-this.height
         const index = this.randomIntFromInterval(0,itemList.length-1)
+
         let item
         switch (itemList[index]) {
             case "Gatling":
@@ -39,8 +40,14 @@ export default class Piedestal {
                 break;
             case "upHpElixir":
                 item = new UpHpElixir(x,y)
+                break;
+            case "blitz":
+                item = new Blitz(x,y)
+                break;
+            case "lazer":
+                item = new Lazer(x,y)
             default:
-            break;
+                break;
         }
         itemList.splice(index,1)
 
