@@ -24,7 +24,7 @@ export default class Character {
         this.currentHp = this.maxHp
         this.hp = new Hp(this.maxHp,this.currentHp);
         this.alive = true
-        this.invulnerability = 100;
+        this.invulnerability = 1000;
         this.canTakeDmg = true;
         this.listProj  = []
         this.projectilNbr = 0;
@@ -421,7 +421,7 @@ export default class Character {
 
     invulnerabilityTime(){
       this.canTakeDmg = false
-      let delay = this.invulnerability*10
+      let delay = this.invulnerability
       return new Promise(function(resolve, reject) {
         setTimeout(() => resolve("done"), delay);
       });

@@ -83,7 +83,7 @@ function gameLoop() {
     menu.pauseMenu();
 
     if (menu.isPaused === true){
-      menu.drawPause();
+      menu.drawPause(char);
       stopTimer()
     }
 

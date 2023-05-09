@@ -5,8 +5,6 @@ let ctx = canvas.getContext('2d')
 
 export default class Menu {
     constructor(){
-        this.x=350
-        this.y=200
         this.width = 200
         this.height = 50
         this.clickSpeed = 15
@@ -22,7 +20,7 @@ export default class Menu {
     startMenu(){
         this.gp.update()
         let text = "Presse Enter to play"
-        this.buttonStart(true,text,"white","30",this.x-50, this.y+100)
+        this.buttonStart(true,text,"white","30",300, 300)
 
         this.reload()
         if (this.canClick){
@@ -34,12 +32,9 @@ export default class Menu {
     }
 
     buttonStart(start,text,color,height,x,y){
-        if (!start){
-            let startButton = new Image();
-            startButton.src = 'assets/menu/startButton.jpg';
-            ctx.drawImage(startButton, this.x, this.y, this.width, this.height);
-        }
-        
+        let startButton = new Image();
+        startButton.src = 'assets/menu/startButton.jpg';
+        ctx.drawImage(startButton, 350, 200, this.width, this.height);
         this.drawText(text,color,x,y,height)
     }
 
@@ -61,11 +56,9 @@ export default class Menu {
 
         ctx.drawImage(death, 0, 0, 900, 600);
 
-        this.drawText("Presse enter to restart","red",this.x,500,"15")
-
-        this.drawText(`You have survived ${minutes} : ${secondes}`,"red",this.x-10,530,"15")
-
-        this.drawText(`Level  ${level}`,"red",this.x+70,560,"15")
+        this.drawText("Presse enter to restart","red",350,500,"15")
+        this.drawText(`You have survived ${minutes} : ${secondes}`,"red",340,530,"15")
+        this.drawText(`Level  ${level}`,"red",420,560,"15")
     }
 
     changeLevelMenu(){
@@ -73,7 +66,7 @@ export default class Menu {
         ctx.fillStyle = "black";
         ctx.fillRect(0,0,900,600)
         let text = "You change level, be careful little one ..."
-        this.drawText(text,"white",this.x-150,500,20)
+        this.drawText(text,"white",200,500,20)
 
         this.reload()
         if (this.canClick){
@@ -114,19 +107,30 @@ export default class Menu {
         } 
     }
 
-    drawPause(){
-        let text = "presse Echap to play"
-        this.buttonStart(false,text,"black","15",this.x+20,this.y+70)
-        this.buttonMenu()
-    }
-
-    buttonMenu(){
+    drawPause(char){
+        let startButton = new Image();
+        startButton.src = 'assets/menu/startButton.jpg';
         let menuButton = new Image();
         menuButton.src = 'assets/menu/menuButton.jpg';
 
-        ctx.drawImage(menuButton, this.x, this.y +100, this.width, this.height);
+        ctx.drawImage(startButton, 150, 200, this.width, this.height);
+        this.drawText("presse Echap to play","black",170,270,"15")
 
-        this.drawText("Presse m to exit","black",this.x+35,this.y +100+70,"15")
+        ctx.drawImage(menuButton, 150, 300, this.width, this.height);
+        this.drawText("Presse m to exit","black",185,370,"15")
+
+        ctx.fillStyle = "black"
+        ctx.fillRect(495,145,360,310)
+        ctx.fillStyle = "grey"
+        ctx.fillRect(500,150,350,300)
+
+        this.drawText(`Pablo`,"black",650,190,"20")
+        this.drawText(`- max hp : ${char.hp.maxHp}`,"black",520,220,"20")
+        this.drawText(`- damage : ${char.projDmg}`,"black",520,250,"20")
+        this.drawText(`- move speed : ${char.movement_speed}`,"black",520,280,"20")
+        this.drawText(`- invulnerability time : ${char.invulnerability / 1000}s`,"black",520,310,"20")
+        this.drawText(`- shoot cooldown : ${char.cooldown}`,"black",520,340,"20")
+        this.drawText(`- shoot range : ${char.range}`,"black",520,370,"20")
     }
 
     winMenu(minutes,secondes){
@@ -136,7 +140,7 @@ export default class Menu {
         winImage.src="assets/menu/win.jpg"
         ctx.drawImage(winImage,100, 100, 700, 500);
 
-        this.drawText(`You win in ${minutes} : ${secondes}`,"white",this.x-10,530,"15")
+        this.drawText(`You win in ${minutes} : ${secondes}`,"white",340,530,"15")
 
         if (this.canClick){
             if (keyPresses.Enter || this.gp.entre) {

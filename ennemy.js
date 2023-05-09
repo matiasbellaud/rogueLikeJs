@@ -18,6 +18,7 @@ export default class Ennemy{
       this.dy = 0
       this.alive = true
       this.hp = 10
+      this.maxHp = 10
       this.color ="rgb(153, 51, 153)"
       this.isBoss = false
       this.canMove = true
@@ -50,7 +51,8 @@ export default class Ennemy{
         ctx.strokeStyle = "rgb(102, 0, 102)";
         ctx.fillStyle = this.color;
         ctx.fillStyle = this.color;
-        ctx.fill();   
+        ctx.fill(); 
+        this.drawHpBar()  
       }
     };
 
@@ -253,6 +255,18 @@ export default class Ennemy{
           let potion = new UpSpeedMoveElixir(this.x,this.y)
           allElement.push(potion)
         }
+    }
+
+    drawHpBar(){
+      if (this.isBoss){
+
+        let widthHpBar = this.hp/this.maxHp*500
+
+        ctx.fillStyle = "grey"
+        ctx.fillRect(197,530,506,25)
+        ctx.fillStyle = "red"
+        ctx.fillRect(200,533,widthHpBar,20)
+      }
     }
   };
 
