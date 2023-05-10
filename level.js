@@ -9,6 +9,8 @@ export default class Level{
         this.levelPlayer = 1;
         this.nbrPaterne = 7;
         this.numPaterne = 1;
+
+        // list of all the map in the game
         this.paterne1 = 
         [[[0,0,0,0,0,0,0,0],[1,0,0,1,0,2,1,0]  ,[0,0,0,0,0,0,0,0]],
         [[2,0,0,1,1,0,0,0],[1,1,1,1,1,0,0,0],["I",0,1,0,0,1,0,1]],
@@ -57,15 +59,16 @@ export default class Level{
         this.now 
         this.actualPosition = [3,0]
         this.listItemLevel = []
+        // list of all item possible
         this.listItem = ["blitz","doubleShot","Gatling","Spectral","Autoguide","Piercing","upHpElixir","divide","cross","wings"]
     };
 
-    addMap(char){
-        
+    addMap(char){  // take a paterne and create all the room, with item, door, wall, ennemie ...
         this.listMap=[]
         let tempList = []
         for (let i = 0; i<this.nowPaterne.length;i++){
             for (let j=0;j<this.nowPaterne[i].length;j++){
+                // create the instance of room depend on her type
                 if (this.nowPaterne[i][j][0]===1){
                     let door = this.nowPaterne[i][j];
                     tempList.push(new NormalMap(door[1],door[2],door[3],door[4],this.nowPaterne[i][j][5],this.nowPaterne[i][j][6],this.nowPaterne[i][j][7],this.listItem));
@@ -87,6 +90,7 @@ export default class Level{
             tempList = []
         }
 
+        // call create map function to create all element in all the map
         for (let i = 0; i<this.listMap.length;i++){
             let listMapLengthI = this.listMap[i].length
             for (let j = 0; j<listMapLengthI;j++){
@@ -101,11 +105,13 @@ export default class Level{
                 
             }
         }
+
+        // this.now is the room where the hero is now
         this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
         this.now.listMapElement.splice(0, 0, char);
     }
 
-    positionOnChangeMap(position){
+    positionOnChangeMap(position){ // to change room on the list, with the direction of the door
         if(position === "top"){
             this.actualPosition[0] -= 1
         } else if(position === "bottom"){
@@ -117,10 +123,12 @@ export default class Level{
         }
     }
 
+
     changeMap(char){
         if (char.changeMap === true && this.now.allEnnemyDead === true){
           this.positionOnChangeMap(char.doorPosition)
           this.now = this.listMap[this.actualPosition[0]][this.actualPosition[1]]
+          // to replace the hero in good coordonate
           if (char.doorPosition === "top"){
             char.teleportation(this.now.positionDoorBottom[0],this.now.positionDoorBottom[1]-32);
           }
@@ -159,6 +167,7 @@ export default class Level{
 
     changeLevel(char,menu){
         if (char.changeLevel){
+            // take a random level different for the previous one
             let numPaterneTemp =  Math.floor(Math.random() * (this.nbrPaterne)+1);
             if (this.numPaterne === numPaterneTemp){
                 return this.changeLevel(char,menu)
@@ -201,7 +210,7 @@ export default class Level{
         }
     }
 
-    drawPlayerLevel(){
+    drawPlayerLevel(){ // draw the level in the bottom of the screen
         let text = "Level " + this.levelPlayer;
         let color ="white"
         ctx.font = "20px monospace";

@@ -8,7 +8,7 @@ export default class Hp {
     }
   
   
-    draw(){
+    draw(){ // draw full and empty heart
       let fullHeartImage = new Image(100, 200);
       fullHeartImage.src = './assets/fullHeart.png';
       let emptyHeartImage = new Image(100, 200);

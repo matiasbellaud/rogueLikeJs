@@ -14,6 +14,7 @@ export default class Door{
     };
   
     draw(){
+      // switch case for the rotations of the door
       switch (this.sens) {
         case 0:
           ctx.translate(this.x, this.y);

@@ -28,7 +28,7 @@ function gameManager(){
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  if (level.levelPlayer === 11){
+  if (level.levelPlayer === 11){ // victory condition
     stopTimer()
     menu.winMenu(minutes,secondes)
     if (menu.reset === true){
@@ -37,17 +37,17 @@ function gameLoop() {
     return window.requestAnimationFrame(gameLoop);
   }
 
-  if (menu.start===true){
+  if (menu.start===true){  // when start to play, open start menu
     menu.startMenu()
     return window.requestAnimationFrame(gameLoop);
   }
 
-  if (timerRun === false){
+  if (timerRun === false){ // start the timer when we start to play
     startTimer()
     timerRun = true
   }
 
-  if (char.currentHp < 1){
+  if (char.currentHp < 1){  //death condition
     stopTimer()
     
     menu.deathMenu(minutes,secondes,level.levelPlayer)
@@ -56,7 +56,7 @@ function gameLoop() {
     }
     return window.requestAnimationFrame(gameLoop);
 
-  } else {
+  } else { // action of the  player
     level.now.mapDraw();
   
     char.reload()
@@ -66,14 +66,14 @@ function gameLoop() {
     char.drawListItem();
     level.drawPlayerLevel()
 
-    if (!menu.isPaused){
+    if (!menu.isPaused){  // if we click on pause freeze  the game
       char.move( level.now.listMapElement);
       char.shoot(level.now.listMapElement,level.now.ennemyList);
     } else {
       char.sprite(false)
     }
 
-    if (!menu.isPaused){
+    if (!menu.isPaused){ // if we click on pause freeze  the game
       level.ennemyAction();
     }
     level.drawStair();
@@ -82,24 +82,23 @@ function gameLoop() {
     
     menu.pauseMenu();
 
-    if (menu.isPaused === true){
+    if (menu.isPaused === true){  // draw pause menu
       menu.drawPause(char);
       stopTimer()
     }
 
-    if (menu.isChangeLevel){
+    if (menu.isChangeLevel){  // when change level
       menu.changeLevelMenu()
     }
-    if (menu.reset === true){
+    if (menu.reset === true){  // if reset game
       return (gameManager())
     }
-
 
     window.requestAnimationFrame(gameLoop);
   }
 };
 
-function startTimer() {
+function startTimer() { // count secondes  and minutes
     intervalID = setInterval(function () {
         minutes = parseInt(temps / 60, 10)
         secondes = parseInt(temps % 60, 10)

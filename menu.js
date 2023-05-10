@@ -107,11 +107,12 @@ export default class Menu {
         menuButton.src = 'assets/menu/menuButton.jpg';
 
         ctx.drawImage(startButton, 150, 200, this.width, this.height);
-        this.drawText("presse Echap to play","black",170,270,"15")
+        this.drawText("presse Echap to play","white",170,270,"15")
 
         ctx.drawImage(menuButton, 150, 300, this.width, this.height);
-        this.drawText("Presse m to exit","black",185,370,"15")
+        this.drawText("Presse m to exit","white",185,370,"15")
 
+        //draw haro stat
         ctx.fillStyle = "black"
         ctx.fillRect(495,145,360,310)
         ctx.fillStyle = "grey"
@@ -144,7 +145,7 @@ export default class Menu {
         } 
     }
 
-    reload(){
+    reload(){ // time beatween click of button
         if (this.canClick === false){
           this.frame++;
         };

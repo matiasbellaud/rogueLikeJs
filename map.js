@@ -94,7 +94,6 @@ class AllMap{
     };
 
     //angles
-
     if (this.cutCornerX != 0 && this.cutCornerY != 0){
       this.listMapElement.push( new Wall(180, this.angleWall, this.mapLeftX+(32*this.cutCornerX), (32*this.cutCornerY) + this.mapTopY,32,32));
     }
@@ -106,25 +105,29 @@ class AllMap{
     
   };
 
-  createMapDoor(doorLeft, doorRight){   
+  createMapDoor(doorLeft, doorRight){ 
+    // top  
     if (this.IsDoorTop === 1){
       this.listMapElement.push( new Door(0,doorLeft,(this.mapRightX+this.mapLeftX)/2-32,this.mapTopY,32,32,"top"));
       this.listMapElement.push( new Door(0,doorRight,(this.mapRightX+this.mapLeftX)/2,this.mapTopY,32,32,"top"));
       this.positionDoorTop.push((this.mapRightX+this.mapLeftX)/2)
       this.positionDoorTop.push(this.mapTopY)
     }
+    // left
     if (this.IsDoorLeft === 1){
       this.listMapElement.push( new Door(90,doorLeft,this.mapLeftX,(this.mapBottomY-32+this.mapTopY)/2+16,32,32,"left")); 
       this.listMapElement.push( new Door(90,doorRight,this.mapLeftX,(this.mapBottomY-32+this.mapTopY)/2-16,32,32,"left")); 
       this.positionDoorLeft.push(this.mapLeftX)
       this.positionDoorLeft.push((this.mapBottomY-32+this.mapTopY)/2)     
     }
+    // bottom
     if (this.IsDoorBottom === 1){
       this.listMapElement.push( new Door(180,doorLeft,(this.mapRightX+this.mapLeftX)/2,this.mapBottomY-32,32,32,"bottom"));
       this.listMapElement.push( new Door(180,doorRight,(this.mapRightX+this.mapLeftX)/2-32,this.mapBottomY-32,32,32,"bottom"));
       this.positionDoorBottom.push((this.mapRightX+this.mapLeftX)/2)
       this.positionDoorBottom.push(this.mapBottomY-32)  
     }
+    // right
     if (this.IsDoorRight === 1){
       this.listMapElement.push( new Door(270,doorLeft,this.mapRightX-32,(this.mapBottomY-32+this.mapTopY)/2-16,32,32,"right"));
       this.listMapElement.push( new Door(270,doorRight,this.mapRightX-32,(this.mapBottomY-32+this.mapTopY)/2+16,32,32,"right"));
@@ -138,7 +141,7 @@ class AllMap{
   }
 
   createMapEnnemy(levelPlayer){
-
+    // choose random ennemi  on a random coordonate in the center of the map
     for (let i = 0; i < this.nbrEnnemy; i++) { 
       const index = randomIntFromInterval(0,2)
       let ennemy
@@ -167,7 +170,7 @@ class AllMap{
   createMapItem(){
     
     if (this.isItem != 0){
-      
+
       let x = canvas.width/2-30
       let y = canvas.height/2-30
       let piedestal = new Piedestal(x,y)
@@ -181,7 +184,7 @@ class AllMap{
     } 
   }
 
-  createMap(char,levelPlayer){
+  createMap(char,levelPlayer){ // call all the function to create the map
     this.listMapElement.push(char)
     this.createMapFloor();
     this.createMapWalls();
@@ -362,7 +365,7 @@ class BossMap extends SquareMap{
     this.listMapElement.push( new Stair(this.stair,736,416,32,32));
   }
 
-  createMapEnnemy(levelPlayer){
+  createMapEnnemy(levelPlayer){  // ennemies are boss
     for (let i = 0; i < this.nbrEnnemy; i++) { 
       const index = randomIntFromInterval(0,1)
       let ennemy

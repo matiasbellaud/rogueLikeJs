@@ -24,6 +24,7 @@ export default class Wall{
   
     draw(){
       
+      // switch casse to rotate the wall or corner
       switch (this.sens) {
         case 90 : 
           this.rotate = -Math.PI/2;
