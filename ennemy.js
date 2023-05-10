@@ -259,7 +259,6 @@ export default class Ennemy{
 
     drawHpBar(){
       if (this.isBoss){
-        console.log("test")
         let widthHpBar = this.hp/this.maxHp*500
 
         ctx.fillStyle = "grey"
