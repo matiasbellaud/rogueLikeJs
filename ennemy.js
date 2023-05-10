@@ -528,6 +528,7 @@ export class Necrodrake extends Ennemy{
       ennemy.src = "/assets/Ennemy/NecroDrake/reverse/nd"+this.indexSprite+".png"
     }
     ctx.drawImage(ennemy,this.x,this.y,this.width,this.height)
+    this.drawHpBar()  
     this.frame++
   }
 
