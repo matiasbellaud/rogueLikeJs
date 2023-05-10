@@ -219,11 +219,42 @@ export class Divide extends Item{
         super(x,y)
         this.divide = true
         this.name = "divide"
-        this.img = 'assets/item/healPotion.png'
+        this.img = 'assets/item/divide.png'
     }
     
     use(char){
         char.divide = true
+        this.active = false
+    }
+}
+
+export class Cross extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.cross = true
+        this.name = "cross"
+        this.img = 'assets/item/divide.png'
+    }
+    
+    use(char){
+        char.cross = true
+        char.projDmg /=1.5
+        char.range /=1.5
+        this.active = false
+    }
+}
+
+export class Wings extends Item{
+    constructor(x,y){
+        super(x,y)
+
+        this.name = "wings"
+        this.img = 'assets/item/wing.png'
+    }
+    
+    use(char){
+        char.fly = true
+        char.movement_speed *= 1.1
         this.active = false
     }
 }
