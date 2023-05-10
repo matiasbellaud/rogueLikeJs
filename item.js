@@ -170,7 +170,7 @@ export class UpSpeedShootElixir extends Item{
         this.img = 'assets/item/upSpeedShootElixir.png'
     }
     use(char){
-        char.cooldown -= char.cooldown*0.05
+        char.cooldown -= Math.round(char.cooldown*0.05)
         this.active = false
     }
 }
