@@ -478,17 +478,43 @@ export class Cthonicbeast extends Ennemy{
 export class Necrodrake extends Ennemy{
   constructor(x,y){
     super(x,y)
-      this.listProj = []
-      this.movement_speed = 2;
-      this.canShoot=true
-      this.fly = true
-      this.delay = 1000
-      this.projHeight = 15
-      this.hp = 30
-      this.range=100
-      this.color ="rgb(49, 30, 64)"
-      this.isBoss = true
-      this.projImg ="assets/projectil/fireball.png"
+    this.height = 100
+    this.width = 100 
+    this.listProj = []
+    this.movement_speed = 2;
+    this.canShoot=true
+    this.fly = true
+    this.delay = 1000
+    this.projHeight = 15
+    this.hp = 30
+    this.range=100
+    this.color ="rgb(49, 30, 64)"
+    this.isBoss = true
+    this.projImg ="assets/projectil/fireball.png"
+
+    this.sprite = 8
+    this.frame = 0
+    this.indexSprite = 0
+  }
+
+
+  draw(){
+    
+    let  ennemy = new Image();
+    if (this.frame%4==0) {
+      this.indexSprite ++
+      if (this.indexSprite == this.sprite+1) {
+        this.indexSprite = 0
+      }
+    }
+    if (this.dx<0) {
+    ennemy.src = "/assets/Ennemy/NecroDrake/nd"+this.indexSprite+".png"
+    }else{
+      ennemy.src = "/assets/Ennemy/NecroDrake/reverse/nd"+this.indexSprite+".png"
+    }
+    console.log(this.dx);
+    ctx.drawImage(ennemy,this.x,this.y,this.width,this.height)
+    this.frame++
   }
 
   shoot(allElement,ennemyList){
@@ -496,15 +522,18 @@ export class Necrodrake extends Ennemy{
       this.reload().then(result => this.canShoot = true)
       for (let i = 0; i < this.randomIntFromInterval(7,12); i++) {
         this.projectilSpeed = this.randomIntFromInterval(3,5)
-        let dx = this.x - allElement[0].x+this.randomIntFromInterval(-35,35);
-        let dy = this.y - allElement[0].y+this.randomIntFromInterval(-35,35);
-        let hyp = Math.sqrt(dx*dx + dy*dy);
-        dx /= hyp;
-        dy /= hyp;
+        this.dx = this.x - allElement[0].x+this.randomIntFromInterval(-35,35);
+        this.dy = this.y - allElement[0].y+this.randomIntFromInterval(-35,35);
+        let hyp = Math.sqrt(this.dx*this.dx + this.dy*this.dy);
+        let dx = this.dx/ hyp;
+        let dy = this.dy/ hyp;
         let xLook = -dx
         let yLook = -dy
-        
-        this.listProj.push(new Projectil(this.x+this.height/3,this.y+this.width/3, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Character",this.projImg))
+        if (this.dx<0) {
+        this.listProj.push(new Projectil(this.x+this.height-10,this.y+this.width/2-5, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Character",this.projImg))
+        }else{
+          this.listProj.push(new Projectil(this.x,this.y+this.width/2-5, xLook, yLook,this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Character",this.projImg))
+        }
         this.projectilNbr++
       }
     }

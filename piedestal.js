@@ -1,4 +1,4 @@
-import { Autoguide, Blitz, DoubleShot, Gatling, Piercing, Lazer, Spectral, UpHpElixir, Divide, Cross } from "./item.js";
+import { Autoguide, Blitz, DoubleShot, Gatling, Piercing, Lazer, Spectral, UpHpElixir, Divide, Cross, Wings } from "./item.js";
 
 let canvas = document.querySelector('#char');
 let ctx = canvas.getContext('2d'); 
@@ -54,7 +54,12 @@ export default class Piedestal {
             case "cross":
                 item = new Cross(x,y)
                 break
+
+            case "wings":
+                item = new Wings(x,y)
+                break
             default:
+                console.log("error item selection,implement divide item");
                 item = new Divide(x,y)
                 break;
         }

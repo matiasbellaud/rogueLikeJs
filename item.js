@@ -243,3 +243,18 @@ export class Cross extends Item{
         this.active = false
     }
 }
+
+export class Wings extends Item{
+    constructor(x,y){
+        super(x,y)
+
+        this.name = "wings"
+        this.img = 'assets/item/wing.png'
+    }
+    
+    use(char){
+        char.fly = true
+        char.movement_speed *= 1.1
+        this.active = false
+    }
+}
