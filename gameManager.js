@@ -15,8 +15,6 @@ let level = new Level();
 let menu = new Menu();
 
 function gameManager(){
-
-    
     char = new Character();
     temps = 0
     level = new Level();
@@ -85,7 +83,7 @@ function gameLoop() {
     menu.pauseMenu();
 
     if (menu.isPaused === true){
-      menu.drawPause();
+      menu.drawPause(char);
       stopTimer()
     }
 

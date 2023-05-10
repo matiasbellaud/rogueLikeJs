@@ -157,7 +157,7 @@ export class UpDamageElixir extends Item{
         this.img = 'assets/item/upDamageElixir.png'
     }
     use(char){
-        char.projDmg += 2
+        char.projDmg += 1
         this.active = false
     }
 }
@@ -170,7 +170,7 @@ export class UpSpeedShootElixir extends Item{
         this.img = 'assets/item/upSpeedShootElixir.png'
     }
     use(char){
-        char.cooldown -= 2
+        char.cooldown -= Math.round(char.cooldown*0.05)
         this.active = false
     }
 }
@@ -183,7 +183,7 @@ export class UpSpeedMoveElixir extends Item{
         this.img = 'assets/item/upSpeedMoveElixir.png'
     }
     use(char){
-        char.movement_speed += 0.5
+        char.movement_speed += char.movement_speed*0.05
         this.active = false
     }
 }
@@ -219,11 +219,42 @@ export class Divide extends Item{
         super(x,y)
         this.divide = true
         this.name = "divide"
-        this.img = 'assets/item/healPotion.png'
+        this.img = 'assets/item/divide.png'
     }
     
     use(char){
         char.divide = true
+        this.active = false
+    }
+}
+
+export class Cross extends Item{
+    constructor(x,y){
+        super(x,y)
+        this.cross = true
+        this.name = "cross"
+        this.img = 'assets/item/divide.png'
+    }
+    
+    use(char){
+        char.cross = true
+        char.projDmg /=1.5
+        char.range /=1.5
+        this.active = false
+    }
+}
+
+export class Wings extends Item{
+    constructor(x,y){
+        super(x,y)
+
+        this.name = "wings"
+        this.img = 'assets/item/wing.png'
+    }
+    
+    use(char){
+        char.fly = true
+        char.movement_speed *= 1.1
         this.active = false
     }
 }

@@ -1,5 +1,5 @@
 import Projectil from "./projectil.js";
-import Wall from "./wall.js";
+import Wall, { Obstacle } from "./wall.js";
 import Door from './door.js';
 import Ennemy from "./ennemy.js";
 import Hp from "./hp.js";
@@ -24,7 +24,7 @@ export default class Character {
         this.currentHp = this.maxHp
         this.hp = new Hp(this.maxHp,this.currentHp);
         this.alive = true
-        this.invulnerability = 100;
+        this.invulnerability = 1000;
         this.canTakeDmg = true;
         this.listProj  = []
         this.projectilNbr = 0;
@@ -33,6 +33,8 @@ export default class Character {
         this.changeLevel = false;
         this.doorPosition = top
         this.listItem = []
+        this.cross=false
+        this.fly = false
 
         //Projectil parameter
 
@@ -55,12 +57,17 @@ export default class Character {
         this.stateSprite = 0;
         this.direction = "S"
 
+        this.spriteW = 3
+        this.frameW = 0
+        this.indexSpriteW = 0
+
         this.gp = new GamePad()
     }
 
     draw(){
       this.gp.update()
       this.hp.draw(this.currentHp);
+
     }
 
     teleportation(x,y){
@@ -125,6 +132,33 @@ export default class Character {
       };
     
     sprite(isMove){
+      if (this.fly) {
+        if (this.frameW%8==0) {
+          this.indexSpriteW ++
+          if (this.indexSpriteW == this.spriteW+1) {
+            this.indexSpriteW = 0
+          }
+        }
+        let  wing = new Image();
+        let wing2 = new Image();
+        if (this.direction=="S" ||this.direction=="SE"|| this.direction=="SO") {
+          wing.src = '/assets/character/wing/wing'+ this.indexSpriteW+'.png'
+          wing2.src = '/assets/character/wing//reverse/wing'+ this.indexSpriteW+'.png'
+          ctx.drawImage(wing,this.x-25,this.y-15,this.width*2,this.height*2)
+          ctx.drawImage(wing2,this.x+10,this.y-15,this.width*2,this.height*2)
+        }else if (this.direction=="E") {
+          wing2.src = '/assets/character/wing//reverse/wing'+ this.indexSpriteW+'.png'
+          ctx.drawImage(wing2,this.x+10,this.y-15,this.width*2,this.height*2)
+        }if (this.direction=="O") {
+          wing.src = '/assets/character/wing/wing'+ this.indexSpriteW+'.png'
+          ctx.drawImage(wing,this.x-25,this.y-15,this.width*2,this.height*2)
+        }
+
+
+        this.frameW++
+      }
+
+
       let column
       let heightChar = 32
       let widthChar = 32
@@ -180,6 +214,18 @@ export default class Character {
       if (this.stateSprite===7){
         this.stateSprite=0;
       }
+      if (this.fly) {
+        if (this.direction=="N" ||this.direction=="NE"|| this.direction=="NO") {
+          let  wing = new Image();
+          let wing2 = new Image();
+          wing.src = '/assets/character/wing/wing'+ this.indexSpriteW+'.png'
+          wing2.src = '/assets/character/wing//reverse/wing'+ this.indexSpriteW+'.png'
+          ctx.drawImage(wing,this.x-25,this.y-15,this.width*2,this.height*2)
+          ctx.drawImage(wing2,this.x+10,this.y-15,this.width*2,this.height*2)
+        }
+        
+      }
+
     }
   
     collisionBox(){
@@ -281,8 +327,24 @@ export default class Character {
     }
   
     collisionReaction(cell,side,listMapElement){
-
-      if (cell instanceof Wall){
+      if (this.fly && cell instanceof Wall && !(cell instanceof Obstacle)) {
+        if (side == "left") {
+          this.x=cell.x-this.width
+    
+        }
+        if (side =="up") {
+          this.y=cell.y-this.height
+    
+        }
+        if (side == "right") {
+          this.x=cell.x+cell.width
+    
+        }
+        if (side == "down") {
+          this.y=cell.y+cell.height
+    
+        }
+      }else if (cell instanceof Wall && !this.fly){
         if (side == "left") {
           this.x=cell.x-this.width
     
@@ -333,6 +395,7 @@ export default class Character {
     shoot(allElement,ennemyList){
       
       if (keyPresses.ArrowUp || keyPresses.ArrowDown || keyPresses.ArrowLeft || keyPresses.ArrowRight || this.gp.X || this.gp.Y || this.gp.A || this.gp.B) {
+
         let xLook = 0
         let yLook = 0
         if (keyPresses.ArrowUp || this.gp.X) {
@@ -360,7 +423,14 @@ export default class Character {
             
           }
           if (this.canShoot){
-
+            if (this.cross) {
+              let cross = [[0,1],[0,-1],[-1,0],[1,0]]
+                    for (let i = 0; i < cross.length; i++) {
+                      this.listProj.push( new Projectil(this.x,this.y+5,cross[i][0],cross[i][1],this.projHeight,this.range,this.projectilSpeed,this.projDmg,this.spectral,this.piercing,this.target,this.blitz,this.divide,"Ennemy",this.projImg))
+                      this.projectilNbr++
+                    }
+                    this.canShoot = false
+            }else{
             if (this.ray) {
 
               for (let i = 1; i <= this.shootNbr; i++) {
@@ -391,6 +461,7 @@ export default class Character {
             }
             this.canShoot = false
           }
+        }
       }
       this.updateProj(allElement,ennemyList);
     }
@@ -409,7 +480,7 @@ export default class Character {
               if (element.divide){
                 let cross = [[1,1],[1,-1],[-1,-1],[-1,1]]
                 for (let i = 0; i < cross.length; i++) {
-                  this.listProj.push( new Projectil(element.x,element.y,cross[i][0],cross[i][1],8,13,3,1,this.spectral,this.piercing,this.target,this.blitz,false,"Ennemy",this.projImg))
+                  this.listProj.push( new Projectil(element.x,element.y,cross[i][0],cross[i][1],8,this.range/2,this.projectilSpeed/3,this.projDmg/3,this.spectral,this.piercing,this.target,this.blitz,false,"Ennemy",this.projImg))
                   this.projectilNbr++
                 }
               }
@@ -421,7 +492,7 @@ export default class Character {
 
     invulnerabilityTime(){
       this.canTakeDmg = false
-      let delay = this.invulnerability*10
+      let delay = this.invulnerability
       return new Promise(function(resolve, reject) {
         setTimeout(() => resolve("done"), delay);
       });

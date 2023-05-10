@@ -157,7 +157,8 @@ class AllMap{
         default:
           break;
       }
-      ennemy.hp = ennemy.hp+ennemy.hp*(levelPlayer*0.25)
+      ennemy.hp = ennemy.hp+ennemy.hp*(levelPlayer*0.10)
+      ennemy.maxHp = ennemy.hp
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
     }
@@ -377,7 +378,8 @@ class BossMap extends SquareMap{
         default:
           break;
       }
-      ennemy.hp = ennemy.hp+ennemy.hp*(levelPlayer*0.25)
+      ennemy.hp = ennemy.hp+ennemy.hp*(levelPlayer*0.10)
+      ennemy.maxHp = ennemy.hp
       this.ennemyList.push(ennemy)
       this.listMapElement.push(ennemy)
     }
