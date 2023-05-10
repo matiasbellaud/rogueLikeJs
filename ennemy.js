@@ -514,7 +514,7 @@ export class Necrodrake extends Ennemy{
 
 
   draw(){
-    
+    this.drawHpBar()  
     let  ennemy = new Image();
     if (this.frame%4==0) {
       this.indexSprite ++
@@ -534,7 +534,7 @@ export class Necrodrake extends Ennemy{
   shoot(allElement,ennemyList){
     if (this.canShoot) {
       this.reload().then(result => this.canShoot = true)
-      for (let i = 0; i < this.randomIntFromInterval(7,12); i++) {
+      for (let i = 0; i < this.randomIntFromInterval(7,9); i++) {
         this.projectilSpeed = this.randomIntFromInterval(3,5)
         this.dx = this.x - allElement[0].x+this.randomIntFromInterval(-35,35);
         this.dy = this.y - allElement[0].y+this.randomIntFromInterval(-35,35);
