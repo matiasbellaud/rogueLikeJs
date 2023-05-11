@@ -37,7 +37,7 @@ export default class Ennemy{
              this.divide = false
              this.projImg = 'assets/projectil/fireball.png'
       
-             //--------------------------
+      //--------------------------
       this.color ="rgb(153, 51, 153)"
 
     
@@ -55,16 +55,6 @@ export default class Ennemy{
         this.drawHpBar()  
       }
     };
-
-    hitbox(){
-      ctx.fillStyle = "white";
-      ctx.fillRect(this.x,this.y,this.width*2,1)
-      ctx.fillRect(this.x,this.y+this.width,this.width*2,1)
-      ctx.fillStyle = "yellow";
-      ctx.fillRect(this.x,this.y,1,this.height*2)
-      ctx.fillRect(this.x+this.height,this.y,1,this.height*2)
-
-    }
 
     updateProj(allElement,ennemyList){
       let index = []
@@ -397,7 +387,7 @@ export class Cthonicbeast extends Ennemy{
       this.isShooting = false
       this.range = 120
       this.delay = 2000
-      this.hp = 50
+      this.hp = 75
       this.color ="rgb(234,182,118)"
       this.xAttack = (this.x+this.range/2)
       this.yAttack = (this.y+this.range/2)

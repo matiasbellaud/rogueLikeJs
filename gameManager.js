@@ -14,6 +14,12 @@ let char = new Character();
 let level = new Level();
 let menu = new Menu();
 
+const sound = new Audio("/assets/sound/background.mp3")
+sound.play()
+sound.loop = true;
+
+sound.volume = 0.5
+
 function gameManager(){
     char = new Character();
     temps = 0
