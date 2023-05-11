@@ -87,7 +87,7 @@ export default class Character {
 
 
       for (let i = 0; i < this.movement_speed; i++) {
-        if (keyPresses.z || this.gp.y<0) {
+        if (keyPresses.z || this.gp.y<0) { //check wich button is pressed on keypad and gamepad
           this.y -=  1
           isMoveTop = true
         } else if (keyPresses.s || this.gp.y>0) {
@@ -142,7 +142,7 @@ export default class Character {
         let  wing = new Image();
         let wing2 = new Image();
         wing.src = '/assets/character/wing/wing'+ this.indexSpriteW+'.png'
-        wing2.src = '/assets/character/wing//reverse/wing'+ this.indexSpriteW+'.png'
+        wing2.src = '/assets/character/wing/reverse/wing'+ this.indexSpriteW+'.png'
         if (this.direction=="S" ||this.direction=="SE"|| this.direction=="SO") {
 
           ctx.drawImage(wing,this.x-25,this.y-15,this.width*2,this.height*2)
@@ -218,7 +218,7 @@ export default class Character {
           let  wing = new Image();
           let wing2 = new Image();
           wing.src = '/assets/character/wing/wing'+ this.indexSpriteW+'.png'
-          wing2.src = '/assets/character/wing//reverse/wing'+ this.indexSpriteW+'.png'
+          wing2.src = '/assets/character/wing/reverse/wing'+ this.indexSpriteW+'.png'
           ctx.drawImage(wing,this.x-25,this.y-15,this.width*2,this.height*2)
           ctx.drawImage(wing2,this.x+10,this.y-15,this.width*2,this.height*2)
         }
@@ -316,11 +316,6 @@ export default class Character {
 
       if (this.currentHp<=0) {
         this.alive = false
-        // var death = new Audio("/assets/sound/death.mp3")
-        // death.play()
-        // death.addEventListener('ended', function() {
-        // death = null
-        //   }, false);
       }
 
     }

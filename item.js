@@ -38,11 +38,11 @@ export class DoubleShot extends Item{
         this.name = "doubleShot"
     }
 
-    use(char){
+    use(char){  //function clled when player walk on item
         char.cooldown += this.reload
         char.shootNbr +=  this.shotNbr
         
-        this.active = false
+        this.active = false //use to disable the item
     }
 }
 
