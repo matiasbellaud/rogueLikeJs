@@ -20,7 +20,7 @@ export default class Menu {
     startMenu(){
         this.gp.update()
         let text = "Presse Enter to play"
-        this.buttonStart(true,text,"white","30",300, 300)
+        this.drawText(text,"white",300, 300,"30")
 
         this.reload()
         if (this.canClick){
@@ -29,13 +29,6 @@ export default class Menu {
                 this.canClick = false
             }  
         } 
-    }
-
-    buttonStart(start,text,color,height,x,y){
-        let startButton = new Image();
-        startButton.src = 'assets/menu/startButton.jpg';
-        ctx.drawImage(startButton, 350, 200, this.width, this.height);
-        this.drawText(text,color,x,y,height)
     }
 
     deathMenu(minutes,secondes,level){
