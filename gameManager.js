@@ -18,7 +18,7 @@ const sound = new Audio("/assets/sound/background.mp3")
 sound.play()
 sound.loop = true;
 
-sound.volume = 0.5
+sound.volume = 0.4
 
 function gameManager(){
     char = new Character();

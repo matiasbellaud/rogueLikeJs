@@ -233,7 +233,7 @@ export class Cross extends Item{
         super(x,y)
         this.cross = true
         this.name = "cross"
-        this.img = 'assets/item/divide.png'
+        this.img = 'assets/item/cross.png'
     }
     
     use(char){
