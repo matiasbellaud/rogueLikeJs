@@ -13,6 +13,14 @@ let timerRun = false
 let char = new Character();
 let level = new Level();
 let menu = new Menu();
+let deathAlreadyPlayed = false
+let winAlreadyPlayed = false
+
+const sound = new Audio("/assets/sound/background.mp3")
+sound.play()
+sound.loop = true;
+
+sound.volume = 0.4
 
 function gameManager(){
     char = new Character();
@@ -30,8 +38,17 @@ function gameLoop() {
 
   if (level.levelPlayer === 11){ // victory condition
     stopTimer()
+    if (!winAlreadyPlayed) {
+      const win = new Audio("/assets/sound/win.mp3")
+      win.volume = 0.4
+      win.play()
+      sound.currentTime=0;
+      sound.pause()
+      deathAlreadyPlayed = true
+    }
     menu.winMenu(minutes,secondes)
     if (menu.reset === true){
+      sound.play()
       return(gameManager())
     }
     return window.requestAnimationFrame(gameLoop);
@@ -49,9 +66,17 @@ function gameLoop() {
 
   if (char.currentHp < 1){  //death condition
     stopTimer()
-    
+    if (!deathAlreadyPlayed) {
+      const death = new Audio("/assets/sound/death.mp3")
+      death.volume = 0.4
+      death.play()
+      sound.currentTime=0;
+      sound.pause()
+      deathAlreadyPlayed = true
+    }
     menu.deathMenu(minutes,secondes,level.levelPlayer)
     if (menu.start === true){
+      sound.play()
       return (gameManager())
     }
     return window.requestAnimationFrame(gameLoop);

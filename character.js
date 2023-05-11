@@ -87,7 +87,7 @@ export default class Character {
 
 
       for (let i = 0; i < this.movement_speed; i++) {
-        if (keyPresses.z || this.gp.y<0) {
+        if (keyPresses.z || this.gp.y<0) { //check wich button is pressed on keypad and gamepad
           this.y -=  1
           isMoveTop = true
         } else if (keyPresses.s || this.gp.y>0) {
@@ -141,16 +141,15 @@ export default class Character {
         }
         let  wing = new Image();
         let wing2 = new Image();
+        wing.src = '/assets/character/wing/wing'+ this.indexSpriteW+'.png'
+        wing2.src = '/assets/character/wing/reverse/wing'+ this.indexSpriteW+'.png'
         if (this.direction=="S" ||this.direction=="SE"|| this.direction=="SO") {
-          wing.src = '/assets/character/wing/wing'+ this.indexSpriteW+'.png'
-          wing2.src = '/assets/character/wing//reverse/wing'+ this.indexSpriteW+'.png'
+
           ctx.drawImage(wing,this.x-25,this.y-15,this.width*2,this.height*2)
           ctx.drawImage(wing2,this.x+10,this.y-15,this.width*2,this.height*2)
         }else if (this.direction=="E") {
-          wing2.src = '/assets/character/wing//reverse/wing'+ this.indexSpriteW+'.png'
           ctx.drawImage(wing2,this.x+10,this.y-15,this.width*2,this.height*2)
         }if (this.direction=="O") {
-          wing.src = '/assets/character/wing/wing'+ this.indexSpriteW+'.png'
           ctx.drawImage(wing,this.x-25,this.y-15,this.width*2,this.height*2)
         }
 
@@ -219,7 +218,7 @@ export default class Character {
           let  wing = new Image();
           let wing2 = new Image();
           wing.src = '/assets/character/wing/wing'+ this.indexSpriteW+'.png'
-          wing2.src = '/assets/character/wing//reverse/wing'+ this.indexSpriteW+'.png'
+          wing2.src = '/assets/character/wing/reverse/wing'+ this.indexSpriteW+'.png'
           ctx.drawImage(wing,this.x-25,this.y-15,this.width*2,this.height*2)
           ctx.drawImage(wing2,this.x+10,this.y-15,this.width*2,this.height*2)
         }
@@ -244,7 +243,7 @@ export default class Character {
 
     }
 
-    collisionUpdate(listMapElement){
+    collisionUpdate(listMapElement){ //check all collision
       for (let i=0;i<listMapElement.length;i++){
         if (!listMapElement[i].isColliding) {
           if (this.collisionDetection(listMapElement[i])[0]) {
@@ -257,8 +256,8 @@ export default class Character {
   
     collisionDetection(wall){
 
-      const xAxis = (this.x+this.width > wall.x+1 && this.x < wall.x+wall.width-1)
-      const yAxis = this.y+this.height > wall.y+1 && this.y < wall.y+wall.height-1
+      const xAxis = (this.x+this.width > wall.x+1 && this.x < wall.x+wall.width-1) //check  up and down the box
+      const yAxis = this.y+this.height > wall.y+1 && this.y < wall.y+wall.height-1//check right and left box
   
       const upBox = (this.y+this.height >= wall.y && this.y <= wall.y+1)
       const downBox = (this.y <= wall.y+wall.height && this.y >= wall.y+wall.height-1)
@@ -308,20 +307,15 @@ export default class Character {
     takeDamage(){
       
       if ( this.canTakeDmg) {
-        // var dmg = new Audio("/assets/sound/dmg.mp3")
-        // dmg.play()
-        this.invulnerabilityTime().then(result => this.canTakeDmg = true)
+        var dmg = new Audio("/assets/sound/dmg.mp3")
+        dmg.play()
+        this.invulnerabilityTime().then(result => this.canTakeDmg = true)//call a promise for the invulnerability
         this.hp.currentHp--
         this.currentHp--
       }
 
       if (this.currentHp<=0) {
         this.alive = false
-        // var death = new Audio("/assets/sound/death.mp3")
-        // death.play()
-        // death.addEventListener('ended', function() {
-        // death = null
-        //   }, false);
       }
 
     }
@@ -375,8 +369,8 @@ export default class Character {
 
         cell.use(this)
         if (!cell.active) {
-          // var dmg = new Audio("/assets/sound/powerUp.mp3")
-          // dmg.play()
+          var power = new Audio("/assets/sound/powerUp.mp3")
+          power.play()
           if (!cell.consumable){
             this.listItem.push(cell)
           }

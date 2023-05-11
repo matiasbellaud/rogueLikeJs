@@ -44,9 +44,13 @@ export default class Menu {
     }
 
     deathImage(minutes,secondes,level){
+
+
+  
         let death = new Image();
         death.src = 'assets/menu/youDied.png';
 
+    
         ctx.drawImage(death, 0, 0, 900, 600);
 
         this.drawText("Presse enter to restart","red",350,500,"15")
