@@ -38,11 +38,11 @@ export class DoubleShot extends Item{
         this.name = "doubleShot"
     }
 
-    use(char){
+    use(char){  //function clled when player walk on item
         char.cooldown += this.reload
         char.shootNbr +=  this.shotNbr
         
-        this.active = false
+        this.active = false //use to disable the item
     }
 }
 
@@ -233,7 +233,7 @@ export class Cross extends Item{
         super(x,y)
         this.cross = true
         this.name = "cross"
-        this.img = 'assets/item/divide.png'
+        this.img = 'assets/item/cross.png'
     }
     
     use(char){

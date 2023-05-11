@@ -235,13 +235,25 @@ export default class Projectil{
               if (allElement[i] instanceof Ennemy && this.focus == "Ennemy" && !this.alreadyHit(allElement[i])){
 
                 allElement[i].hp -= this.dmg
+                const sound = new Audio("/assets/sound/slashed.mp3")
+                sound.volume = 0.3
+                sound.play()
+
                 
                 if (allElement[i].hp<=0) {
                   allElement[i].die(allElement)
                   allElement[i].alive=false
                   const index =ennemyList.indexOf(allElement[i])
+
+                  if(allElement[i].isBoss){
+                    const sound = new Audio("/assets/sound/boss-death.mp3")
+                    sound.volume = 0.6
+                    sound.play()
+                  }
                   ennemyList.splice(index,1)
                   allElement.splice(i, 1)
+                 
+
                 }
                 if (!this.piercing) {
                   this.alive = false

@@ -17,9 +17,9 @@ export default class Piedestal {
     }
 
     itemChoice(itemList){
-        let x = this.x+this.width/4
+        let x = this.x+this.width/4 //spawn the item hover the piedestal
         let y = this.y-this.height
-        const index = this.randomIntFromInterval(0,itemList.length-1)
+        const index = this.randomIntFromInterval(0,itemList.length-1)//take a random item from the list
         
 
         let item
