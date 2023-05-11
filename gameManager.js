@@ -17,10 +17,7 @@ let deathAlreadyPlayed = false
 let winAlreadyPlayed = false
 
 const sound = new Audio("/assets/sound/background.mp3")
-sound.play()
-sound.loop = true;
 
-sound.volume = 0.4
 
 function gameManager(){
     char = new Character();
@@ -44,7 +41,7 @@ function gameLoop() {
       win.play()
       sound.currentTime=0;
       sound.pause()
-      deathAlreadyPlayed = true
+      winAlreadyPlayed = true
     }
     menu.winMenu(minutes,secondes)
     if (menu.reset === true){
@@ -56,6 +53,10 @@ function gameLoop() {
 
   if (menu.start===true){  // when start to play, open start menu
     menu.startMenu()
+    sound.play()
+    sound.loop = true;
+
+    sound.volume = 0.4
     return window.requestAnimationFrame(gameLoop);
   }
 
