@@ -309,7 +309,7 @@ export default class Character {
       if ( this.canTakeDmg) {
         var dmg = new Audio("/assets/sound/dmg.mp3")
         dmg.play()
-        this.invulnerabilityTime().then(result => this.canTakeDmg = true)
+        this.invulnerabilityTime().then(result => this.canTakeDmg = true)//call a promise for the invulnerability
         this.hp.currentHp--
         this.currentHp--
       }
